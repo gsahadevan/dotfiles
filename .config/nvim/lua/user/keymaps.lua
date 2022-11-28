@@ -77,6 +77,13 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", options)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", terminal_options)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", terminal_options)
 
+
+-- do not run the below commands if telescope is not installed
+local status, _ = pcall(require, "telescope")
+if not status then 
+	return
+end
+
 -- telescope
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
