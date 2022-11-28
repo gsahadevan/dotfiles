@@ -80,13 +80,14 @@ keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", options)
 
 -- do not run the below commands if telescope is not installed
 local status, _ = pcall(require, "telescope")
-if not status then 
+if not status then
 	return
 end
 
 -- telescope
 local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+-- vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+vim.keymap.set("n", "<leader>ff", "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({previewer = false}))<CR>", {})
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
 vim.keymap.set("n", "<leader>fc", builtin.grep_string, {})
 vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
