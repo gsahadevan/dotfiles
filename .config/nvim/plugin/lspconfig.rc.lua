@@ -20,6 +20,11 @@ nvim_lsp.tsserver.setup {
     cmd = { "typescript-language-server", "--stdio" }
 }
 
+nvim_lsp.tailwindcss.setup {
+    on_attach = on_attach,
+    cmd = { "tailwindcss-language-server", "--stdio" }
+}
+
 nvim_lsp.sumneko_lua.setup {
     on_attach = on_attach,
     settings = {
