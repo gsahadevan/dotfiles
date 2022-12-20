@@ -18,34 +18,34 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Select all
-keymap('n', '<C-a>', 'gg<S-v>G', opts)
+keymap("n", '<C-a>', 'gg<S-v>G', opts)
 
 -- Save with root permission (not working for now)
 -- vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
 -- New tab
-keymap('n', 'te', ':tabedit<CR>', opts)
-keymap('n', 'tt', ':tabnew<CR>', opts)
-keymap('n', 'tp', ':tabprevious<CR>', opts)
-keymap('n', 'tn', ':tabnext<CR>', opts)
-keymap('n', 'tc', ':tabclose<CR>', opts)
+keymap("n", 'te', ':tabedit<CR>', opts)
+keymap("n", 'tt', ':tabnew<CR>', opts)
+keymap("n", 'tp', ':tabprevious<CR>', opts)
+keymap("n", 'tn', ':tabnext<CR>', opts)
+keymap("n", 'tc', ':tabclose<CR>', opts)
 
 -- Split window
-keymap('n', 'ss', ':split<Return><C-w>w', opts)
-keymap('n', 'sv', ':vsplit<Return><C-w>w', opts)
+keymap("n", 'ss', ':split<Return><C-w>w', opts)
+keymap("n", 'sv', ':vsplit<Return><C-w>w', opts)
 
 -- Move window
--- keymap.set('n', '<Space>', '<C-w>w')
+-- keymap.set("n", '<Space>', '<C-w>w')
 -- keymap.set('', 'sh', '<C-w>h')
 -- keymap.set('', 'sk', '<C-w>k')
 -- keymap.set('', 'sj', '<C-w>j')
 -- keymap.set('', 'sl', '<C-w>l')
 
 -- Resize window
--- keymap.set('n', '<C-w><left>', '<C-w><')
--- keymap.set('n', '<C-w><right>', '<C-w>>')
--- keymap.set('n', '<C-w><up>', '<C-w>+')
--- keymap.set('n', '<C-w><down>', '<C-w>-')
+-- keymap.set("n", '<C-w><left>', '<C-w><')
+-- keymap.set("n", '<C-w><right>', '<C-w>>')
+-- keymap.set("n", '<C-w><up>', '<C-w>+')
+-- keymap.set("n", '<C-w><down>', '<C-w>-')
 
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
@@ -88,6 +88,12 @@ keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+
+-- Diagnostics --
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 -- Terminal --
 -- Better terminal navigation

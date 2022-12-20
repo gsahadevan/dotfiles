@@ -7,7 +7,8 @@ local diagnostics = {
     -- sources = { 'nvim_diagnostics' },
     --:wq
     --sections = { 'error', 'warn', 'info', 'hint' },
-    symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+    -- symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+    symbols = { error = " ", warn = " ", hint = " ", info = " " },
     update_in_insert = false,
     always_visible = true,
 }
@@ -48,8 +49,10 @@ require('lualine').setup {
         theme = 'auto',
         -- component_separators = { left = '', right = ''},
         -- section_separators = { left = '', right = ''},
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
+        -- component_separators = { left = '', right = '' },
+        -- section_separators = { left = '', right = '' },
+        component_separators = '|',
+        section_separators = '',
         disabled_filetypes = {
             'packer', 'NvimTree',
             statusline = {},

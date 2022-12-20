@@ -25,10 +25,14 @@ vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
-vim.opt.wrap = false -- No Wrap lines
+
+vim.opt.signcolumn = 'yes' -- always shows the sign column, otherwise it would shift the text each time
+vim.opt.wrap = false -- do not wrap lines, display one long line
+vim.opt.linebreak = false -- if wrap is enabled, set to true | donot split words
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better completion experience
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
