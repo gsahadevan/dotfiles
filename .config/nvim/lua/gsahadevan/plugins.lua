@@ -27,7 +27,7 @@ packer.startup(function(use)
 
     use 'neovim/nvim-lspconfig' -- languager-server-protocol
     use 'onsails/lspkind-nvim' -- vscode-like pictograms
-    use 'glepnir/lspsaga.nvim' -- some UI enhancements for LSP
+    use 'glepnir/lspsaga.nvim' -- some UI enhancements for LSP | offer fns like definitions, quick actions etc
     use 'williamboman/mason.nvim' -- for managing other lsp servers like tailwindcss helpers
     use 'williamboman/mason-lspconfig.nvim'
     use 'jose-elias-alvarez/null-ls.nvim' -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
@@ -72,6 +72,17 @@ packer.startup(function(use)
     --})
     -- use 'folke/zen-mode.nvim'
     -- use 'github/copilot.vim'
+    use {
+        "folke/which-key.nvim",
+        config = function()
+            require("which-key").setup {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    }
+
 end)
 
 --------------------------------------------------------------------------------
