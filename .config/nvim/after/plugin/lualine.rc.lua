@@ -8,7 +8,9 @@ local diagnostics = {
     --:wq
     --sections = { 'error', 'warn', 'info', 'hint' },
     -- symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-    symbols = { error = " ", warn = " ", hint = " ", info = " " },
+    -- symbols = { error = " ", warn = " ", hint = " ", info = " " },
+    sections = { 'error', 'warn' },
+    symbols = { error = " ", warn = " " },
     update_in_insert = false,
     always_visible = true,
 }
@@ -43,7 +45,7 @@ local progress_minimap = function()
     return chars[index]
 end
 
-require('lualine').setup {
+lualine.setup {
     options = {
         icons_enabled = true,
         theme = 'auto',
