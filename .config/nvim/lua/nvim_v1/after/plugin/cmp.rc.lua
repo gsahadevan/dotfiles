@@ -1,7 +1,7 @@
 local status, cmp = pcall(require, "cmp")
 if (not status) then return end
 
-local lspkind = require 'lspkind'
+-- local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
 
 cmp.setup({
@@ -44,9 +44,9 @@ cmp.setup({
         -- { name = 'buffer' },
     }),
     formatting = {
-        -- fields = { "kind", "abbr", "menu" }, -- changing the order of appearance
+        fields = { "kind", "abbr", "menu" }, -- changing the order of appearance
         -- format = lspkind.cmp_format({ with_text = false, maxwidth = 50 })
-        format = lspkind.cmp_format({ with_text = true, maxwidth = 50 })
+        -- format = lspkind.cmp_format({ with_text = true, maxwidth = 50 })
     },
     window = {
         completion = {

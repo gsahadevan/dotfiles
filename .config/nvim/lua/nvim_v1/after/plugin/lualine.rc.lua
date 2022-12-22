@@ -14,7 +14,7 @@ local diagnostics = {
     -- symbols = { error = " ", warn = " ", hint = " ", info = " " },
     sections = { 'error', 'warn' },
     symbols = { error = " ", warn = " " },
-    update_in_insert = true,
+    update_in_insert = false,
     always_visible = true,
 }
 
@@ -65,7 +65,7 @@ lualine.setup {
         },
         ignore_focus = {},
         always_divide_middle = true,
-        globalstatus = true, -- if false; lualine will not be under nvim-tree
+        globalstatus = false,
         refresh = {
             statusline = 1000,
             tabline = 1000,
@@ -89,14 +89,14 @@ lualine.setup {
     --     lualine_y = { location },
     --     lualine_z = { progress_minimap }
     -- },
-    sections = {
-        lualine_a = { 'mode' },
-        lualine_b = { 'branch', diff },
-        lualine_c = {},
-        lualine_x = { diagnostics },
-        lualine_y = { filetype },
-        lualine_z = { location },
-    },
+    -- sections = {
+    --     lualine_a = { 'mode' },
+    --     lualine_b = { 'branch', diff },
+    --     lualine_c = { filename },
+    --     lualine_x = { diagnostics, filetype },
+    --     lualine_y = {},
+    --     lualine_z = { location },
+    -- },
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
@@ -107,7 +107,9 @@ lualine.setup {
         lualine_z = {}
     },
     tabline = {},
-    winbar = {},
+    winbar = {
+        -- lualine_a = { filename }
+    },
     inactive_winbar = {},
     extensions = {}
 }

@@ -41,10 +41,10 @@ nvim_tree.setup {
                 },
                 git = {
                     unstaged = "",
-                    staged = "✓",
+          staged = "✓",
                     unmerged = "",
                     renamed = "➜",
-                    untracked = "★",
+          untracked = "★",
                     deleted = "",
                     ignored = "◌",
                 },
@@ -75,13 +75,13 @@ nvim_tree.setup {
 -- To close nvim if nvim-tree is the last remaining window
 -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
 -- Since auto_close is deprecated using the naive solution given in the above link
--- vim.api.nvim_create_autocmd("BufEnter", {
---     nested = true,
---     callback = function()
---         if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
---             vim.cmd "quit"
---         end
---     end
--- })
+vim.api.nvim_create_autocmd("BufEnter", {
+    nested = true,
+    callback = function()
+        if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
+            vim.cmd "quit"
+        end
+    end
+})
 
 vim.api.nvim_set_keymap('n', '<leader>b', ':NvimTreeToggle<CR>', { noremap = true, silent = true })

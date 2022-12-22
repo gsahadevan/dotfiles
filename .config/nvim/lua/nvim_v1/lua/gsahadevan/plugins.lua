@@ -30,14 +30,16 @@ packer.startup(function(use)
     -- cosmetics
     --------------------------------------------------------------------------------
     use 'folke/tokyonight.nvim' -- colorschemes
-    -- use 'olimorris/onedarkpro.nvim'
+    -- use 'navarasu/onedark.nvim' -- theme inspired by atom | one dark pro is the theme used in vscode
+    use 'olimorris/onedarkpro.nvim'
     use 'nvim-lualine/lualine.nvim' -- statusline
+    -- use 'akinsho/nvim-bufferline.lua' -- make tabs looks nice | not seeing the need for this for now
 
     --------------------------------------------------------------------------------
     -- LSP
     --------------------------------------------------------------------------------
     use 'neovim/nvim-lspconfig' -- languager-server-protocol
-    use 'onsails/lspkind-nvim' -- vscode-like pictograms
+    -- use 'onsails/lspkind-nvim' -- vscode-like pictograms
     use 'glepnir/lspsaga.nvim' -- some UI enhancements for LSP | offer fns like definitions, quick actions etc
     use 'williamboman/mason.nvim' -- for managing other lsp servers like tailwindcss helpers
     use 'williamboman/mason-lspconfig.nvim'
@@ -80,7 +82,7 @@ packer.startup(function(use)
     use 'nvim-telescope/telescope.nvim' -- fuzzy finder
     -- use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
     -- Fuzzy Finder algorithm which requires local dependencies to be built, load only if `make` is available
-    -- use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+    use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
     use 'nvim-telescope/telescope-file-browser.nvim' -- kind of a replacement for :Lex
     use 'kyazdani42/nvim-web-devicons' -- file icons for supported plugins like telescope, lualine etc
     use 'kyazdani42/nvim-tree.lua' -- replacement for :Lex (netrw)
