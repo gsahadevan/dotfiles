@@ -11,9 +11,8 @@ end
 local diagnostics = {
     'diagnostics',
     -- sources = { 'nvim_diagnostics' },
-    --:wq
-    --sections = { 'error', 'warn', 'info', 'hint' },
-    -- symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+    -- sections = { 'error', 'warn', 'info', 'hint' },
+    -- symbols = { error = ' ', warn = ' ', hint = ' ', info = ' ' },
     -- symbols = { error = ' ', warn = ' ', hint = ' ', info = ' ' },
     sections = { 'error', 'warn' },
     symbols = { error = ' ', warn = ' ' },
@@ -27,29 +26,11 @@ local filename = {
     path = 1, -- 0 = only filename | 1 = relative path | 2 = absolute path
 }
 
-local location = { 'location' }
-
 local diff = {
     'diff',
     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
     cond = hide_in_width,
 }
-
--- local spaces = function()
---     return 'spaces: ' .. vim.api.nvim_buf_get_option(0, 'shiftwidth')
--- end
-
--- local encoding = { 'encoding' }
-local filetype = { 'filetype' }
-
--- local progress_minimap = function()
---     local current_line = vim.fn.line('.')
---     local total_lines = vim.fn.line('$')
---     local chars = { '__', '▁▁', '▂▂', '▃▃', '▄▄', '▅▅', '▆▆', '▇▇', '██' }
---     local line_ratio = current_line / total_lines
---     local index = math.ceil(line_ratio * #chars)
---     return chars[index]
--- end
 
 lualine.setup {
     options = {
@@ -75,38 +56,20 @@ lualine.setup {
             winbar = 1000,
         }
     },
-    -- override default param
-    -- sections = {
-    -- lualine_a = {'mode'},
-    -- lualine_b = {'branch', 'diff', 'diagnostics'},
-    -- lualine_c = {'filename'},
-    -- lualine_x = {'encoding', 'fileformat', 'filetype'},
-    -- lualine_y = {'progress'},
-    -- lualine_z = {'location'}
-    -- },
-    -- sections = {
-    --     lualine_a = { 'mode' },
-    --     lualine_b = { 'branch', diff },
-    --     lualine_c = { filename },
-    --     lualine_x = { diagnostics, spaces, encoding, filetype },
-    --     lualine_y = { location },
-    --     lualine_z = { progress_minimap }
-    -- },
     sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', diff },
         lualine_c = {},
         lualine_x = { diagnostics },
-        lualine_y = { filetype },
-        lualine_z = { location },
+        lualine_y = { 'filetype' },
+        lualine_z = { 'location' },
     },
     inactive_sections = {
         lualine_a = {},
         lualine_b = {},
-        -- lualine_c = {'filename'},
         lualine_c = { filename },
         lualine_x = {},
-        lualine_y = { location },
+        lualine_y = { 'location' },
         lualine_z = {}
     },
     tabline = {},

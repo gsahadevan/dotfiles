@@ -33,6 +33,7 @@ packer.startup(function(use)
     -- use 'olimorris/onedarkpro.nvim' -- could also use this as an alternative
     use 'nvim-lualine/lualine.nvim' -- statusline
     use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' } -- buffer line
+    use 'moll/vim-bbye'
 
     --------------------------------------------------------------------------------
     -- LSP
