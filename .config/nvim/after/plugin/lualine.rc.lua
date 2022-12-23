@@ -1,5 +1,8 @@
 local status, lualine = pcall(require, 'lualine')
-if (not status) then return end
+if not status then
+    print('lualine is not installed')
+    return
+end
 
 local hide_in_width = function()
     return vim.fn.winwidth(0) > 80
@@ -11,9 +14,9 @@ local diagnostics = {
     --:wq
     --sections = { 'error', 'warn', 'info', 'hint' },
     -- symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-    -- symbols = { error = " ", warn = " ", hint = " ", info = " " },
+    -- symbols = { error = ' ', warn = ' ', hint = ' ', info = ' ' },
     sections = { 'error', 'warn' },
-    symbols = { error = " ", warn = " " },
+    symbols = { error = ' ', warn = ' ' },
     update_in_insert = true,
     always_visible = true,
 }
@@ -28,7 +31,7 @@ local location = { 'location' }
 
 local diff = {
     'diff',
-    symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
+    symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
     cond = hide_in_width,
 }
 

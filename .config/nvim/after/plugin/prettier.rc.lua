@@ -1,5 +1,8 @@
 local status, prettier = pcall(require, 'prettier')
-if (not status) then return end
+if not status then
+    print('prettier is not installed')
+    return
+end
 
 prettier.setup {
   bin = 'prettierd',

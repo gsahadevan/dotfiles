@@ -7,6 +7,15 @@ end
 local get_hex = require('cokeline/utils').get_hex
 
 cokeline.setup({
+    -- default_hl = {
+    --     focused = {
+    --         bg = 'none'
+    --     },
+    --     unfocused = {
+    --         fg = get_hex('Comment', 'fg'),
+    --         bg = 'none'
+    --     }
+    -- },
     sidebar = {
         filetype = 'NvimTree',
         components = {

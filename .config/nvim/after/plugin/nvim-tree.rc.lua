@@ -1,9 +1,10 @@
-local status_ok, nvim_tree = pcall(require, "nvim-tree")
+local status_ok, nvim_tree = pcall(require, 'nvim-tree')
 if not status_ok then
+    print('nvim-tree is not installed')
     return
 end
 
-local config_status_ok, nvim_tree_config = pcall(require, "nvim-tree.config")
+local config_status_ok, nvim_tree_config = pcall(require, 'nvim-tree.config')
 if not config_status_ok then
     return
 end
@@ -24,29 +25,29 @@ nvim_tree.setup {
         update_cwd = true,
     },
     renderer = {
-        root_folder_modifier = ":t",
+        root_folder_modifier = ':t',
         icons = {
             glyphs = {
-                default = "",
-                symlink = "",
+                default = '',
+                symlink = '',
                 folder = {
-                    arrow_open = "",
-                    arrow_closed = "",
-                    default = "",
-                    open = "",
-                    empty = "",
-                    empty_open = "",
-                    symlink = "",
-                    symlink_open = "",
+                    arrow_open = '',
+                    arrow_closed = '',
+                    default = '',
+                    open = '',
+                    empty = '',
+                    empty_open = '',
+                    symlink = '',
+                    symlink_open = '',
                 },
                 git = {
-                    unstaged = "",
-                    staged = "✓",
-                    unmerged = "",
-                    renamed = "➜",
-                    untracked = "★",
-                    deleted = "",
-                    ignored = "◌",
+                    unstaged = '',
+                    staged = '✓',
+                    unmerged = '',
+                    renamed = '➜',
+                    untracked = '★',
+                    deleted = '',
+                    ignored = '◌',
                 },
             },
         },
@@ -55,18 +56,18 @@ nvim_tree.setup {
         enable = true,
         show_on_dirs = true,
         -- icons = { error = '', warning = '', info = '', hint = '' },
-        icons = { error = " ", warning = " ", hint = " ", info = " " },
+        icons = { error = ' ', warning = ' ', hint = ' ', info = ' ' },
     },
     view = {
         width = 35,
         hide_root_folder = true,
         -- auto_resize = false,
-        side = "left",
+        side = 'left',
         mappings = {
             list = {
-                { key = { "l", "<CR>", "o" }, cb = tree_cb "edit" },
-                { key = "h", cb = tree_cb "close_node" },
-                { key = "v", cb = tree_cb "vsplit" },
+                { key = { 'l', '<CR>', 'o' }, cb = tree_cb 'edit' },
+                { key = 'h', cb = tree_cb 'close_node' },
+                { key = 'v', cb = tree_cb 'vsplit' },
             },
         },
     },
@@ -75,11 +76,11 @@ nvim_tree.setup {
 -- To close nvim if nvim-tree is the last remaining window
 -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
 -- Since auto_close is deprecated using the naive solution given in the above link
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd('BufEnter', {
     nested = true,
     callback = function()
-        if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
-            vim.cmd "quit"
+        if #vim.api.nvim_list_wins() == 1 and require('nvim-tree.utils').is_nvim_tree_buf() then
+            vim.cmd 'quit'
         end
     end
 })

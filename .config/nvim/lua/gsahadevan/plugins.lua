@@ -7,8 +7,8 @@
 -- 5. Fuzzy Finder
 --------------------------------------------------------------------------------
 local status, packer = pcall(require, 'packer')
-if (not status) then
-    print('Packer is not installed')
+if not status then
+    print('packer is not installed')
     return
 end
 
@@ -18,7 +18,7 @@ end
 packer.init({
     display = {
         open_fn = function()
-            return require("packer.util").float({ border = "rounded" })
+            return require('packer.util').float({ border = 'rounded' })
         end,
     },
 })
@@ -29,9 +29,10 @@ packer.startup(function(use)
     --------------------------------------------------------------------------------
     -- cosmetics
     --------------------------------------------------------------------------------
-    use 'folke/tokyonight.nvim' -- colorschemes
-    -- use 'olimorris/onedarkpro.nvim'
+    use 'folke/tokyonight.nvim' -- colorschemes | setup is available on highlights.lua
+    -- use 'olimorris/onedarkpro.nvim' -- could also use this as an alternative
     use 'nvim-lualine/lualine.nvim' -- statusline
+    use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' } -- buffer line
 
     --------------------------------------------------------------------------------
     -- LSP
@@ -53,6 +54,7 @@ packer.startup(function(use)
     use 'hrsh7th/cmp-nvim-lua' -- completion source for lua
     use 'hrsh7th/cmp-path' -- completion source for path
     use 'hrsh7th/nvim-cmp' -- completion
+    use 'saadparwaiz1/cmp_luasnip'
     use 'L3MON4D3/LuaSnip' -- snippet engine | needed for completion
 
     --------------------------------------------------------------------------------
@@ -62,13 +64,41 @@ packer.startup(function(use)
         'nvim-treesitter/nvim-treesitter',
         run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
     }
-
-    -- additional text objects via treesitter
     use {
-        'nvim-treesitter/nvim-treesitter-textobjects',
+        'nvim-treesitter/nvim-treesitter-textobjects', -- additional text objects via treesitter
         after = 'nvim-treesitter'
     }
 
+    --------------------------------------------------------------------------------
+    -- fuzzy finder
+    --------------------------------------------------------------------------------
+    use 'nvim-lua/plenary.nvim' -- common utilities
+    use 'nvim-telescope/telescope.nvim' -- fuzzy finder
+    -- use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+    -- Fuzzy Finder algorithm which requires local dependencies to be built, load only if `make` is available
+    -- use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+
+    --------------------------------------------------------------------------------
+    -- file browser
+    --------------------------------------------------------------------------------
+    use 'nvim-telescope/telescope-file-browser.nvim' -- kind of a replacement for :Lex
+    use 'kyazdani42/nvim-web-devicons' -- file icons for supported plugins like telescope, lualine etc
+    use 'kyazdani42/nvim-tree.lua' -- replacement for :Lex (netrw)
+
+    --------------------------------------------------------------------------------
+    -- git
+    --------------------------------------------------------------------------------
+    use 'tpope/vim-fugitive'
+    use 'tpope/vim-rhubarb'
+    use 'lewis6991/gitsigns.nvim' -- shows git changes next to the numbers (hunks)
+    use 'dinhhuy258/git.nvim' -- for git blame & browse
+
+    --------------------------------------------------------------------------------
+    -- misc. ide features
+    --------------------------------------------------------------------------------
+    use 'petertriho/nvim-scrollbar'
+    use 'kevinhwang91/nvim-hlslens'
+    use 'rafamadriz/friendly-snippets' -- snippets as suggestions on completion | use along with LuaSnip
     use 'windwp/nvim-autopairs'
     use 'windwp/nvim-ts-autotag'
     use 'numToStr/Comment.nvim' -- 'gc' for commenting visual regions/lines
@@ -76,31 +106,24 @@ packer.startup(function(use)
     -- use 'tpope/vim-sleuth' -- detect tabstop and shiftwidth automatically
     use 'norcalli/nvim-colorizer.lua' -- shows colors on hex codes
 
-    use 'nvim-lua/plenary.nvim' -- common utilities
-    use 'nvim-telescope/telescope.nvim' -- fuzzy finder
-    -- use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
-    -- Fuzzy Finder algorithm which requires local dependencies to be built, load only if `make` is available
-    -- use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-    use 'nvim-telescope/telescope-file-browser.nvim' -- kind of a replacement for :Lex
-    use 'kyazdani42/nvim-web-devicons' -- file icons for supported plugins like telescope, lualine etc
-    use 'kyazdani42/nvim-tree.lua' -- replacement for :Lex (netrw)
-
     --------------------------------------------------------------------------------
-    -- GIT
+    -- inspired from emacs | shows available keys
     --------------------------------------------------------------------------------
-    use 'tpope/vim-fugitive'
-    use 'tpope/vim-rhubarb'
-    use 'lewis6991/gitsigns.nvim' -- shows git changes next to the numbers (hunks)
-    use 'dinhhuy258/git.nvim' -- for git blame & browse
-
-    -- ide features
-    use 'petertriho/nvim-scrollbar'
-    use 'kevinhwang91/nvim-hlslens'
+    use {
+        'folke/which-key.nvim',
+        config = function()
+            require('which-key').setup {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            }
+        end
+    }
 
     --------------------------------------------------------------------------------
     -- Better Buffers
     --------------------------------------------------------------------------------
-    -- use { 'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons' } -- make buffers look and act like vscode tabs
+    -- use { 'akinsho/bufferline.nvim', tag = 'v3.*', requires = 'nvim-tree/nvim-web-devicons' } -- make buffers look and act like vscode tabs
     -- use 'moll/vim-bbye' -- gives Bdelete | read more about Bdelete vs bdelete
     -- use({
     --     'noib3/nvim-cokeline',
@@ -109,26 +132,14 @@ packer.startup(function(use)
     --         require('cokeline').setup()
     --     end
     -- })
-    use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' }
 
     -- un-used plugins from craftzdog
     -- use({
-    --  "iamcco/markdown-preview.nvim",
-    --  run = function() vim.fn["mkdp#util#install"]() end,
+    --  'iamcco/markdown-preview.nvim',
+    --  run = function() vim.fn['mkdp#util#install']() end,
     --})
     -- use 'folke/zen-mode.nvim'
     -- use 'github/copilot.vim'
-    use {
-        "folke/which-key.nvim",
-        config = function()
-            require("which-key").setup {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            }
-        end
-    }
-
 end)
 
 --------------------------------------------------------------------------------

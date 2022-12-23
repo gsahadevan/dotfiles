@@ -1,5 +1,8 @@
 local status, scrollbar = pcall(require, 'scrollbar')
-if (not status) then return end
+if not status then
+    print('scrollbar is not installed')
+    return
+end
 
 scrollbar.setup({
     show = true,

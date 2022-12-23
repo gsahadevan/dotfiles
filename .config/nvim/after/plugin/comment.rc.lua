@@ -1,6 +1,6 @@
-local status, comment = pcall(require, 'Comment')
-if (not status) then return end
-
+-- local status, comment = pcall(require, 'Comment')
+-- if (not status) then return end
+--
 -- comment.setup {
 --     pre_hook = function(ctx)
 --         local U = require 'Comment.utils'
@@ -30,7 +30,7 @@ if (not status) then return end
 -- }
 
 local status, comment = pcall(require, 'Comment')
-if (not status) then
+if not status then
     print('Comment not installed')
     return
 end

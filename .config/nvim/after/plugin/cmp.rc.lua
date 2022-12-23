@@ -1,5 +1,8 @@
-local status, cmp = pcall(require, "cmp")
-if (not status) then return end
+local status, cmp = pcall(require, 'cmp')
+if not status then
+    print('cmp | completion is not installed')
+    return
+end
 
 local lspkind = require 'lspkind'
 local luasnip = require 'luasnip'
@@ -40,20 +43,20 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        -- { name = 'luasnip' },
-        -- { name = 'buffer' },
+        { name = 'luasnip' },
+        { name = 'buffer' },
     }),
     formatting = {
-        -- fields = { "kind", "abbr", "menu" }, -- changing the order of appearance
+        -- fields = { 'kind', 'abbr', 'menu' }, -- changing the order of appearance
         -- format = lspkind.cmp_format({ with_text = false, maxwidth = 50 })
         format = lspkind.cmp_format({ with_text = true, maxwidth = 50 })
     },
     window = {
         completion = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
         },
         documentation = {
-            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+            border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
         },
     },
 })
@@ -63,6 +66,8 @@ vim.cmd [[
   highlight! default link CmpItemKind CmpItemMenuDefault
 ]]
 
--- " Use <Tab> and <S-Tab> to navigate through popup menu
--- inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
--- inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+require('luasnip.loaders.from_vscode').lazy_load()
+
+-- ' Use <Tab> and <S-Tab> to navigate through popup menu
+-- inoremap <expr> <Tab>   pumvisible() ? '\<C-n>' : '\<Tab>'
+-- inoremap <expr> <S-Tab> pumvisible() ? '\<C-p>' : '\<S-Tab>'
