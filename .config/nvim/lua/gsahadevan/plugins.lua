@@ -97,6 +97,20 @@ packer.startup(function(use)
     use 'petertriho/nvim-scrollbar'
     use 'kevinhwang91/nvim-hlslens'
 
+    --------------------------------------------------------------------------------
+    -- Better Buffers
+    --------------------------------------------------------------------------------
+    -- use { 'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons' } -- make buffers look and act like vscode tabs
+    -- use 'moll/vim-bbye' -- gives Bdelete | read more about Bdelete vs bdelete
+    -- use({
+    --     'noib3/nvim-cokeline',
+    --     requires = 'kyazdani42/nvim-web-devicons', -- If you want devicons
+    --     config = function()
+    --         require('cokeline').setup()
+    --     end
+    -- })
+    use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' }
+
     -- un-used plugins from craftzdog
     -- use({
     --  "iamcco/markdown-preview.nvim",
