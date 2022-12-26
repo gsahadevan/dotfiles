@@ -19,3 +19,5 @@ cokeline.setup({
         }
     },
 })
+
+vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<CR>', { noremap = true, silent = true })

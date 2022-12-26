@@ -20,12 +20,6 @@ local diagnostics = {
     always_visible = true,
 }
 
-local filename = {
-    'filename',
-    file_status = true, -- displays file status (readonly or modified)
-    path = 1, -- 0 = only filename | 1 = relative path | 2 = absolute path
-}
-
 local diff = {
     'diff',
     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
@@ -58,20 +52,13 @@ lualine.setup {
     },
     sections = {
         lualine_a = { 'mode' },
-        lualine_b = { 'branch', diff },
-        lualine_c = {},
+        lualine_b = { 'branch' },
+        lualine_c = { diff },
         lualine_x = { diagnostics },
         lualine_y = { 'filetype' },
         lualine_z = { 'location' },
     },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { filename },
-        lualine_x = {},
-        lualine_y = { 'location' },
-        lualine_z = {}
-    },
+    inactive_sections = {},
     tabline = {},
     winbar = {},
     inactive_winbar = {},
