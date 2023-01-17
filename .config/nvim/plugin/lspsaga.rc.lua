@@ -20,13 +20,15 @@ lspsaga.init_lsp_saga {
     -- is function type it will have a param `entry`
     -- entry is a table type has these filed
     -- { bufnr, code, col, end_col, end_lnum, lnum, message, severity, source }
-    diagnostic_header = { " ", " ", " ", "ﴞ " },
+    -- diagnostic_header = { " ", " ", " ", "ﴞ " }, -- default | gsahadevan uses the below line
+    diagnostic_header = { ' ', ' ', ' ', ' ' },
     -- preview lines above of lsp_finder
     preview_lines_above = 0,
     -- preview lines of lsp_finder and definition preview
     max_preview_lines = 10,
     -- use emoji lightbulb in default
-    code_action_icon = "💡",
+    -- code_action_icon = "💡", -- default | gsahadevan uses the below line
+    code_action_icon = " ",
     -- if true can press number to execute the codeaction in codeaction window
     code_action_num_shortcut = true,
     -- same as nvim-lightbulb but async
@@ -40,11 +42,7 @@ lspsaga.init_lsp_saga {
         virtual_text = true,
     },
     -- finder icons
-    finder_icons = {
-        def = '  ',
-        ref = '諭 ',
-        link = '  ',
-    },
+    finder_icons = { def = '  ', ref = '諭 ', link = '  ' },
     -- finder do lsp request timeout
     -- if your project is big enough or your server very slow
     -- you may need to increase this value
@@ -82,7 +80,8 @@ lspsaga.init_lsp_saga {
         -- if not set, use default value `%:t`
         -- more information see `vim.fn.expand` or `expand`
         -- ## only valid after set `show_file = true`
-        file_formatter = "%:p",
+        -- file_formatter = "%:p", -- full path
+        file_formatter = "%:t",
         click_support = false,
     },
     -- show outline

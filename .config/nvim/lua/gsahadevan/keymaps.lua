@@ -23,12 +23,12 @@ keymap("n", '<C-a>', 'gg<S-v>G', opts)
 -- Save with root permission (not working for now)
 -- vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
--- New tab
-keymap("n", 'te', ':tabedit<CR>', opts)
-keymap("n", 'tt', ':tabnew<CR>', opts)
-keymap("n", 'tp', ':tabprevious<CR>', opts)
-keymap("n", 'tn', ':tabnext<CR>', opts)
-keymap("n", 'tc', ':tabclose<CR>', opts)
+-- New tab | opting for buffers instead of tabs
+-- keymap("n", 'te', ':tabedit<CR>', opts)
+-- keymap("n", 'tt', ':tabnew<CR>', opts)
+-- keymap("n", 'tp', ':tabprevious<CR>', opts)
+-- keymap("n", 'tn', ':tabnext<CR>', opts)
+-- keymap("n", 'tc', ':tabclose<CR>', opts)
 
 -- Split window
 keymap("n", 'ss', ':split<Return><C-w>w', opts)
@@ -49,15 +49,15 @@ keymap("n", 'sv', ':vsplit<Return><C-w>w', opts)
 
 -- Better window navigation
 keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
+-- keymap("n", "<C-j>", "<C-w>j", opts) -- does not work
+-- keymap("n", "<C-k>", "<C-w>k", opts) -- does not work
 keymap("n", "<C-l>", "<C-w>l", opts)
 
--- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- Resize with arrows | mapped with workspaces navigation
+-- keymap("n", "<C-Up>", ":resize -2<CR>", opts)
+-- keymap("n", "<C-Down>", ":resize +2<CR>", opts)
+-- keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+-- keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)

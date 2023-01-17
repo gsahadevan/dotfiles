@@ -30,6 +30,7 @@ packer.startup(function(use)
     -- cosmetics
     --------------------------------------------------------------------------------
     use 'folke/tokyonight.nvim' -- colorschemes | setup is available on highlights.lua
+    use { 'svrana/neosolarized.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }
     -- use 'olimorris/onedarkpro.nvim' -- could also use this as an alternative
     use 'nvim-lualine/lualine.nvim' -- statusline
     use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' } -- buffer line
@@ -106,6 +107,15 @@ packer.startup(function(use)
     use 'lukas-reineke/indent-blankline.nvim' -- adds indentation guides to all lines (including empty lines)
     -- use 'tpope/vim-sleuth' -- detect tabstop and shiftwidth automatically
     use 'norcalli/nvim-colorizer.lua' -- shows colors on hex codes
+    use({
+        'kylechui/nvim-surround',
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require('nvim-surround').setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    })
 
     --------------------------------------------------------------------------------
     -- inspired from emacs | shows available keys
