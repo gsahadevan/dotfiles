@@ -7,24 +7,29 @@ vim.opt.fileencoding = 'utf-8'
 vim.wo.number = true
 vim.wo.relativenumber = true
 
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+
 vim.opt.title = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
+vim.opt.breakindent = true
+
 vim.opt.hlsearch = true
+vim.opt.incsearch = true
+vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
+
 vim.opt.backup = false
 vim.opt.showcmd = true
 vim.opt.cmdheight = 1
 vim.opt.laststatus = 2
-vim.opt.expandtab = true
 vim.opt.scrolloff = 10 -- min number of screen lines to keep above and below the cursor
 -- vim.opt.shell = 'fish'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
-vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
-vim.opt.smarttab = true
-vim.opt.breakindent = true
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
 
 vim.opt.signcolumn = 'yes:3' -- always shows the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false -- do not wrap lines, display one long line

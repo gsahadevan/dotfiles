@@ -88,4 +88,3 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.api.nvim_set_keymap('n', '<leader>b', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
-

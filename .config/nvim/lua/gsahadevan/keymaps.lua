@@ -102,3 +102,24 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 -- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 -- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 -- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+
+
+-- the primeagen
+-- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+-- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
+vim.keymap.set("n", "J", "mzJ`z") -- keeps cursor in place when joining lines
+vim.keymap.set("n", "<C-d>", "<C-d>zz") -- keeps cursor in the middle of screen
+vim.keymap.set("n", "<C-u>", "<C-u>zz") -- keeps cursor in the middle of screen
+vim.keymap.set("n", "n", "nzzzv") -- keeps cursor in the middle for search terms
+vim.keymap.set("n", "N", "Nzzzv") -- keeps cursor in the middle for search terms
+vim.keymap.set("x", "<leader>pp", "\"_dp") -- preserve pasted in buffer
+
+-- pressing leaderY would enabled further yanking to save yanked text to clipboard
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+vim.keymap.set("n", "<leader>Y", "\"+Y")
+
+vim.keymap.set("n", "<leader>d", "\"_d")
+vim.keymap.set("v", "<leader>d", "\"_d")
+vim.keymap.set("v", "<leader>d", "\"_d")
