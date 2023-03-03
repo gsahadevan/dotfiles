@@ -14,7 +14,7 @@ local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup {
     disable_netrw = true,
     hijack_netrw = true,
-    open_on_setup = false, -- use <leader>b to toggle now
+    -- open_on_setup = false, -- use <leader>b to toggle now
     ignore_ft_on_setup = { 'dashboard' },
     -- auto_close = true, -- deprecated
     open_on_tab = true,
@@ -27,10 +27,12 @@ nvim_tree.setup {
     renderer = {
         root_folder_modifier = ':t',
         icons = {
+            webdev_colors = true,
             glyphs = {
                 default = '',
                 symlink = '',
                 folder = {
+                    -- arrow_closed = '⮁',
                     arrow_open = '',
                     arrow_closed = '',
                     default = '',
@@ -59,7 +61,7 @@ nvim_tree.setup {
         icons = { error = ' ', warning = ' ', hint = ' ', info = ' ' },
     },
     view = {
-        width = 35,
+        width = 55,
         hide_root_folder = true,
         -- auto_resize = false,
         side = 'left',
@@ -86,3 +88,4 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.api.nvim_set_keymap('n', '<leader>b', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+

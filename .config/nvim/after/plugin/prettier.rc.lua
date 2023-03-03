@@ -5,15 +5,16 @@ if not status then
 end
 
 prettier.setup {
-  bin = 'prettierd',
-  filetypes = {
-    'css',
-    'javascript',
-    'javascriptreact',
-    'typescript',
-    'typescriptreact',
-    'json',
-    'scss',
-    'less'
-  }
+    bin = 'prettierd',
+    filetypes = {
+        'css',
+        'javascript',
+        'javascriptreact',
+        'typescript',
+        'typescriptreact',
+        'json',
+        'scss',
+        'less',
+        'lua'
+    }
 }
