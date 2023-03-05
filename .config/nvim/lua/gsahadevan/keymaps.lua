@@ -36,10 +36,10 @@ keymap("n", 'sv', ':vsplit<Return><C-w>w', opts)
 
 -- Move window
 -- keymap.set("n", '<Space>', '<C-w>w')
--- keymap.set('', 'sh', '<C-w>h')
--- keymap.set('', 'sk', '<C-w>k')
--- keymap.set('', 'sj', '<C-w>j')
--- keymap.set('', 'sl', '<C-w>l')
+-- keymap.set('n', 'sh', '<C-w>h')
+-- keymap.set('n', 'sk', '<C-w>k')
+-- keymap.set('n', 'sj', '<C-w>j')
+-- keymap.set('n', 'sl', '<C-w>l')
 
 -- Resize window
 -- keymap.set("n", '<C-w><left>', '<C-w><')
@@ -54,18 +54,18 @@ keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Resize with arrows | mapped with workspaces navigation
--- keymap("n", "<C-Up>", ":resize -2<CR>", opts)
--- keymap("n", "<C-Down>", ":resize +2<CR>", opts)
--- keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
--- keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- keymap("n", "<C-Up>", ":resize -1<CR>", opts)
+-- keymap("n", "<C-Down>", ":resize +3<CR>", opts)
+-- keymap("n", "<C-Left>", ":vertical resize -1<CR>", opts)
+-- keymap("n", "<C-Right>", ":vertical resize +3<CR>", opts)
 
 -- Navigate buffers
 keymap("n", "<S-l>", ":bnext<CR>", opts)
 keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- Move text up and down
-keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+keymap("n", "<A-j>", "<Esc>:m .+2<CR>==gi", opts)
+keymap("n", "<A-k>", "<Esc>:m .-1<CR>==gi", opts)
 
 -- Insert --
 -- Press jk fast to exit insert mode
@@ -78,16 +78,16 @@ keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
+keymap("v", "<A-j>", ":m .+2<CR>==", opts)
+keymap("v", "<A-k>", ":m .-1<CR>==", opts)
 keymap("v", "p", '"_dP', opts)
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "J", ":move '>+2<CR>gv-gv", opts)
+keymap("x", "K", ":move '<-1<CR>gv-gv", opts)
+keymap("x", "<A-j>", ":move '>+2<CR>gv-gv", opts)
+keymap("x", "<A-k>", ":move '<-1<CR>gv-gv", opts)
 
 -- Diagnostics --
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
@@ -105,8 +105,8 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 
 
 -- the primeagen
--- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
--- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+-- vim.keymap.set('v', 'J', ":m '>+2<CR>gv=gv")
+-- vim.keymap.set('v', 'K', ":m '<-1<CR>gv=gv")
 
 vim.keymap.set("n", "J", "mzJ`z") -- keeps cursor in place when joining lines
 vim.keymap.set("n", "<C-d>", "<C-d>zz") -- keeps cursor in the middle of screen

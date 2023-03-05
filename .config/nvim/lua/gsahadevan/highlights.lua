@@ -147,9 +147,3 @@ vim.opt.background = 'dark'
 -- --     background = true, -- use background color for virtual text
 -- --   },
 -- -- }
-
-function higher()
-    vim.api.nvim_set_hl(0, 'NvimTreeFolderIcon', {fg='orange'})
-end
-
-higher()
