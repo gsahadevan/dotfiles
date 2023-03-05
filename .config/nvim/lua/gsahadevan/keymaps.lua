@@ -20,6 +20,9 @@ vim.g.maplocalleader = " "
 -- Select all
 keymap("n", '<C-a>', 'gg<S-v>G', opts)
 
+-- Remove search highlighting
+keymap("n", '<leader>nh', ':nohl<CR>', opts)
+
 -- Save with root permission (not working for now)
 -- vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
@@ -33,6 +36,12 @@ keymap("n", '<C-a>', 'gg<S-v>G', opts)
 -- Split window
 keymap("n", 'ss', ':split<Return><C-w>w', opts)
 keymap("n", 'sv', ':vsplit<Return><C-w>w', opts)
+keymap("n", 'se', '<C-w>=', opts)
+keymap("n", 'sw', ':close<CR>', opts)
+
+-- Increment and Decrement numbers
+keymap("n", '<leader>+', '<C-a>', opts)
+keymap("n", '<leader>-', '<C-x>', opts)
 
 -- Move window
 -- keymap.set("n", '<Space>', '<C-w>w')
@@ -114,6 +123,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz") -- keeps cursor in the middle of screen
 vim.keymap.set("n", "n", "nzzzv") -- keeps cursor in the middle for search terms
 vim.keymap.set("n", "N", "Nzzzv") -- keeps cursor in the middle for search terms
 vim.keymap.set("x", "<leader>pp", "\"_dp") -- preserve pasted in buffer
+vim.keymap.set("n", "x", '"_x') -- do not save characters cut using x
 
 -- pressing leaderY would enabled further yanking to save yanked text to clipboard
 vim.keymap.set("n", "<leader>y", "\"+y")
