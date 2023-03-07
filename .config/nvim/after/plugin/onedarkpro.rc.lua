@@ -1,10 +1,10 @@
-local status, onedarkpro = pcall(require, 'onedarkpro')
+local status, onedark = pcall(require, 'onedark')
 if not status then
     print('onedarkpro is not installed')
     return
 end
 
-onedarkpro.setup {
+onedark.setup {
     -- Main options --
     style = 'darker',             -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
     transparent = false,          -- Show/hide background
@@ -53,4 +53,5 @@ onedarkpro.setup {
     --     ["@function.builtin"] = {fg = '#0059ff'}
     -- }
 }
-require('onedark').load()
+
+onedark.load()
