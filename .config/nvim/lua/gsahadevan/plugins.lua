@@ -60,24 +60,21 @@ packer.startup(function(use)
     --------------------------------------------------------------------------------
     -- completion
     --------------------------------------------------------------------------------
-    use 'hrsh7th/cmp-buffer'              -- completion source for buffer words
-    use 'hrsh7th/cmp-nvim-lua'            -- completion source for lua
-    use 'hrsh7th/cmp-path'                -- completion source for path
-    use 'hrsh7th/cmp-cmdline'             -- completion source for path
+    use 'hrsh7th/cmp-buffer'   -- completion source for buffer words
+    use 'hrsh7th/cmp-nvim-lua' -- completion source for lua
+    use 'hrsh7th/cmp-path'     -- completion source for path
+    use 'hrsh7th/cmp-cmdline'  -- completion source for path
+    use 'L3MON4D3/LuaSnip'     -- snippet engine | needed for completion
+    use 'saadparwaiz1/cmp_luasnip'
+    use 'rafamadriz/friendly-snippets'
 
-    use 'hrsh7th/nvim-cmp'                -- autocompletion plugin
-    use 'hrsh7th/cmp-nvim-lsp'            -- LSP source for nvim-cmp
-    use 'onsails/lspkind-nvim'            -- vscode-like pictograms | not required anymore
+    use 'hrsh7th/nvim-cmp'     -- autocompletion plugin
+    use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+    -- use 'onsails/lspkind-nvim'         -- vscode-like pictograms | not required anymore
 
     use 'jose-elias-alvarez/null-ls.nvim' -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
     use 'MunifTanjim/prettier.nvim'       -- prettier plugin for neovim's built-in LSP client
     use 'glepnir/lspsaga.nvim'            --
-    --------------------------------------------------------------------------------
-    -- inspired from emacs | shows available keys
-    --------------------------------------------------------------------------------
-    use 'L3MON4D3/LuaSnip' -- snippet engine | needed for completion
-    use 'saadparwaiz1/cmp_luasnip'
-    use 'rafamadriz/friendly-snippets'
     --------------------------------------------------------------------------------
     -- inspired from emacs | shows available keys
     --------------------------------------------------------------------------------
