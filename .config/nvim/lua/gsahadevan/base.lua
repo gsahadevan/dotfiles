@@ -31,11 +31,11 @@ vim.opt.scrolloff = 10 -- min number of screen lines to keep above and below the
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 
-vim.opt.signcolumn = 'yes:3' -- always shows the sign column, otherwise it would shift the text each time
-vim.opt.wrap = false -- do not wrap lines, display one long line
-vim.opt.linebreak = false -- if wrap is enabled, set to true | donot split words
+vim.opt.signcolumn = 'yes:3'             -- always shows the sign column, otherwise it would shift the text each time
+vim.opt.wrap = false                     -- do not wrap lines, display one long line
+vim.opt.linebreak = false                -- if wrap is enabled, set to true | donot split words
 vim.opt.backspace = { 'start', 'eol', 'indent' }
-vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
+vim.opt.path:append { '**' }             -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better completion experience
 

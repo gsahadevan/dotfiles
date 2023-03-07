@@ -38,7 +38,8 @@ lualine.setup {
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
-            'packer', 'NvimTree',
+            'packer',
+            'NvimTree',
             statusline = {},
             winbar = {},
         },

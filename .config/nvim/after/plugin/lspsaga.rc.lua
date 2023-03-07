@@ -5,8 +5,11 @@ saga.setup({
     ui = {
         winblend = 10,
         border = 'rounded',
+        -- colors = {
+        --     normal_bg = '#002b36'
+        -- }
         colors = {
-            normal_bg = '#002b36'
+            bg = '#000000'
         }
     }
 })

@@ -5,5 +5,5 @@ if not status then
 end
 
 colorizer.setup({
-    '*';
+    '*',
 })

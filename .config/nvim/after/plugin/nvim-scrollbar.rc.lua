@@ -8,8 +8,8 @@ scrollbar.setup({
     show = true,
     show_in_active_only = false,
     set_highlights = true,
-    folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
-    max_lines = false, -- disables if no. of lines in buffer exceeds this
+    folds = 1000,                -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
+    max_lines = false,           -- disables if no. of lines in buffer exceeds this
     hide_if_all_visible = false, -- Hides everything if all lines are visible
     handle = {
         text = ' ',
@@ -121,24 +121,9 @@ scrollbar.setup({
         diagnostic = true,
         gitsigns = true, -- Requires gitsigns
         handle = true,
-        search = true, -- Requires hlslens
+        search = true,   -- Requires hlslens
     },
 })
 
--- local colors = require('tokyonight.colors').setup()
--- require('scrollbar').setup({
---     handle = {
---         color = colors.bg_highlight,
---     },
---     marks = {
---         Search = { color = colors.orange },
---         Error = { color = colors.error },
---         Warn = { color = colors.warning },
---         Info = { color = colors.info },
---         Hint = { color = colors.hint },
---         Misc = { color = colors.purple },
---     }
--- })
 require('scrollbar.handlers.gitsigns').setup()
 require('scrollbar.handlers.search').setup({})
-

@@ -117,13 +117,13 @@ vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 -- vim.keymap.set('v', 'J', ":m '>+2<CR>gv=gv")
 -- vim.keymap.set('v', 'K', ":m '<-1<CR>gv=gv")
 
-vim.keymap.set("n", "J", "mzJ`z") -- keeps cursor in place when joining lines
-vim.keymap.set("n", "<C-d>", "<C-d>zz") -- keeps cursor in the middle of screen
-vim.keymap.set("n", "<C-u>", "<C-u>zz") -- keeps cursor in the middle of screen
-vim.keymap.set("n", "n", "nzzzv") -- keeps cursor in the middle for search terms
-vim.keymap.set("n", "N", "Nzzzv") -- keeps cursor in the middle for search terms
+vim.keymap.set("n", "J", "mzJ`z")          -- keeps cursor in place when joining lines
+vim.keymap.set("n", "<C-d>", "<C-d>zz")    -- keeps cursor in the middle of screen
+vim.keymap.set("n", "<C-u>", "<C-u>zz")    -- keeps cursor in the middle of screen
+vim.keymap.set("n", "n", "nzzzv")          -- keeps cursor in the middle for search terms
+vim.keymap.set("n", "N", "Nzzzv")          -- keeps cursor in the middle for search terms
 vim.keymap.set("x", "<leader>pp", "\"_dp") -- preserve pasted in buffer
-vim.keymap.set("n", "x", '"_x') -- do not save characters cut using x
+vim.keymap.set("n", "x", '"_x')            -- do not save characters cut using x
 
 -- pressing leaderY would enabled further yanking to save yanked text to clipboard
 vim.keymap.set("n", "<leader>y", "\"+y")

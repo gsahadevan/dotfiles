@@ -20,13 +20,13 @@ packer.startup(function(use)
 
     -- use 'numToStr/Comment.nvim' -- 'gc' for commenting visual regions/lines
     use { 'numToStr/Comment.nvim', requires = { 'JoosepAlviste/nvim-ts-context-commentstring' } }
-    use 'navarasu/onedark.nvim' -- lets see if this one uses the default settings
+    use 'navarasu/onedark.nvim'                                                     -- lets see if this one uses the default settings
     use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder
-    use 'nvim-telescope/telescope-file-browser.nvim' -- kind of a replacement for :Lex
-    use 'kyazdani42/nvim-tree.lua' -- replacement for :Lex (netrw)
-    use 'nvim-lualine/lualine.nvim' -- statusline
-    use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' } -- buffer line
-    use 'moll/vim-bbye' -- required for closing last buffer :BDelete
+    use 'nvim-telescope/telescope-file-browser.nvim'                                -- kind of a replacement for :Lex
+    use 'kyazdani42/nvim-tree.lua'                                                  -- replacement for :Lex (netrw)
+    use 'nvim-lualine/lualine.nvim'                                                 -- statusline
+    use { 'noib3/nvim-cokeline', requires = 'kyazdani42/nvim-web-devicons' }        -- buffer line
+    use 'moll/vim-bbye'                                                             -- required for closing last buffer :BDelete
     --------------------------------------------------------------------------------
     -- treesitter
     --------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ packer.startup(function(use)
     }
     --------------------------------------------------------------------------------
     use 'lewis6991/gitsigns.nvim' -- shows git changes next to the numbers (hunks)
-    use 'dinhhuy258/git.nvim' -- for git blame & browse
+    use 'dinhhuy258/git.nvim'     -- for git blame & browse
     use 'rhysd/git-messenger.vim' -- shows history of commits under cursor in a pop window
     use 'kevinhwang91/nvim-hlslens'
     use 'petertriho/nvim-scrollbar'
@@ -53,26 +53,26 @@ packer.startup(function(use)
     -- use 'williamboman/mason-lspconfig.nvim' -- closes gaps between mason and lspconfig
     -- use 'neovim/nvim-lspconfig' -- configurations for neovim LSP
     use {
-        'williamboman/mason.nvim', -- automatically install and manage LSP servers, instead of manually installing them
+        'williamboman/mason.nvim',           -- automatically install and manage LSP servers, instead of manually installing them
         'williamboman/mason-lspconfig.nvim', -- closes gaps between mason and lspconfig
-        'neovim/nvim-lspconfig', -- configurations for neovim LSP
+        'neovim/nvim-lspconfig',             -- configurations for neovim LSP
     }
     --------------------------------------------------------------------------------
     -- completion
     --------------------------------------------------------------------------------
-    use 'hrsh7th/cmp-buffer' -- completion source for buffer words
+    use 'hrsh7th/cmp-buffer'   -- completion source for buffer words
     use 'hrsh7th/cmp-nvim-lua' -- completion source for lua
-    use 'hrsh7th/cmp-path' -- completion source for path
+    use 'hrsh7th/cmp-path'     -- completion source for path
 
-    use 'L3MON4D3/LuaSnip' -- snippet engine | needed for completion
+    use 'L3MON4D3/LuaSnip'     -- snippet engine | needed for completion
     use 'saadparwaiz1/cmp_luasnip'
-    use 'hrsh7th/nvim-cmp' -- autocompletion plugin
+    use 'hrsh7th/nvim-cmp'     -- autocompletion plugin
     use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
-    use 'onsails/lspkind-nvim' -- vscode-like pictograms
+    -- use 'onsails/lspkind-nvim'            -- vscode-like pictograms | not required anymore
 
     use 'jose-elias-alvarez/null-ls.nvim' -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
-    use 'MunifTanjim/prettier.nvim' -- prettier plugin for neovim's built-in LSP client
-    use 'glepnir/lspsaga.nvim' -- 
+    use 'MunifTanjim/prettier.nvim'       -- prettier plugin for neovim's built-in LSP client
+    use 'glepnir/lspsaga.nvim'            --
     --------------------------------------------------------------------------------
     -- inspired from emacs | shows available keys
     --------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ packer.startup(function(use)
             }
         end
     }
-    use 'folke/trouble.nvim' -- a pretty list for showing diagnostics, references, telescope results, quickfix and location lists 
+    use 'folke/trouble.nvim' -- a pretty list for showing diagnostics, references, telescope results, quickfix and location lists
     use 'windwp/nvim-autopairs'
     use 'windwp/nvim-ts-autotag'
 end)
