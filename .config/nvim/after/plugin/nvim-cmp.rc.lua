@@ -85,6 +85,7 @@ cmp.setup({
     formatting = {
         fields = { 'kind', 'abbr', 'menu' },
         format = function(entry, vim_item)
+            -- add ellipsis and extra padding to match the width
             local label = vim_item.abbr
             local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
             if truncated_label ~= label then
@@ -94,7 +95,7 @@ cmp.setup({
                 vim_item.abbr = label .. padding
             end
 
-            vim_item.kind = M.icons[vim_item.kind]
+            vim_item.kind = string.format('%s%s', M.icons[vim_item.kind], vim_item.kind) -- add icons along with item kind
             vim_item.menu = ({
                     nvim_lsp = '[LSP]',
                     nvim_lua = '[Lua]',

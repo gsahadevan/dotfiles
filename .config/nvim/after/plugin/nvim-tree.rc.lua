@@ -68,8 +68,8 @@ nvim_tree.setup {
         mappings = {
             list = {
                 { key = { 'l', '<CR>', 'o' }, cb = tree_cb 'edit' },
-                { key = 'h', cb = tree_cb 'close_node' },
-                { key = 'v', cb = tree_cb 'vsplit' },
+                { key = 'h',                  cb = tree_cb 'close_node' },
+                { key = 'v',                  cb = tree_cb 'vsplit' },
             },
         },
     },
@@ -90,6 +90,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 vim.api.nvim_set_keymap('n', '<leader>b', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
 function higher()
-    vim.api.nvim_set_hl(0, 'NvimTreeFolderIcon', {fg='orange'})
+    vim.api.nvim_set_hl(0, 'NvimTreeFolderIcon', { fg = 'orange' })
 end
 
+higher()

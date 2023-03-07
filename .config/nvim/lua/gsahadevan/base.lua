@@ -39,6 +39,26 @@ vim.opt.path:append { '**' }             -- Finding files - Search down into sub
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better completion experience
 
+-- vim.opt.showcmd = true
+-- vim.opt.showmode = true
+-- vim.opt.list = true
+-- vim.opt.listchars = { eol = '↴', tab = '▸ ', trail = '»', space = '⋅' }
+-- vim.opt.fillchars = {
+--     stl = ' ',
+--     stlnc = ' ',
+--     diff = '∙',
+--     eob = ' ',
+--     fold = '·',
+--     horiz = '━',
+--     horizup = '┻',
+--     horizdown = '┳',
+--     vert = '┃',
+--     vertleft = '┫',
+--     vertright = '┣',
+--     verthoriz = '╋'
+-- }
+-- vim.g.indentLine_char = ' ▏' -- indentLine
+
 -- Undercurl | does not work on iterm yet
 -- vim.cmd([[let &t_Cs = "\e[4:3m"]])
 -- vim.cmd([[let &t_Ce = "\e[4:0m"]])
