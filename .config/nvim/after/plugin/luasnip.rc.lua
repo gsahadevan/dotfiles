@@ -1,6 +1,6 @@
 local status, luasnip = pcall(require, 'luasnip')
 if not status then
-    print('cmp | completion is not installed')
+    print('luasnip is not installed')
     return
 end
 

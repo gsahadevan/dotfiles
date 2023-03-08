@@ -26,25 +26,16 @@ local diff = {
     cond = hide_in_width,
 }
 
--- extra power line symbols
--- https://github.com/ryanoasis/powerline-extra-symbols
--- can be accessed by typing echo "\ue0a0" on the terminal
---                              
--- echo "\ue0b8"  "\ue0b9"  "\ue0ba"  "\ue0bb"  "\ue0bc"  "\ue0bd"  "\ue0be"  "\ue0bf"
--- { right = '' } or { left = '' }
-
 lualine.setup {
     options = {
         icons_enabled = true,
         -- theme = 'auto',
         theme = 'onedark',
-        component_separators = { left = ' ', right = ' ' },
-        section_separators = { left = ' ', right = ' ' },
-        -- section_separators = { left = ' ', right = ' ' },
         -- component_separators = { left = '', right = '' },
         -- section_separators = { left = '', right = '' },
-        -- component_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
         -- section_separators = { left = '', right = '' },
+        section_separators = { left = ' ', right = ' ' },
         -- component_separators = '|',
         -- section_separators = '',
         disabled_filetypes = {
