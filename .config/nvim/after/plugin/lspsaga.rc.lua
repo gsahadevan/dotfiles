@@ -86,8 +86,13 @@ lspsaga.setup({
         -- ## only valid after set `show_file = true`
         -- file_formatter = '%:p', -- full path
         -- file_formatter = '%:.',
-        file_formatter = '%:t',
+        file_formatter = '%:., %',
         click_support = true,
+        -- ignore_patterns = {},
+        hide_keyword = true,  -- lspsaga will hide some keywords and tmp variables to make symbols look cleaner
+        folder_level = 9,     -- show_file should be true
+        respect_root = false, -- if this is true, lspsaga will ignore folder_level option
+        color_mode = true,    -- when set to false, only icons will have color
     },
     -- show outline
     show_outline = {
