@@ -65,9 +65,16 @@ vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better com
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
-    pattern = '*',
+    pattern = "*",
     command = "set nopaste"
 })
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }
+
+-- vim.opt.updatetime = 300
+--
+-- vim.api.nvim_create_autocmd("CursorHold", {
+--     pattern = "*",
+--     command = "lua vim.diagnostic.open_float()"
+-- })

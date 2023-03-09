@@ -4,13 +4,15 @@ if not status then
     return
 end
 
-local get_hex          = require('cokeline/utils').get_hex
-local color_comment_fg = get_hex('Comment', 'fg')
-local color_warning_fg = get_hex('DiagnosticWarn', 'fg')
-local color_error_fg   = get_hex('DiagnosticError', 'fg')
-local color_focus_fg   = '#ccccff'
-local color_focus_bg   = '#5f5eaf'
-local color_default_bg = 'none'
+local color_warning_fg  = '#e2c08d'
+local color_error_fg    = '#f88070'
+local color_comment_fg  = '#7f8083'
+local color_focus_fg    = '#dcdcdc'
+local color_focus_bg    = '#21252b'
+local color_default_bg  = '#282c34'
+local color_nvimtree_fg = '#abb2bf'
+local color_nvimtree_bg = '#191b1f'
+local space             = { text = ' ' }
 
 cokeline.setup({
     default_hl = {
@@ -34,9 +36,6 @@ cokeline.setup({
             end
             return color
         end,
-        -- default: `Normal`'s foreground color for focused buffers,
-        -- `ColorColumn`'s background color for unfocused ones.
-        -- default: `Normal`'s foreground color.
         bg = function(buffer)
             return buffer.is_focused and color_focus_bg or color_default_bg
         end,
@@ -46,9 +45,10 @@ cokeline.setup({
     -- below explaining what this value can be set to.
     -- default: see `/lua/cokeline/defaults.lua`
     components = {
+        space,
         {
             text = function(buffer)
-                return ' ' .. buffer.devicon.icon
+                return buffer.devicon.icon
             end,
             fg = function(buffer)
                 return buffer.devicon.color
@@ -56,26 +56,28 @@ cokeline.setup({
         },
         {
             text = function(buffer)
-                return buffer.unique_prefix .. ' '
+                return buffer.unique_prefix
             end,
             fg = color_comment_fg,
             style = 'italic',
         },
+        space,
         {
             text = function(buffer)
-                return buffer.filename .. ' '
+                return buffer.filename
+            end,
+            style = function(buffer)
+                return buffer.is_focused and 'underline' or 'none'
             end,
         },
         -- Modified the default
         -- The indicator is either modified or close
         {
             text = function(buffer)
-                return buffer.is_modified and '' or ''
+                return buffer.is_modified and ' ' .. '' or ' ' .. ''
             end,
         },
-        {
-            text = ' '
-        }
+        space,
     },
     -- Left sidebar to integrate nicely with file explorer plugins.
     -- This is a table containing a `filetype` key and a list of `components` to
@@ -87,9 +89,9 @@ cokeline.setup({
         components = {
             {
                 text = '  EXPLORER',
-                fg = vim.g.terminal_color_2,
-                bg = get_hex('NvimTreeNormal', 'bg'),
-                style = 'bold',
+                fg = color_nvimtree_fg,
+                bg = color_nvimtree_bg,
+                style = 'underline',
             },
         }
     },
