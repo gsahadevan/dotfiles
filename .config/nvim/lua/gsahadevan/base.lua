@@ -57,7 +57,7 @@ vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better com
 --     vertright = '┣',
 --     verthoriz = '╋'
 -- }
--- vim.g.indentLine_char = ' ▏' -- indentLine
+vim.g.indentLine_char = '┃' -- indentLine
 
 -- Undercurl | does not work on iterm yet
 -- vim.cmd([[let &t_Cs = "\e[4:3m"]])

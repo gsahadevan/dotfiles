@@ -44,7 +44,6 @@ packer.startup(function(use)
     use 'rhysd/git-messenger.vim' -- shows history of commits under cursor in a pop window
     use 'kevinhwang91/nvim-hlslens'
     use 'petertriho/nvim-scrollbar'
-    use 'norcalli/nvim-colorizer.lua' -- shows colors on hex codes
     --------------------------------------------------------------------------------
     -- LSP - language server protocol
     -- has to be installed in the below order
@@ -91,4 +90,6 @@ packer.startup(function(use)
     use 'folke/trouble.nvim' -- a pretty list for showing diagnostics, references, telescope results, quickfix and location lists
     use 'windwp/nvim-autopairs'
     use 'windwp/nvim-ts-autotag'
+    use 'norcalli/nvim-colorizer.lua' -- shows colors on hex codes
+    use 'lukas-reineke/indent-blankline.nvim'
 end)
