@@ -5,8 +5,8 @@ if not status then
 end
 
 local ELLIPSIS_CHAR = '…'
-local MAX_LABEL_WIDTH = 40
-local MIN_LABEL_WIDTH = 40
+local MAX_LABEL_WIDTH = 35
+local MIN_LABEL_WIDTH = 35
 local M = {}
 
 M.icons = {
@@ -78,7 +78,8 @@ cmp.setup({
     window = {
         completion    = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
-        winhighlight  = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
+        -- winhighlight  = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
+        winhighlight  = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
         col_offset    = -3,
         side_padding  = 0,
     },
@@ -99,8 +100,8 @@ cmp.setup({
             vim_item.menu = ({
                     nvim_lsp = '[LSP]',
                     nvim_lua = '[Lua]',
-                    luasnip  = '[Snippet]',
-                    buffer   = '[Buffer]',
+                    luasnip  = '[Snip]',
+                    buffer   = '[Bufr]',
                     path     = '[Path]',
                 })[entry.source.name]
             return vim_item
