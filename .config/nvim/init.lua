@@ -1,5 +1,5 @@
 require('gsahadevan.base')
 require('gsahadevan.highlights')
 require('gsahadevan.keymaps')
-require('gsahadevan.keymaps-lsp')
+-- require('gsahadevan.keymaps-lsp')
 require('gsahadevan.plugins')

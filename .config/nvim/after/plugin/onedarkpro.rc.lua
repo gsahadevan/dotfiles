@@ -33,8 +33,8 @@ onedark.setup {
     },
 
     -- Custom Highlights --
-    colors = {},     -- Override default colors
-    highlights = {}, -- Override highlight groups
+    colors = {}, -- Override default colors
+    -- highlights = {}, -- Override highlight groups
     -- colors = {
     --     bright_orange = "#ff8800",    -- define a new color
     --     green = '#00ffaa',            -- redefine an existing color
@@ -45,6 +45,9 @@ onedark.setup {
     --     ["@function"] = {fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic'},
     --     ["@function.builtin"] = {fg = '#0059ff'}
     -- }
+    highlights = {
+            ["@comment"] = { fg = Grey, fmt = 'italic' },
+    },
 
     -- Plugins Config --
     diagnostics = {

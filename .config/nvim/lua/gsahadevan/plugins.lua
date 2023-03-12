@@ -39,6 +39,7 @@ packer.startup(function(use)
         'nvim-treesitter/nvim-treesitter-textobjects', -- additional text objects via treesitter
         after = 'nvim-treesitter'
     }
+    use 'nvim-treesitter/playground'
     --------------------------------------------------------------------------------
     use 'lewis6991/gitsigns.nvim' -- shows git changes next to the numbers (hunks)
     use 'dinhhuy258/git.nvim'     -- for git blame & browse
