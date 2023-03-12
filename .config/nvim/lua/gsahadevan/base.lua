@@ -39,6 +39,8 @@ vim.opt.path:append { '**' }             -- Finding files - Search down into sub
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.completeopt = 'menuone,noselect' -- set completeopt to have a better completion experience
 
+vim.opt.clipboard = 'unnamed'
+
 -- vim.opt.showcmd = true
 -- vim.opt.showmode = true
 -- vim.opt.list = true
