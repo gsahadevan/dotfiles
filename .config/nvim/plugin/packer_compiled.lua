@@ -134,6 +134,11 @@ _G.packer_plugins = {
     path = "/Users/gauthamansahadevan/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["indent-blankline.nvim"] = {
+    loaded = true,
+    path = "/Users/gauthamansahadevan/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
+    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
   ["lspsaga.nvim"] = {
     loaded = true,
     path = "/Users/gauthamansahadevan/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
@@ -229,7 +234,7 @@ _G.packer_plugins = {
   ["onedark.nvim"] = {
     loaded = true,
     path = "/Users/gauthamansahadevan/.local/share/nvim/site/pack/packer/start/onedark.nvim",
-    url = "https://github.com/navarasu/onedark.nvim"
+    url = "https://github.com/gsahadevan/onedark.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,

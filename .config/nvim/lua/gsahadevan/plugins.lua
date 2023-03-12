@@ -20,7 +20,8 @@ packer.startup(function(use)
 
     -- use 'numToStr/Comment.nvim' -- 'gc' for commenting visual regions/lines
     use { 'numToStr/Comment.nvim', requires = { 'JoosepAlviste/nvim-ts-context-commentstring' } }
-    use 'navarasu/onedark.nvim'                                                     -- lets see if this one uses the default settings
+    -- use 'navarasu/onedark.nvim'                                                     -- lets see if this one uses the default settings
+    use 'gsahadevan/onedark.nvim'                                                   -- lets see if this one uses the default settings
     use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder
     use 'nvim-telescope/telescope-file-browser.nvim'                                -- kind of a replacement for :Lex
     use 'kyazdani42/nvim-tree.lua'                                                  -- replacement for :Lex (netrw)
