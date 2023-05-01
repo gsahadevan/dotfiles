@@ -24,6 +24,7 @@ null_ls.setup({
             diagnostics_format = "[eslint] #{m}\n(#{c})",
         }),
         null_ls.builtins.diagnostics.fish,
+        null_ls.builtins.code_actions.gitsigns,
     },
     on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
