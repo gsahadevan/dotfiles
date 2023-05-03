@@ -47,23 +47,24 @@ return {
         vim.fn.sign_define('DiagnosticSignInfo',
             { text = ' ', texthl = 'DiagnosticSignInfo' })
         vim.fn.sign_define('DiagnosticSignHint',
-            { text = '', texthl = 'DiagnosticSignHint' })
+            { text = ' ', texthl = 'DiagnosticSignHint' })
         -- NOTE: this is changed from v1.x, which used the old style of highlight groups
         -- in the form 'LspDiagnosticsSignWarning'
 
         require('neo-tree').setup({
-            add_blank_line_at_top = true, -- Add a blank line at the top of the tree.
+            -- add_blank_line_at_top = true, -- Add a blank line at the top of the tree.
+            add_blank_line_at_top = false, -- Add a blank line at the top of the tree.
             auto_clean_after_session_restore = true,
-            close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
+            close_if_last_window = true,   -- Close Neo-tree if it is the last window left in the tab
             source_selector = {
-                winbar = true, -- toggle to show selector on winbar
-                statusline = false, -- toggle to show selector on statusline
+                winbar = true,             -- toggle to show selector on winbar
+                statusline = false,        -- toggle to show selector on statusline
                 -- show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
                 -- of the top visible node when scrolled down.
                 sources = {
-                    { source = 'filesystem', display_name = 'File' },
-                    { source = 'buffers', display_name = 'Bufs' },
-                    { source = 'git_status', display_name = 'Git' },
+                    { source = 'filesystem',       display_name = '' .. ' File' },
+                    { source = 'buffers',          display_name = '' .. ' Bufs' },
+                    { source = 'git_status',       display_name = '' .. ' Git' },
                     -- { source = 'diagnostics', display_name = 'Diagnostic' },
                     { source = 'document_symbols', display_name = 'Symbols' },
                 },
@@ -78,9 +79,9 @@ return {
                 --             equal  : |/    a    \/    b    \/    c    \|
                 --             active : |/  focused tab    \/  b  \/  c  \|
                 truncation_character = '…', -- character to use when truncating the tab label
-                tabs_min_width = nil, -- nil | int: if int padding is added based on `content_layout`
-                tabs_max_width = nil, -- this will truncate text even if `text_trunc_to_fit = false`
-                padding = 0, -- can be int or table
+                tabs_min_width = nil,       -- nil | int: if int padding is added based on `content_layout`
+                tabs_max_width = nil,       -- this will truncate text even if `text_trunc_to_fit = false`
+                padding = 0,                -- can be int or table
                 -- padding = { left = 2, right = 0 },
                 -- separator = '▕', -- can be string or table, see below
                 separator = { left = '▏', right = '▕' },
@@ -103,8 +104,8 @@ return {
             enable_git_status = true,
             enable_diagnostics = true,
             open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' }, -- when opening files, do not use windows containing these filetypes or buftypes
-            sort_case_insensitive = false, -- used when sorting files and directories in the tree
-            sort_function = nil, -- use a custom function for sorting files and directories in the tree
+            sort_case_insensitive = false,                                     -- used when sorting files and directories in the tree
+            sort_function = nil,                                               -- use a custom function for sorting files and directories in the tree
             -- sort_function = function (a,b)
             --       if a.type == b.type then
             --           return a.path > b.path
@@ -155,13 +156,18 @@ return {
                         -- Change type
                         added     = '✚', -- or '✚', but this is redundant info if you use git_status_colors on the name
                         modified  = '', -- or '', but this is redundant info if you use git_status_colors on the name
-                        deleted   = '✖', -- this can only be used in the git_status source
-                        renamed   = '', -- this can only be used in the git_status source
+                        deleted   = '', -- or '✖', this can only be used in the git_status source
+                        renamed   = '➜', -- or '', this can only be used in the git_status source
                         -- Status type
-                        untracked = '',
-                        ignored   = '',
+                        -- untracked = '',
+                        -- ignored   = '',
+                        -- unstaged  = '',
+                        -- staged    = '',
+                        -- conflict  = '',
+                        untracked = '★',
+                        ignored   = '◌',
                         unstaged  = '',
-                        staged    = '',
+                        staged    = '✓',
                         conflict  = '',
                     }
                 },
@@ -233,9 +239,9 @@ return {
             nesting_rules = {},
             filesystem = {
                 filtered_items = {
-                    visible = false, -- when true, they will just be displayed differently than normal items
+                    visible = false,                       -- when true, they will just be displayed differently than normal items
                     force_visible_in_empty_folder = false, -- when true, hidden files will be shown if the root folder is otherwise empty
-                    show_hidden_count = true, -- when true, the number of hidden items in each folder will be shown as the last entry
+                    show_hidden_count = true,              -- when true, the number of hidden items in each folder will be shown as the last entry
                     hide_dotfiles = true,
                     hide_gitignored = true,
                     hide_hidden = true, -- only works on Windows for hidden files/directories
@@ -258,9 +264,9 @@ return {
                     },
                 },
                 -- follow_current_file = false, -- This will find and focus the file in the active buffer every
-                follow_current_file = true, -- This will find and focus the file in the active buffer every
+                follow_current_file = true,             -- This will find and focus the file in the active buffer every
                 -- time the current file is changed while the tree is open.
-                group_empty_dirs = false, -- when true, empty folders will be grouped together
+                group_empty_dirs = false,               -- when true, empty folders will be grouped together
                 -- hijack_netrw_behavior = 'open_default', -- netrw disabled, opening a directory opens neo-tree
                 hijack_netrw_behavior = 'open_current', -- netrw disabled, opening a directory opens neo-tree
                 -- in whatever position is specified in window.position
@@ -284,7 +290,8 @@ return {
                         ['[g'] = 'prev_git_modified',
                         [']g'] = 'next_git_modified',
                     },
-                    fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
+                    fuzzy_finder_mappings = {
+                        -- define keymaps for filter popup window in fuzzy_finder_mode
                         ['<down>'] = 'move_cursor_down',
                         ['<C-n>'] = 'move_cursor_down',
                         ['<up>'] = 'move_cursor_up',
@@ -297,7 +304,7 @@ return {
             buffers = {
                 follow_current_file = true, -- This will find and focus the file in the active buffer every
                 -- time the current file is changed while the tree is open.
-                group_empty_dirs = true, -- when true, empty folders will be grouped together
+                group_empty_dirs = true,    -- when true, empty folders will be grouped together
                 show_unloaded = true,
                 window = {
                     mappings = {

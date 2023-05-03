@@ -85,15 +85,24 @@ cokeline.setup({
     -- The last component will be automatically space padded if necessary
     -- to ensure the sidebar and the window below it have the same width.
     sidebar = {
-        filetype = 'NvimTree',
+        filetype = 'neo-tree',
         components = {
             {
-                text = '  EXPLORER',
+                text = '',
                 fg = color_nvimtree_fg,
                 bg = color_nvimtree_bg,
-                style = 'underline',
+                style = 'none',
             },
         }
+        -- filetype = 'NvimTree',
+        -- components = {
+        --     {
+        --         text = '  EXPLORER',
+        --         fg = color_nvimtree_fg,
+        --         bg = color_nvimtree_bg,
+        --         style = 'underline',
+        --     },
+        -- }
     },
 })
 

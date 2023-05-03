@@ -26,6 +26,7 @@ nvim_tree.setup {
     },
     renderer = {
         root_folder_modifier = ':t',
+        root_folder_label = false,
         icons = {
             webdev_colors = true,
             glyphs = {
@@ -62,16 +63,16 @@ nvim_tree.setup {
     },
     view = {
         width = 55,
-        hide_root_folder = true,
+        -- hide_root_folder = true,
         -- auto_resize = false,
         side = 'left',
-        mappings = {
-            list = {
-                { key = { 'l', '<CR>', 'o' }, cb = tree_cb 'edit' },
-                { key = 'h', cb = tree_cb 'close_node' },
-                { key = 'v', cb = tree_cb 'vsplit' },
-            },
-        },
+        -- mappings = {
+        --     list = {
+        --         { key = { 'l', '<CR>', 'o' }, cb = tree_cb 'edit' },
+        --         { key = 'h', cb = tree_cb 'close_node' },
+        --         { key = 'v', cb = tree_cb 'vsplit' },
+        --     },
+        -- },
     },
 }
 

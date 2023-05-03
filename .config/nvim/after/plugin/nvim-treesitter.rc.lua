@@ -16,7 +16,6 @@ treesitter.setup {
         'yaml',
         'swift',
         'css',
-        'help',
         'html',
         'lua',
         'javascript',
