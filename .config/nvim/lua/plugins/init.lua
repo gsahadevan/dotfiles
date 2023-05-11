@@ -44,5 +44,5 @@ return {
     { 'windwp/nvim-autopairs' },
     { 'windwp/nvim-ts-autotag' },
     { 'norcalli/nvim-colorizer.lua' }, -- shows colors on hex codes
-    { 'lukas-reineke/indent-blankline.nvim' }
+    -- { 'lukas-reineke/indent-blankline.nvim' }
 }
