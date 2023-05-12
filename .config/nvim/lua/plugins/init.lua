@@ -11,7 +11,6 @@ return {
     },
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'nvim-treesitter/playground' },
-    { 'lewis6991/gitsigns.nvim' }, -- shows git changes next to the numbers (hunks)
     { 'dinhhuy258/git.nvim' },     -- for git blame & browse
     { 'rhysd/git-messenger.vim' }, -- shows history of commits under cursor in a pop window
     { 'kevinhwang91/nvim-hlslens' },
