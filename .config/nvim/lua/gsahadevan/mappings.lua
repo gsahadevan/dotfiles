@@ -32,3 +32,16 @@
 -- `gb2}` - Toggle until the 2 next blank line
 -- `gbaf` - Toggle comment around a function (w/ LSP/treesitter support)
 -- `gbac` - Toggle comment around a class (w/ LSP/treesitter support)
+
+local _, cokeline = pcall(require, 'cokeline')
+if cokeline then
+    vim.api.nvim_set_keymap('n', '<S-Tab>', '<Plug>(cokeline-focus-prev)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<Tab>', '<Plug>(cokeline-focus-next)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
+end
+
+local _, vim_bbye = pcall(require, 'vim-bbye')
+if vim_bbye then
+    vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<CR>', { noremap = true, silent = true })
+end

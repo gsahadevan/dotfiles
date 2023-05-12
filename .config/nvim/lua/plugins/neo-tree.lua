@@ -166,7 +166,7 @@ return {
                         -- conflict  = '',
                         untracked = '★',
                         ignored   = '◌',
-                        unstaged  = '',
+                        unstaged  = '',
                         staged    = '✓',
                         conflict  = '',
                     }

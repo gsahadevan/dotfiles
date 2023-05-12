@@ -2,9 +2,7 @@ return {
     { 'gsahadevan/onedark.nvim' },
     { 'nvim-telescope/telescope.nvim',             dependencies = { 'nvim-lua/plenary.nvim' } }, -- fuzzy finder
     { 'nvim-telescope/telescope-file-browser.nvim' },                                            -- kind of a replacement for :Lex
-    -- { 'noib3/nvim-cokeline', dependencies = 'kyazdani42/nvim-web-devicons' }, -- buffer line
-    -- { 'noib3/nvim-cokeline',                       dependencies = 'nvim-tree/nvim-web-devicons' }, -- buffer line
-    -- { 'moll/vim-bbye' },                                                                           -- required for closing last buffer :BDelete
+    { 'moll/vim-bbye' },                                                                         -- required for closing last buffer :BDelete
     {
         'nvim-treesitter/nvim-treesitter',
         build = function()
