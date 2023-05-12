@@ -1,3 +1,17 @@
+local conditions = {
+    buffer_not_empty = function()
+        return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+    end,
+    hide_in_width = function()
+        return vim.fn.winwidth(0) > 80
+    end,
+    check_git_workspace = function()
+        local filepath = vim.fn.expand('%:p:h')
+        local gitdir = vim.fn.finddir('.git', filepath .. ';')
+        return gitdir and #gitdir > 0 and #gitdir < #filepath
+    end,
+}
+
 local diagnostics = {
     'diagnostics',
     -- Table of diagnostic sources, available sources are:
@@ -14,29 +28,34 @@ local diagnostics = {
         hint  = 'DiagnosticHint',            -- Changes diagnostics' hint color.
     },
     symbols = { error = ' ', warn = ' ' }, -- Also has info and hint
-    colored = true,                          -- Displays diagnostics status in color if set to true.
+    colored = false,                         -- Displays diagnostics status in color if set to true.
     update_in_insert = false,                -- Update diagnostics in insert mode.
     always_visible = false,                  -- Show diagnostics even if there are none.,
+    cond = conditions.hide_in_width,
 }
 
 local diff = {
     'diff',
-    colored = true, -- Displays a colored diff status if set to true
+    colored = false, -- Displays a colored diff status if set to true
     diff_color = {
         -- Same color values as the general color option can be used here.
-        added    = 'DiffAdd',                                 -- Changes the diff's added color
-        modified = 'DiffChange',                              -- Changes the diff's modified color
-        removed  = 'DiffDelete',                              -- Changes the diff's removed color you
+        added    = 'DiffAdd',                                    -- Changes the diff's added color
+        modified = 'DiffChange',                                 -- Changes the diff's modified color
+        removed  = 'DiffDelete',                                 -- Changes the diff's removed color you
     },
-    symbols = { added = '+', modified = '~', removed = '-' }, -- Changes the symbols used by the diff.
-    source = nil,                                             -- A function that works as a data source for diff.
+    symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
+    source = nil,                                                -- A function that works as a data source for diff.
     -- It must return a table as such:
     --   { added = add_count, modified = modified_count, removed = removed_count }
     -- or nil on failure. count <= 0 won't be displayed.
-    --     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
-    --     cond = function()
-    --         return vim.fn.winwidth(0) > 80
-    --     end
+
+    -- comments from me; old code
+    -- symbols = { added = '+', modified = '~', removed = '-' }, -- Changes the symbols used by the diff.
+    -- symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+    -- cond = function()
+    --   return vim.fn.winwidth(0) > 80
+    -- end
+    cond = conditions.hide_in_width,
 }
 
 local fileformat = {
@@ -45,14 +64,34 @@ local fileformat = {
         unix = '', -- e712
         dos = '', -- e70f
         mac = '', -- e711
+    },
+}
+
+local filename = {
+    'filename',
+    file_status = true,     -- Displays file status (readonly status, modified status)
+    newfile_status = false, -- Display new file status (new file means no write after created)
+    path = 0,               -- 0: Just the filename
+    -- 1: Relative path
+    -- 2: Absolute path
+    -- 3: Absolute path, with tilde as the home directory
+    -- 4: Filename and parent dir, with tilde as the home directory
+
+    shorting_target = 40, -- Shortens path to leave 40 spaces in the window
+    -- for other components. (terrible name, any suggestions?)
+    symbols = {
+        modified = '[+]',      -- Text to show when the file is modified.
+        readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
+        unnamed = '[No Name]', -- Text to show for unnamed buffers.
+        newfile = '[New]',     -- Text to show for newly created file before first write
     }
 }
 
 local filetype = {
     'filetype',
-    colored = true,             -- Displays filetype icon in color if set to true
-    icon_only = false,          -- Display only an icon for filetype
-    icon = { align = 'right' }, -- Display filetype icon on the right hand side
+    colored = true,            -- Displays filetype icon in color if set to true
+    icon_only = false,         -- Display only an icon for filetype
+    icon = { align = 'left' }, -- Display filetype icon on the right hand side
     -- icon =    {'X', align='right'}
     -- Icon string ^ in table is ignored in filetype component
 }
@@ -136,6 +175,22 @@ local mode = {
     -- - modifiers pressed (s(shift)/c(ctrl)/a(alt)/m(meta)...)
 }
 
+-- Color table for highlights
+local colors = {
+    bg       = '#202328',
+    fg       = '#bbc2cf',
+    yellow   = '#ECBE7B',
+    cyan     = '#008080',
+    darkblue = '#081633',
+    green    = '#98be65',
+    orange   = '#FF8800',
+    violet   = '#a9a1e1',
+    magenta  = '#c678dd',
+    blue     = '#51afef',
+    red      = '#ec5f67',
+}
+
+
 return {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -182,15 +237,21 @@ return {
                 }
             },
             sections = {
-                lualine_a = { 'mode' },
+                lualine_a = { mode },
                 lualine_b = { 'branch' },
-                lualine_c = { 'diff' },
-                lualine_w = { diagnostics },
-                lualine_x = { fileformat },
-                lualine_y = { 'filetype' },
+                lualine_c = { diff, diagnostics },
+                lualine_x = { 'encoding', fileformat, filetype },
+                lualine_y = { 'progress' },
                 lualine_z = { 'location' },
             },
-            inactive_sections = {},
+            inactive_sections = {
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = { filename },
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {},
+            },
             tabline = {},
             winbar = {},
             inactive_winbar = {},
