@@ -1,8 +1,8 @@
 return {
     { 'gsahadevan/onedark.nvim' },
-    { 'nvim-telescope/telescope.nvim',             dependencies = { 'nvim-lua/plenary.nvim' } }, -- fuzzy finder
-    { 'nvim-telescope/telescope-file-browser.nvim' },                                            -- kind of a replacement for :Lex
-    { 'moll/vim-bbye' },                                                                         -- required for closing last buffer :BDelete
+    { 'folke/tokyonight.nvim' },
+    { 'nvim-telescope/telescope-file-browser.nvim' }, -- kind of a replacement for :Lex
+    { 'moll/vim-bbye' },                              -- required for closing last buffer :BDelete
     {
         'nvim-treesitter/nvim-treesitter',
         build = function()
@@ -34,7 +34,6 @@ return {
     { 'jose-elias-alvarez/null-ls.nvim' }, -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
     { 'MunifTanjim/prettier.nvim' },       -- prettier plugin for neovim's built-in LSP client
     { 'glepnir/lspsaga.nvim' },            --
-    { 'folke/which-key.nvim' },
     { 'folke/trouble.nvim' },              -- a pretty list for showing diagnostics, references, telescope results, quickfix and location lists
     { 'windwp/nvim-autopairs' },
     { 'windwp/nvim-ts-autotag' },

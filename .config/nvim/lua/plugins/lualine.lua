@@ -197,7 +197,7 @@ return {
         require('lualine').setup({
             options = {
                 icons_enabled = true,
-                theme = 'onedark', -- lualine theme
+                theme = 'auto', -- lualine theme
                 component_separators = { left = '', right = '' },
                 section_separators = { left = '', right = '' },
 

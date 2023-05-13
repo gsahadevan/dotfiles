@@ -35,15 +35,15 @@
 
 local _, cokeline = pcall(require, 'cokeline')
 if cokeline then
-    vim.api.nvim_set_keymap('n', '<S-Tab>', '<Plug>(cokeline-focus-prev)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<Tab>', '<Plug>(cokeline-focus-next)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<Leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<Leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<s-tab>', '<Plug>(cokeline-focus-prev)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<tab>', '<Plug>(cokeline-focus-next)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
 end
 
 local _, vim_bbye = pcall(require, 'vim-bbye')
 if vim_bbye then
-    vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<CR>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<cr>', { noremap = true, silent = true })
 end
 
 local _, telescope = pcall(require, 'telescope')
@@ -104,41 +104,40 @@ if telescope then
 
     -- See `:help telescope.builtin`
     -- You can pass additional configuration to telescope to change theme, layout, etc.
-    vim.keymap.set('n', '<leader>/', buffer_fuzzy_find, { desc = '[/] Fuzzily search in current buffer]' })
-    vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
-    vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    vim.keymap.set('n', '<leader>/', buffer_fuzzy_find, { desc = 'Telescope fuzzy search in curr. buffer' })
+    vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = 'Telescope find recently opened files' })
+    vim.keymap.set('n', '<leader><space>', builtin.buffers, { desc = 'Telescope show existing buffers' })
 
-    vim.keymap.set('n', '<leader>f<cr>', builtin.resume, { desc = '[F]ind, resume previous search' })
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
-    vim.keymap.set('n', '<leader>fF', find_files_all, { desc = '[F]ind [F]iles including hidden' })
-    vim.keymap.set('n', '<leader>fp', find_files_wo_preview, { desc = '[F]ind [P]files without preview' })
-    vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind [W]ord under cursor' })
+    vim.keymap.set('n', '<leader>f<cr>', builtin.resume, { desc = 'Telescope find, resume previous search' })
+    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+    vim.keymap.set('n', '<leader>fF', find_files_all, { desc = 'Telescope find files incl. hidden' })
+    vim.keymap.set('n', '<leader>fp', find_files_wo_preview, { desc = 'Telescope find files without preview' })
 
-    vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-    vim.keymap.set('n', '<leader>sG', grep_search_all, { desc = '[S]earch by [G]rep including hidden' })
-    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sb', show_fb, { desc = '[S]how [B]rowser' })
+    vim.keymap.set('n', '<leader>sb', show_fb, { desc = 'Telescope show file browser' })
+    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = 'Telescope list diagnostics' })
+    vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
+    vim.keymap.set('n', '<leader>sG', grep_search_all, { desc = 'Telescope search using live grep incl. hidden' })
+    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Telescope search for word under cursor' })
     -- git
-    vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = '[G]it [B]ranches' })
-    vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [C]ommits' })
-    vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles' })
-    -- vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = '[G]it [S]tatus' })
+    vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope list git branches' })
+    vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope list git commits' })
+    vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = 'Telescope list git files' })
+    -- vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Telescope list git status' })
     -- misc
-    vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind [O]ld files' })
-    vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
-    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
-    vim.keymap.set('n', '<leader>fm', builtin.man_pages, { desc = '[F]ind [M]an pages' })
-    vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = '[F]ind [R]egisters' })
-    vim.keymap.set('n', '<leader>f;', builtin.marks, { desc = '[F]ind [;]Marks' })
-    vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = '[F]ind [C]ommands' })
-    vim.keymap.set('n', '<leader>fC', builtin.command_history, { desc = '[F]ind [C]ommands history' })
-    vim.keymap.set('n', '<leader>ft', find_color_schemes, { desc = '[F]ind [T]hemes' })
+    vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope find keymaps' })
+    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope find help tags' })
+    vim.keymap.set('n', '<leader>fm', builtin.man_pages, { desc = 'Telescope find man pages' })
+    vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = 'Telescope find registers' })
+    vim.keymap.set('n', '<leader>f;', builtin.marks, { desc = 'Telescope find marks' })
+    vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = 'Telescope list plugin commands' })
+    vim.keymap.set('n', '<leader>fC', builtin.command_history, { desc = 'Telescope list command history' })
+    vim.keymap.set('n', '<leader>ft', find_color_schemes, { desc = 'Telescope find and preview themes' })
     -- lsp
-    vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = '[L]Show [S]ymbols' })
-    vim.keymap.set('n', '<leader>lw', builtin.lsp_workspace_symbols, { desc = '[L]Show [W]orkspace symbols' })
-    -- vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = '[L]Show [D]efinitions' })
-    -- vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = '[L]Show [I]mplementations' })
-    -- vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = '[L]Show [R]eferences' })
+    vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = 'Telescope LSP show document symbols' })
+    vim.keymap.set('n', '<leader>lw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP show workspace symbols' })
+    -- vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = 'Telescope LSP show definitions' })
+    -- vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = 'Telescope LSP show implementations' })
+    -- vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = 'Telescope LSP show references' })
     --    if is_available 'nvim-notify' then
     --        maps.n['<leader>fn'] =
     --        { function() require('telescope').extensions.notify.notify() end, desc = 'Find notifications' }
@@ -159,16 +158,16 @@ end
 
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
-    vim.keymap.set('n', '<leader>]g', function() require('gitsigns').next_hunk() end, { desc = 'Next Git hunk' })
-    vim.keymap.set('n', '<leader>[g', function() require('gitsigns').prev_hunk() end, { desc = 'Previous Git hunk' })
-    vim.keymap.set('n', '<leader>gl', function() require('gitsigns').blame_line() end, { desc = 'View Git blame' })
+    vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'Git diff' })
+    vim.keymap.set('n', '<leader>gl', function() require('gitsigns').blame_line() end, { desc = 'Git blame' })
     vim.keymap.set('n', '<leader>gL', function() require('gitsigns').blame_line { full = true } end,
-        { desc = 'View full Git blame' })
-    vim.keymap.set('n', '<leader>gp', function() require('gitsigns').preview_hunk() end, { desc = 'Preview Git hunk' })
-    vim.keymap.set('n', '<leader>gh', function() require('gitsigns').reset_hunk() end, { desc = 'Reset Git hunk' })
-    vim.keymap.set('n', '<leader>gr', function() require('gitsigns').reset_buffer() end, { desc = 'Reset Git buffer' })
-    vim.keymap.set('n', '<leader>gs', function() require('gitsigns').stage_hunk() end, { desc = 'Stage Git hunk' })
-    vim.keymap.set('n', '<leader>gS', function() require('gitsigns').stage_buffer() end, { desc = 'Stage Git buffer' })
-    vim.keymap.set('n', '<leader>gu', function() require('gitsigns').undo_stage_hunk() end, { desc = 'Unstage Git hunk' })
-    vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'View Git diff' })
+        { desc = 'Git blame with details' })
+    vim.keymap.set('n', '<leader>g]', function() require('gitsigns').next_hunk() end, { desc = 'Git next hunk' })
+    vim.keymap.set('n', '<leader>g[', function() require('gitsigns').prev_hunk() end, { desc = 'Git prev hunk' })
+    vim.keymap.set('n', '<leader>gp', function() require('gitsigns').preview_hunk() end, { desc = 'Git preview hunk' })
+    vim.keymap.set('n', '<leader>gs', function() require('gitsigns').stage_hunk() end, { desc = 'Git stage hunk' })
+    vim.keymap.set('n', '<leader>gu', function() require('gitsigns').undo_stage_hunk() end, { desc = 'Git unstage hunk' })
+    vim.keymap.set('n', '<leader>gh', function() require('gitsigns').reset_hunk() end, { desc = 'Git reset hunk' })
+    vim.keymap.set('n', '<leader>gS', function() require('gitsigns').stage_buffer() end, { desc = 'Git stage buffer' })
+    vim.keymap.set('n', '<leader>gH', function() require('gitsigns').reset_buffer() end, { desc = 'Git reset buffer' })
 end
