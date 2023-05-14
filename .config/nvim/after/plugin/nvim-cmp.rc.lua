@@ -7,50 +7,8 @@ end
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 35
 local MIN_LABEL_WIDTH = 35
-local M = {}
+local icons = require "icons.font-icons"
 
-M.icons = {
-    Namespace     = '  ',
-    Text          = '  ',
-    Method        = '  ',
-    Function      = '  ',
-    Constructor   = '  ',
-    Field         = '  ',
-    Variable      = '  ',
-    Class         = '  ',
-    Interface     = '  ',
-    Module        = '  ',
-    Property      = '  ',
-    Unit          = '  ',
-    Value         = '  ',
-    Enum          = '  ',
-    Keyword       = '  ',
-    Key           = '  ',
-    Snippet       = '  ',
-    Color         = '  ',
-    File          = '  ',
-    Reference     = '  ',
-    Folder        = '  ',
-    EnumMember    = '  ',
-    Constant      = '  ',
-    Struct        = '  ',
-    Event         = '  ',
-    Operator      = '  ',
-    TypeParameter = '  ',
-    Table         = '  ',
-    Object        = '  ',
-    Tag           = '  ',
-    Array         = '[] ',
-    Boolean       = '  ',
-    Number        = '  ',
-    Null          = 'ﳠ  ',
-    String        = '  ',
-    Calendar      = '  ',
-    Watch         = '  ',
-    Package       = '  ',
-    Copilot       = '  ',
-    Suggestion    = '  ',
-}
 
 cmp.setup({
     snippet = {
@@ -59,11 +17,11 @@ cmp.setup({
         end,
     },
     mapping = cmp.mapping.preset.insert({
-            ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
-            ['<C-e>'] = cmp.mapping.close(),
-            ['<CR>']  = cmp.mapping.confirm({
+        ['<C-d>']     = cmp.mapping.scroll_docs(-4),
+        ['<C-f>']     = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>']     = cmp.mapping.close(),
+        ['<CR>']      = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
             select = true
         }),
@@ -96,14 +54,14 @@ cmp.setup({
                 vim_item.abbr = label .. padding
             end
 
-            vim_item.kind = string.format('%s%s', M.icons[vim_item.kind], vim_item.kind) -- add icons along with item kind
+            vim_item.kind = string.format('%s%s', icons.Completion[vim_item.kind], vim_item.kind) -- add icons along with item kind
             vim_item.menu = ({
-                    nvim_lsp = '[LSP]',
-                    nvim_lua = '[Lua]',
-                    luasnip  = '[Snip]',
-                    buffer   = '[Bufr]',
-                    path     = '[Path]',
-                })[entry.source.name]
+                nvim_lsp = '[LSP]',
+                nvim_lua = '[Lua]',
+                luasnip  = '[Snip]',
+                buffer   = '[Bufr]',
+                path     = '[Path]',
+            })[entry.source.name]
             return vim_item
         end,
     },

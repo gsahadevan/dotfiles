@@ -177,3 +177,36 @@ if gitsigns then
     vim.keymap.set('n', '<leader>gS', function() require('gitsigns').stage_buffer() end, { desc = 'Git stage buffer' })
     vim.keymap.set('n', '<leader>gH', function() require('gitsigns').reset_buffer() end, { desc = 'Git reset buffer' })
 end
+
+local _, trouble = pcall(require, 'trouble')
+if trouble then
+    vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>',
+        { desc = 'Trouble toggle' })
+    vim.keymap.set('n', '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>',
+        { desc = 'Trouble show workspace diagnostics' })
+    vim.keymap.set('n', '<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>',
+        { desc = 'Trouble show document diagnostics' })
+    vim.keymap.set('n', '<leader>xl', '<cmd>TroubleToggle loclist<cr>',
+        { desc = 'Trouble show window location list' })
+    vim.keymap.set('n', '<leader>xq', '<cmd>TroubleToggle quickfix<cr>',
+        { desc = 'Trouble show quickfix list' })
+    vim.keymap.set('n', 'gR', '<cmd>TroubleToggle lsp_references<cr>',
+        { silent = true, noremap = true, desc = 'Trouble show references under word cursor' })
+    vim.keymap.set('n', 'gD', '<cmd>TroubleToggle lsp_definitions<cr>',
+        { silent = true, noremap = true, desc = 'Trouble show definitions under word cursor' })
+    vim.keymap.set('n', 'gT', '<cmd>TroubleToggle lsp_type_definitions<cr>',
+        { silent = true, noremap = true, desc = 'Trouble show type definitions under word cursor' })
+
+    -- api you can use the following functions in your keybindings
+    -- jump to the next item, skipping the groups
+    -- require('trouble').next({ skip_groups = true, jump = true });
+
+    -- jump to the previous item, skipping the groups
+    -- require('trouble').previous({ skip_groups = true, jump = true });
+
+    -- jump to the first item, skipping the groups
+    -- require('trouble').first({ skip_groups = true, jump = true });
+
+    -- jump to the last item, skipping the groups
+    -- require('trouble').last({ skip_groups = true, jump = true });
+end

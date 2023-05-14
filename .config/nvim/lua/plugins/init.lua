@@ -21,20 +21,9 @@ return {
     { 'williamboman/mason.nvim' },           -- automatically install and manage LSP servers, instead of manually installing them
     { 'williamboman/mason-lspconfig.nvim' }, -- closes gaps between mason and lspconfig
     { 'neovim/nvim-lspconfig' },             -- configurations for neovim LSP
-    { 'hrsh7th/cmp-buffer' },                -- completion source for buffer words
-    { 'hrsh7th/cmp-nvim-lua' },              -- completion source for lua
-    { 'hrsh7th/cmp-path' },                  -- completion source for path
-    { 'hrsh7th/cmp-cmdline' },               -- completion source for path
-    { 'L3MON4D3/LuaSnip' },                  -- snippet engine | needed for completion
-    { 'saadparwaiz1/cmp_luasnip' },
-    { 'rafamadriz/friendly-snippets' },
-    { 'hrsh7th/nvim-cmp' },                -- autocompletion plugin
-    { 'hrsh7th/cmp-nvim-lsp' },            -- LSP source for nvim-cmp
-    { 'onsails/lspkind-nvim' },            -- vscode-like pictograms | not required anymore
-    { 'jose-elias-alvarez/null-ls.nvim' }, -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
-    { 'MunifTanjim/prettier.nvim' },       -- prettier plugin for neovim's built-in LSP client
-    { 'glepnir/lspsaga.nvim' },            --
-    { 'folke/trouble.nvim' },              -- a pretty list for showing diagnostics, references, telescope results, quickfix and location lists
+    { 'jose-elias-alvarez/null-ls.nvim' },   -- use neovim as language server to inject LSP diagnostics, code actions, and more via lua
+    { 'MunifTanjim/prettier.nvim' },         -- prettier plugin for neovim's built-in LSP client
+    { 'glepnir/lspsaga.nvim' },              --
     { 'windwp/nvim-autopairs' },
     { 'windwp/nvim-ts-autotag' },
     { 'norcalli/nvim-colorizer.lua' }, -- shows colors on hex codes

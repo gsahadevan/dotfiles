@@ -89,7 +89,7 @@ return {
                 filetype = 'neo-tree',
                 components = {
                     {
-                        text = '  EXPLORER',
+                        text = '  Explorer',
                         fg = colors.nvimtree_fg,
                         bg = colors.nvimtree_bg,
                         style = 'none', -- Also can be bold, italic, underline
