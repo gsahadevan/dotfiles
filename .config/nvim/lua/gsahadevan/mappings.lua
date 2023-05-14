@@ -72,8 +72,8 @@ if telescope then
         winblend = 10,
         previewer = false,
         layout_config = {
-            height = 0.5,
-            width = 0.7,
+            height = 0.9,
+            width = 0.8,
         },
     }
 

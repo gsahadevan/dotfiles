@@ -87,6 +87,13 @@ return {
                 -- find_files = {
                 --     theme = 'dropdown',
                 -- }
+                commands = {
+                    theme = 'dropdown',
+                    layout_config = {
+                        height = 0.9,
+                        width = 0.8,
+                    }
+                }
             },
             extensions = {
                 -- Your extension configuration goes here:
