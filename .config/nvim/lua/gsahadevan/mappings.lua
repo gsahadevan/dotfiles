@@ -66,11 +66,19 @@ if telescope then
         })
     end
 
+    -- Intention is to pass options to the existing pickers
+    -- Ref: https://github.com/nvim-telescope/telescope.nvim/issues/848
+    local opts = themes.get_dropdown {
+        winblend = 10,
+        previewer = false,
+        layout_config = {
+            height = 0.5,
+            width = 0.7,
+        },
+    }
+
     local buffer_fuzzy_find = function()
-        builtin.current_buffer_fuzzy_find(themes.get_dropdown {
-            winblend = 10,
-            previewer = false,
-        })
+        builtin.current_buffer_fuzzy_find(opts)
     end
 
     local find_files_all = function()
@@ -81,10 +89,7 @@ if telescope then
     end
 
     local find_files_wo_preview = function()
-        builtin.find_files(themes.get_dropdown {
-            winblend = 10,
-            previewer = false,
-        })
+        builtin.find_files(opts)
     end
 
     local grep_search_all = function()
