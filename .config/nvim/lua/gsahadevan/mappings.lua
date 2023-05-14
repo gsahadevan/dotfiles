@@ -69,6 +69,7 @@ if telescope then
     -- Intention is to pass options to the existing pickers
     -- Ref: https://github.com/nvim-telescope/telescope.nvim/issues/848
     local opts = themes.get_dropdown {
+        path_display = { 'absolute' },
         winblend = 10,
         previewer = false,
         layout_config = {

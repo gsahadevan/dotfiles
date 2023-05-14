@@ -13,7 +13,7 @@ onedark.setup {
     cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
     -- toggle theme style ---
-    -- toggle_style_key = nil,                                                              -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+    -- toggle_style_key = nil,                                                              -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example '<leader>ts'
     -- toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
     -- Change code style ---
@@ -36,17 +36,17 @@ onedark.setup {
     colors = {}, -- Override default colors
     -- highlights = {}, -- Override highlight groups
     -- colors = {
-    --     bright_orange = "#ff8800",    -- define a new color
+    --     bright_orange = '#ff8800',    -- define a new color
     --     green = '#00ffaa',            -- redefine an existing color
     -- },
     -- highlights = {
-    --     ["@keyword"] = {fg = '$green'},
-    --     ["@string"] = {fg = '$bright_orange', bg = '#00ff00', fmt = 'bold'},
-    --     ["@function"] = {fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic'},
-    --     ["@function.builtin"] = {fg = '#0059ff'}
+    --     ['@keyword'] = {fg = '$green'},
+    --     ['@string'] = {fg = '$bright_orange', bg = '#00ff00', fmt = 'bold'},
+    --     ['@function'] = {fg = '#0000ff', sp = '$cyan', fmt = 'underline,italic'},
+    --     ['@function.builtin'] = {fg = '#0059ff'}
     -- }
     highlights = {
-            ["@comment"] = { fg = Grey, fmt = 'italic' },
+        ['@comment'] = { fg = Grey, fmt = 'italic' },
     },
 
     -- Plugins Config --
