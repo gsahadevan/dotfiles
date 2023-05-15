@@ -1,8 +1,6 @@
 return {
-    { 'gsahadevan/onedark.nvim' },
     { 'folke/tokyonight.nvim' },
-    { 'nvim-telescope/telescope-file-browser.nvim' }, -- kind of a replacement for :Lex
-    { 'moll/vim-bbye' },                              -- required for closing last buffer :BDelete
+    { 'moll/vim-bbye' }, -- required for closing last buffer :BDelete
     {
         'nvim-treesitter/nvim-treesitter',
         build = function()
