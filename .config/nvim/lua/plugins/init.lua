@@ -8,8 +8,6 @@ return {
     },
     { 'nvim-treesitter/nvim-treesitter-textobjects' },
     { 'nvim-treesitter/playground' },
-    { 'dinhhuy258/git.nvim' }, -- for git blame & browse
-    { 'rhysd/git-messenger.vim' }, -- shows history of commits under cursor in a pop window
     { 'kevinhwang91/nvim-hlslens' },
     { 'petertriho/nvim-scrollbar' },
     { 'williamboman/mason.nvim' }, -- automatically install and manage LSP servers, instead of manually installing them
