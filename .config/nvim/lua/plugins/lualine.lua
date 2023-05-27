@@ -22,15 +22,15 @@ local diagnostics = {
     sections = { 'error', 'warn' }, -- Displays diagnostics for the defined severity types, also has info and hint
     diagnostics_color = {
         -- Same values as the general color option can be used here.
-        error = 'DiagnosticError',           -- Changes diagnostics' error color.
-        warn  = 'DiagnosticWarn',            -- Changes diagnostics' warn color.
-        info  = 'DiagnosticInfo',            -- Changes diagnostics' info color.
-        hint  = 'DiagnosticHint',            -- Changes diagnostics' hint color.
+        error = 'DiagnosticError', -- Changes diagnostics' error color.
+        warn  = 'DiagnosticWarn', -- Changes diagnostics' warn color.
+        info  = 'DiagnosticInfo', -- Changes diagnostics' info color.
+        hint  = 'DiagnosticHint', -- Changes diagnostics' hint color.
     },
     symbols = { error = ' ', warn = ' ' }, -- Also has info and hint
-    colored = false,                         -- Displays diagnostics status in color if set to true.
-    update_in_insert = false,                -- Update diagnostics in insert mode.
-    always_visible = false,                  -- Show diagnostics even if there are none.,
+    colored = false, -- Displays diagnostics status in color if set to true.
+    update_in_insert = false, -- Update diagnostics in insert mode.
+    always_visible = false, -- Show diagnostics even if there are none.,
     cond = conditions.hide_in_width,
 }
 
@@ -39,12 +39,12 @@ local diff = {
     colored = false, -- Displays a colored diff status if set to true
     diff_color = {
         -- Same color values as the general color option can be used here.
-        added    = 'DiffAdd',                                    -- Changes the diff's added color
-        modified = 'DiffChange',                                 -- Changes the diff's modified color
-        removed  = 'DiffDelete',                                 -- Changes the diff's removed color you
+        added    = 'DiffAdd', -- Changes the diff's added color
+        modified = 'DiffChange', -- Changes the diff's modified color
+        removed  = 'DiffDelete', -- Changes the diff's removed color you
     },
     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
-    source = nil,                                                -- A function that works as a data source for diff.
+    source = nil, -- A function that works as a data source for diff.
     -- It must return a table as such:
     --   { added = add_count, modified = modified_count, removed = removed_count }
     -- or nil on failure. count <= 0 won't be displayed.
@@ -69,9 +69,9 @@ local fileformat = {
 
 local filename = {
     'filename',
-    file_status = true,     -- Displays file status (readonly status, modified status)
+    file_status = true, -- Displays file status (readonly status, modified status)
     newfile_status = false, -- Display new file status (new file means no write after created)
-    path = 0,               -- 0: Just the filename
+    path = 0, -- 0: Just the filename
     -- 1: Relative path
     -- 2: Absolute path
     -- 3: Absolute path, with tilde as the home directory
@@ -80,17 +80,17 @@ local filename = {
     shorting_target = 40, -- Shortens path to leave 40 spaces in the window
     -- for other components. (terrible name, any suggestions?)
     symbols = {
-        modified = '[+]',      -- Text to show when the file is modified.
-        readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
+        modified = '[+]', -- Text to show when the file is modified.
+        readonly = '[-]', -- Text to show when the file is non-modifiable or readonly.
         unnamed = '[No Name]', -- Text to show for unnamed buffers.
-        newfile = '[New]',     -- Text to show for newly created file before first write
+        newfile = '[New]', -- Text to show for newly created file before first write
     }
 }
 
 local filetype = {
     'filetype',
-    colored = true,            -- Displays filetype icon in color if set to true
-    icon_only = false,         -- Display only an icon for filetype
+    colored = true, -- Displays filetype icon in color if set to true
+    icon_only = false, -- Display only an icon for filetype
     icon = { align = 'left' }, -- Display filetype icon on the right hand side
     -- icon =    {'X', align='right'}
     -- Icon string ^ in table is ignored in filetype component
@@ -125,7 +125,7 @@ local mode = {
     -- and right will be placed on its right.
     --
 
-    cond = nil,         -- Condition function, the component is loaded when the function returns `true`.
+    cond = nil, -- Condition function, the component is loaded when the function returns `true`.
 
     draw_empty = false, -- Whether to draw component even if it's empty.
     -- Might be useful if you want just the separator.
@@ -175,71 +175,305 @@ local mode = {
     -- - modifiers pressed (s(shift)/c(ctrl)/a(alt)/m(meta)...)
 }
 
+-- list of themes are available here
+-- https://github.com/nvim-lualine/lualine.nvim/blob/master/THEMES.md
+-- list of config options are available here
+-- https://github.com/nvim-lualine/lualine.nvim/tree/master/examples
 return {
     'nvim-lualine/lualine.nvim',
     config = function()
-        require('lualine').setup({
-            options = {
-                icons_enabled = true,
-                theme = 'auto', -- lualine theme
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
+        -- require('lualine').setup({
+        --     options = {
+        --         icons_enabled = true,
+        --         theme = 'horizon', -- lualine theme
+        --         component_separators = { left = '', right = '' },
+        --         section_separators = { left = '', right = '' },
+        --
+        --         disabled_filetypes = {
+        --             -- Filetypes to disable lualine for.
+        --             'packer',
+        --             'NvimTree',
+        --             -- 'neo-tree',
+        --             statusline = {}, -- only ignores the ft for statusline.
+        --             winbar = {}, -- only ignores the ft for winbar.
+        --         },
+        --
+        --         ignore_focus = {}, -- If current filetype is in this list it'll
+        --         -- always be drawn as inactive statusline
+        --         -- and the last window will be drawn as active statusline.
+        --         -- for example if you don't want statusline of
+        --         -- your file tree / sidebar window to have active
+        --         -- statusline you can add their filetypes here.
+        --
+        --         always_divide_middle = true, -- When set to true, left sections i.e. 'a','b' and 'c'
+        --         -- can't take over the entire statusline even
+        --         -- if neither of 'x', 'y' or 'z' are present.
+        --
+        --         globalstatus = true, -- enable global statusline (have a single statusline
+        --         -- at bottom of neovim instead of one for  every window).
+        --         -- This feature is only available in neovim 0.7 and higher.
+        --
+        --         refresh = {
+        --             -- sets how often lualine should refresh it's contents (in ms)
+        --             statusline = 1000, -- The refresh option sets minimum time that lualine tries
+        --             tabline = 1000, -- to maintain between refresh. It's not guarantied if situation
+        --             winbar = 1000 -- arises that lualine needs to refresh itself before this time
+        --             -- it'll do it.
+        --
+        --             -- Also you can force lualine's refresh by calling refresh function
+        --             -- like require('lualine').refresh()
+        --         }
+        --     },
+        --     sections = {
+        --         lualine_a = { mode },
+        --         lualine_b = { 'branch' },
+        --         lualine_c = { diff, diagnostics },
+        --         lualine_x = { 'encoding', fileformat, filetype },
+        --         lualine_y = { 'progress' },
+        --         lualine_z = { 'location' },
+        --     },
+        --     inactive_sections = {
+        --         lualine_a = {},
+        --         lualine_b = {},
+        --         lualine_c = { filename },
+        --         lualine_x = {},
+        --         lualine_y = {},
+        --         lualine_z = {},
+        --     },
+        --     tabline = {},
+        --     winbar = {},
+        --     inactive_winbar = {},
+        --     extensions = {}
+        -- })
+        --
+        --
+        -- Eviline config for lualine
+        -- Author: shadmansaleh
+        -- Credit: glepnir
+        local lualine = require('lualine')
+        --
+        -- Color table for highlights
+        -- stylua: ignore
+        local colors = {
+            bg       = '#202328',
+            fg       = '#bbc2cf',
+            yellow   = '#ECBE7B',
+            cyan     = '#008080',
+            darkblue = '#081633',
+            green    = '#98be65',
+            orange   = '#FF8800',
+            violet   = '#a9a1e1',
+            magenta  = '#c678dd',
+            blue     = '#51afef',
+            red      = '#ec5f67',
+        }
 
+        local conditions = {
+            buffer_not_empty = function()
+                return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+            end,
+            hide_in_width = function()
+                return vim.fn.winwidth(0) > 80
+            end,
+            check_git_workspace = function()
+                local filepath = vim.fn.expand('%:p:h')
+                local gitdir = vim.fn.finddir('.git', filepath .. ';')
+                return gitdir and #gitdir > 0 and #gitdir < #filepath
+            end,
+        }
+
+        -- Config
+        local config = {
+            options = {
+                -- Disable sections and component separators
+                component_separators = '',
+                section_separators = '',
+                theme = {
+                    -- We are going to use lualine_c an lualine_x as left and
+                    -- right section. Both are highlighted by c theme .  So we
+                    -- are just setting default looks o statusline
+                    normal = { c = { fg = colors.fg, bg = colors.bg } },
+                    inactive = { c = { fg = colors.fg, bg = colors.bg } },
+                },
                 disabled_filetypes = {
                     -- Filetypes to disable lualine for.
                     'packer',
-                    'NvimTree',
-                    -- 'neo-tree',
                     statusline = {}, -- only ignores the ft for statusline.
-                    winbar = {},     -- only ignores the ft for winbar.
+                    winbar = {}, -- only ignores the ft for winbar.
                 },
-
-                ignore_focus = {}, -- If current filetype is in this list it'll
-                -- always be drawn as inactive statusline
-                -- and the last window will be drawn as active statusline.
-                -- for example if you don't want statusline of
-                -- your file tree / sidebar window to have active
-                -- statusline you can add their filetypes here.
-
-                always_divide_middle = true, -- When set to true, left sections i.e. 'a','b' and 'c'
-                -- can't take over the entire statusline even
-                -- if neither of 'x', 'y' or 'z' are present.
-
-                globalstatus = true, -- enable global statusline (have a single statusline
-                -- at bottom of neovim instead of one for  every window).
-                -- This feature is only available in neovim 0.7 and higher.
-
-                refresh = {
-                    -- sets how often lualine should refresh it's contents (in ms)
-                    statusline = 1000, -- The refresh option sets minimum time that lualine tries
-                    tabline = 1000,    -- to maintain between refresh. It's not guarantied if situation
-                    winbar = 1000      -- arises that lualine needs to refresh itself before this time
-                    -- it'll do it.
-
-                    -- Also you can force lualine's refresh by calling refresh function
-                    -- like require('lualine').refresh()
-                }
+                globalstatus = true,
             },
             sections = {
-                lualine_a = { mode },
-                lualine_b = { 'branch' },
-                lualine_c = { diff, diagnostics },
-                lualine_x = { 'encoding', fileformat, filetype },
-                lualine_y = { 'progress' },
-                lualine_z = { 'location' },
-            },
-            inactive_sections = {
+                -- these are to remove the defaults
                 lualine_a = {},
                 lualine_b = {},
-                lualine_c = { filename },
-                lualine_x = {},
                 lualine_y = {},
                 lualine_z = {},
+                -- These will be filled later
+                lualine_c = {},
+                lualine_x = {},
             },
-            tabline = {},
-            winbar = {},
-            inactive_winbar = {},
-            extensions = {}
-        })
+            inactive_sections = {
+                -- these are to remove the defaults
+                lualine_a = {},
+                lualine_b = {},
+                lualine_y = {},
+                lualine_z = {},
+                lualine_c = {},
+                lualine_x = {},
+            },
+        }
+
+        -- Inserts a component in lualine_c at left section
+        local function ins_left(component)
+            table.insert(config.sections.lualine_c, component)
+        end
+
+        -- Inserts a component in lualine_x at right section
+        local function ins_right(component)
+            table.insert(config.sections.lualine_x, component)
+        end
+
+        ins_left {
+            function()
+                return '▊'
+            end,
+            color = { fg = colors.blue }, -- Sets highlighting of component
+            padding = { left = 0, right = 1 }, -- We don't need space before this
+        }
+
+        ins_left {
+            -- mode component
+            function()
+                return ''
+            end,
+            color = function()
+                -- auto change color according to neovims mode
+                local mode_color = {
+                    n = colors.red,
+                    i = colors.green,
+                    v = colors.blue,
+                    [''] = colors.blue,
+                    V = colors.blue,
+                    c = colors.magenta,
+                    no = colors.red,
+                    s = colors.orange,
+                    S = colors.orange,
+                    [''] = colors.orange,
+                    ic = colors.yellow,
+                    R = colors.violet,
+                    Rv = colors.violet,
+                    cv = colors.red,
+                    ce = colors.red,
+                    r = colors.cyan,
+                    rm = colors.cyan,
+                    ['r?'] = colors.cyan,
+                    ['!'] = colors.red,
+                    t = colors.red,
+                }
+                return { fg = mode_color[vim.fn.mode()] }
+            end,
+            padding = { right = 1 },
+        }
+
+        ins_left {
+            -- filesize component
+            'filesize',
+            cond = conditions.buffer_not_empty,
+        }
+
+        ins_left {
+            'filename',
+            cond = conditions.buffer_not_empty,
+            color = { fg = colors.magenta, gui = 'bold' },
+        }
+
+        ins_left { 'location' }
+
+        ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+
+        ins_left {
+            'diagnostics',
+            sources = { 'nvim_diagnostic' },
+            symbols = { error = ' ', warn = ' ', info = ' ' },
+            diagnostics_color = {
+                color_error = { fg = colors.red },
+                color_warn = { fg = colors.yellow },
+                color_info = { fg = colors.cyan },
+            },
+        }
+
+        -- Insert mid section. You can make any number of sections in neovim :)
+        -- for lualine it's any number greater then 2
+        ins_left {
+            function()
+                return '%='
+            end,
+        }
+
+        ins_left {
+            -- Lsp server name .
+            function()
+                local msg = 'No Active Lsp'
+                local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+                local clients = vim.lsp.get_active_clients()
+                if next(clients) == nil then
+                    return msg
+                end
+                for _, client in ipairs(clients) do
+                    local filetypes = client.config.filetypes
+                    if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                        return client.name
+                    end
+                end
+                return msg
+            end,
+            icon = ' LSP:',
+            color = { fg = '#ffffff', gui = 'bold' },
+        }
+
+        -- Add components to right sections
+        ins_right {
+            'o:encoding', -- option component same as &encoding in viml
+            fmt = string.upper, -- I'm not sure why it's upper case either ;)
+            cond = conditions.hide_in_width,
+            color = { fg = colors.green, gui = 'bold' },
+        }
+
+        ins_right {
+            'fileformat',
+            fmt = string.upper,
+            icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+            color = { fg = colors.green, gui = 'bold' },
+        }
+
+        ins_right {
+            'branch',
+            icon = '',
+            color = { fg = colors.violet, gui = 'bold' },
+        }
+
+        ins_right {
+            'diff',
+            -- Is it me or the symbol for modified us really weird
+            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+            diff_color = {
+                added = { fg = colors.green },
+                modified = { fg = colors.orange },
+                removed = { fg = colors.red },
+            },
+            cond = conditions.hide_in_width,
+        }
+
+        ins_right {
+            function()
+                return '▊'
+            end,
+            color = { fg = colors.blue },
+            padding = { left = 1 },
+        }
+
+        -- Now don't forget to initialize lualine
+        lualine.setup(config)
     end
 }
