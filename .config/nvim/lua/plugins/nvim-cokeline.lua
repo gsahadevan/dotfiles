@@ -1,19 +1,22 @@
 local colors = {
-    warning_fg  = '#e2c08d',
-    error_fg    = '#f88070',
-    comment_fg  = '#7f8083',
-    focus_fg    = '#dcdcdc',
-    focus_bg    = '#21252b',
-    default_bg  = '#282c34',
-    nvimtree_fg = '#abb2bf',
-    nvimtree_bg = '#191b1f',
+    warning_fg = '#e2c08d',
+    error_fg   = '#f88070',
+    comment_fg = '#7f8083',
+    focus_fg   = '#dcdcdc',
+    focus_bg   = '#161616',
+    default_bg = '#0e0e0e',
+    sidebar_fg = '#afb0b3',
+    sidebar_bg = '#0e0e0e',
 }
 
 local space  = { text = ' ' }
 
 return {
     'noib3/nvim-cokeline',
-    dependencies = 'nvim-tree/nvim-web-devicons', -- buffer line
+    dependencies = {
+        'nvim-tree/nvim-web-devicons', -- required for showing icons
+        'moll/vim-bbye'                -- required for closing last buffer :BDelete
+    },
     config = function()
         require('cokeline').setup({
             default_hl = {
@@ -90,8 +93,8 @@ return {
                 components = {
                     {
                         text = '  Explorer',
-                        fg = colors.nvimtree_fg,
-                        bg = colors.nvimtree_bg,
+                        -- fg = colors.sidebar_fg,
+                        -- bg = colors.sidebar_bg,
                         style = 'none', -- Also can be bold, italic, underline
                     },
                 }
