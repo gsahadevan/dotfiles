@@ -80,3 +80,9 @@ vim.opt.formatoptions:append { 'r' }
 --     pattern = "*",
 --     command = "lua vim.diagnostic.open_float()"
 -- })
+
+
+vim.opt.foldcolumn     = '2'  -- show foldcolumn in nvim 0.9
+vim.opt.foldlevel      = 99   -- set high fold level for nvim-ufo
+vim.opt.foldlevelstart = 99   -- start with all code unfolded
+vim.opt.foldenable     = true -- enable fold for nvim-ufo

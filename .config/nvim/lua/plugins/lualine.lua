@@ -220,7 +220,7 @@ local rbar = {
     function()
         return '▊'
     end,
-    padding = { left = 0, right = 0 }
+    padding = { left = 0, right = 1 }
 }
 
 local lsp = {
@@ -246,6 +246,18 @@ local lsp = {
 local branch = {
     'branch',
     color = { fg = colors.cyan },
+}
+
+local sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
+local scrollbar = {
+    function()
+        local curr_line = vim.api.nvim_win_get_cursor(0)[1]
+        local lines = vim.api.nvim_buf_line_count(0)
+        local i = math.floor((curr_line - 1) / lines * #sbar) + 1
+        if sbar[i] then return sbar[i] end
+    end,
+    color = { fg = colors.yellow },
+    padding = { left = 0, right = 0 }
 }
 
 -- list of themes are available here
@@ -304,7 +316,7 @@ return {
                 lualine_b = {},
                 lualine_c = { branch, diff },
                 lualine_x = { diagnostics, lsp, 'location', 'encoding', fileformat, filetype, 'progress' },
-                lualine_y = {},
+                lualine_y = { scrollbar },
                 lualine_z = { rbar },
             },
             inactive_sections = {
