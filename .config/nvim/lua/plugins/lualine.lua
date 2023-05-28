@@ -220,7 +220,7 @@ local rbar = {
     function()
         return '▊'
     end,
-    padding = { left = 0, right = 1 }
+    padding = { left = 0, right = 0 }
 }
 
 local lsp = {
@@ -257,7 +257,7 @@ local scrollbar = {
         if sbar[i] then return sbar[i] end
     end,
     color = { fg = colors.yellow },
-    padding = { left = 0, right = 0 }
+    padding = { left = 1, right = 1 }
 }
 
 -- list of themes are available here
