@@ -1,3 +1,21 @@
+-- Color table for highlights
+-- stylua: ignore
+local colors = {
+    bg       = '#202328',
+    fg       = '#bbc2cf',
+    yellow   = '#ECBE7B',
+    cyan     = '#008080',
+    darkblue = '#081633',
+    green    = '#98be65',
+    orange   = '#FF8800',
+    violet   = '#a9a1e1',
+    magenta  = '#c678dd',
+    blue     = '#51afef',
+    red      = '#ec5f67',
+    white    = '#ffffff',
+    black    = '#000000',
+}
+
 local conditions = {
     buffer_not_empty = function()
         return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
@@ -20,28 +38,41 @@ local diagnostics = {
     --   { error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt }
     sources = { 'nvim_diagnostic' },
     sections = { 'error', 'warn' }, -- Displays diagnostics for the defined severity types, also has info and hint
+    -- diagnostics_color = {
+    --     -- Same values as the general color option can be used here.
+    --     error = 'DiagnosticError',           -- Changes diagnostics' error color.
+    --     warn  = 'DiagnosticWarn',            -- Changes diagnostics' warn color.
+    --     info  = 'DiagnosticInfo',            -- Changes diagnostics' info color.
+    --     hint  = 'DiagnosticHint',            -- Changes diagnostics' hint color.
+    -- },
+    -- symbols = { error = ' ', warn = ' ' }, -- Also has info and hint
     diagnostics_color = {
-        -- Same values as the general color option can be used here.
-        error = 'DiagnosticError',           -- Changes diagnostics' error color.
-        warn  = 'DiagnosticWarn',            -- Changes diagnostics' warn color.
-        info  = 'DiagnosticInfo',            -- Changes diagnostics' info color.
-        hint  = 'DiagnosticHint',            -- Changes diagnostics' hint color.
+        color_error = { fg = colors.red },
+        color_warn = { fg = colors.yellow },
+        color_info = { fg = colors.cyan },
     },
-    symbols = { error = ' ', warn = ' ' }, -- Also has info and hint
-    colored = false,                         -- Displays diagnostics status in color if set to true.
-    update_in_insert = false,                -- Update diagnostics in insert mode.
-    always_visible = false,                  -- Show diagnostics even if there are none.,
+    symbols = { error = ' ', warn = ' ', info = ' ' },
+    colored = true,
+    -- colored = false,          -- Displays diagnostics status in color if set to true.
+    update_in_insert = false, -- Update diagnostics in insert mode.
+    always_visible = false,   -- Show diagnostics even if there are none.,
     cond = conditions.hide_in_width,
 }
 
 local diff = {
     'diff',
-    colored = false, -- Displays a colored diff status if set to true
+    -- colored = false, -- Displays a colored diff status if set to true
+    -- diff_color = {
+    --     -- Same color values as the general color option can be used here.
+    --     added    = 'DiffAdd',    -- Changes the diff's added color
+    --     modified = 'DiffChange', -- Changes the diff's modified color
+    --     removed  = 'DiffDelete', -- Changes the diff's removed color you
+    -- },
+    colored = true,
     diff_color = {
-        -- Same color values as the general color option can be used here.
-        added    = 'DiffAdd',                                    -- Changes the diff's added color
-        modified = 'DiffChange',                                 -- Changes the diff's modified color
-        removed  = 'DiffDelete',                                 -- Changes the diff's removed color you
+        added = { fg = colors.green },
+        modified = { fg = colors.orange },
+        removed = { fg = colors.red },
     },
     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
     source = nil,                                                -- A function that works as a data source for diff.
@@ -61,9 +92,12 @@ local diff = {
 local fileformat = {
     'fileformat',
     symbols = {
-        unix = '', -- e712
-        dos = '', -- e70f
-        mac = '', -- e711
+        -- unix = '', -- e712
+        -- dos = '', -- e70f
+        -- mac = '', -- e711
+        unix = 'LF',  -- e712
+        dos = 'CRLF', -- e70f
+        mac = 'CR',   -- e711
     },
 }
 
@@ -96,83 +130,122 @@ local filetype = {
     -- Icon string ^ in table is ignored in filetype component
 }
 
-local mode = {
-    'mode',
-    icons_enabled = true, -- Enables the display of icons alongside the component.
-    -- Defines the icon to be displayed in front of the component.
-    -- Can be string|table
-    -- As table it must contain the icon as first entry and can use
-    -- color option to custom color the icon. Example:
-    -- {'branch', icon = ''} / {'branch', icon = {'', color={fg='green'}}}
+-- local mode = {
+--     'mode',
+--     icons_enabled = true, -- Enables the display of icons alongside the component.
+--     -- Defines the icon to be displayed in front of the component.
+--     -- Can be string|table
+--     -- As table it must contain the icon as first entry and can use
+--     -- color option to custom color the icon. Example:
+--     -- {'branch', icon = ''} / {'branch', icon = {'', color={fg='green'}}}
+--
+--     -- icon position can also be set to the right side from table. Example:
+--     -- {'branch', icon = {'', align='right', color={fg='green'}}}
+--     icon = nil,
+--
+--     separator = nil, -- Determines what separator to use for the component.
+--     -- Note:
+--     --  When a string is provided it's treated as component_separator.
+--     --  When a table is provided it's treated as section_separator.
+--     --  Passing an empty string disables the separator.
+--     --
+--     -- These options can be used to set colored separators
+--     -- around a component.
+--     --
+--     -- The options need to be set as such:
+--     --   separator = { left = '', right = ''}
+--     --
+--     -- Where left will be placed on left side of component,
+--     -- and right will be placed on its right.
+--     --
+--
+--     cond = nil,         -- Condition function, the component is loaded when the function returns `true`.
+--
+--     draw_empty = false, -- Whether to draw component even if it's empty.
+--     -- Might be useful if you want just the separator.
+--
+--     -- Defines a custom color for the component:
+--     --
+--     -- 'highlight_group_name' | { fg = '#rrggbb'|cterm_value(0-255)|'color_name(red)', bg= '#rrggbb', gui='style' } | function
+--     -- Note:
+--     --  '|' is synonymous with 'or', meaning a different acceptable format for that placeholder.
+--     -- color function has to return one of other color types ('highlight_group_name' | { fg = '#rrggbb'|cterm_value(0-255)|'color_name(red)', bg= '#rrggbb', gui='style' })
+--     -- color functions can be used to have different colors based on state as shown below.
+--     --
+--     -- Examples:
+--     --   color = { fg = '#ffaa88', bg = 'grey', gui='italic,bold' },
+--     --   color = { fg = 204 }   -- When fg/bg are omitted, they default to the your theme's fg/bg.
+--     --   color = 'WarningMsg'   -- Highlight groups can also be used.
+--     --   color = function(section)
+--     --      return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
+--     --   end,
+--     color = nil, -- The default is your theme's color for that section and mode.
+--
+--     -- Specify what type a component is, if omitted, lualine will guess it for you.
+--     --
+--     -- Available types are:
+--     --   [format: type_name(example)], mod(branch/filename),
+--     --   stl(%f/%m), var(g:coc_status/bo:modifiable),
+--     --   lua_expr(lua expressions), vim_fun(viml function name)
+--     --
+--     -- Note:
+--     -- lua_expr is short for lua-expression and vim_fun is short for vim-function.
+--     type = nil,
+--
+--     padding = 1, -- Adds padding to the left and right of components.
+--     -- Padding can be specified to left or right independently, e.g.:
+--     --   padding = { left = left_padding, right = right_padding }
+--
+--     fmt = nil, -- Format function, formats the component's output.
+--     -- This function receives two arguments:
+--     -- - string that is going to be displayed and
+--     --   that can be changed, enhanced and etc.
+--     -- - context object with information you might
+--     --   need. E.g. tabnr if used with tabs.
+--     on_click = nil, -- takes a function that is called when component is clicked with mouse.
+--     -- the function receives several arguments
+--     -- - number of clicks in case of multiple clicks
+--     -- - mouse button used (l(left)/r(right)/m(middle)/...)
+--     -- - modifiers pressed (s(shift)/c(ctrl)/a(alt)/m(meta)...)
+-- }
 
-    -- icon position can also be set to the right side from table. Example:
-    -- {'branch', icon = {'', align='right', color={fg='green'}}}
-    icon = nil,
+local lbar = {
+    function()
+        return '▊'
+    end,
+    padding = { left = 0, right = 1 }
+}
 
-    separator = nil, -- Determines what separator to use for the component.
-    -- Note:
-    --  When a string is provided it's treated as component_separator.
-    --  When a table is provided it's treated as section_separator.
-    --  Passing an empty string disables the separator.
-    --
-    -- These options can be used to set colored separators
-    -- around a component.
-    --
-    -- The options need to be set as such:
-    --   separator = { left = '', right = ''}
-    --
-    -- Where left will be placed on left side of component,
-    -- and right will be placed on its right.
-    --
+local rbar = {
+    function()
+        return '▊'
+    end,
+    padding = { left = 0, right = 0 }
+}
 
-    cond = nil,         -- Condition function, the component is loaded when the function returns `true`.
+local lsp = {
+    function()
+        local msg = 'none'
+        local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+        local clients = vim.lsp.get_active_clients()
+        if next(clients) == nil then
+            return msg
+        end
+        for _, client in ipairs(clients) do
+            local filetypes = client.config.filetypes
+            if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                return client.name
+            end
+        end
+        return msg
+    end,
+    icon = ' lsp:',
+    color = { fg = colors.cyan },
+}
 
-    draw_empty = false, -- Whether to draw component even if it's empty.
-    -- Might be useful if you want just the separator.
-
-    -- Defines a custom color for the component:
-    --
-    -- 'highlight_group_name' | { fg = '#rrggbb'|cterm_value(0-255)|'color_name(red)', bg= '#rrggbb', gui='style' } | function
-    -- Note:
-    --  '|' is synonymous with 'or', meaning a different acceptable format for that placeholder.
-    -- color function has to return one of other color types ('highlight_group_name' | { fg = '#rrggbb'|cterm_value(0-255)|'color_name(red)', bg= '#rrggbb', gui='style' })
-    -- color functions can be used to have different colors based on state as shown below.
-    --
-    -- Examples:
-    --   color = { fg = '#ffaa88', bg = 'grey', gui='italic,bold' },
-    --   color = { fg = 204 }   -- When fg/bg are omitted, they default to the your theme's fg/bg.
-    --   color = 'WarningMsg'   -- Highlight groups can also be used.
-    --   color = function(section)
-    --      return { fg = vim.bo.modified and '#aa3355' or '#33aa88' }
-    --   end,
-    color = nil, -- The default is your theme's color for that section and mode.
-
-    -- Specify what type a component is, if omitted, lualine will guess it for you.
-    --
-    -- Available types are:
-    --   [format: type_name(example)], mod(branch/filename),
-    --   stl(%f/%m), var(g:coc_status/bo:modifiable),
-    --   lua_expr(lua expressions), vim_fun(viml function name)
-    --
-    -- Note:
-    -- lua_expr is short for lua-expression and vim_fun is short for vim-function.
-    type = nil,
-
-    padding = 1, -- Adds padding to the left and right of components.
-    -- Padding can be specified to left or right independently, e.g.:
-    --   padding = { left = left_padding, right = right_padding }
-
-    fmt = nil, -- Format function, formats the component's output.
-    -- This function receives two arguments:
-    -- - string that is going to be displayed and
-    --   that can be changed, enhanced and etc.
-    -- - context object with information you might
-    --   need. E.g. tabnr if used with tabs.
-    on_click = nil, -- takes a function that is called when component is clicked with mouse.
-    -- the function receives several arguments
-    -- - number of clicks in case of multiple clicks
-    -- - mouse button used (l(left)/r(right)/m(middle)/...)
-    -- - modifiers pressed (s(shift)/c(ctrl)/a(alt)/m(meta)...)
+local branch = {
+    'branch',
+    color = { fg = colors.cyan },
 }
 
 -- list of themes are available here
@@ -186,8 +259,10 @@ return {
             options = {
                 icons_enabled = true,
                 theme = 'horizon', -- lualine theme
-                component_separators = { left = '', right = '' },
-                section_separators = { left = '', right = '' },
+                -- component_separators = { left = '', right = '' },
+                -- section_separators = { left = '', right = '' },
+                component_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
 
                 disabled_filetypes = {
                     -- Filetypes to disable lualine for.
@@ -225,12 +300,12 @@ return {
                 }
             },
             sections = {
-                lualine_a = { mode },
-                lualine_b = { 'branch' },
-                lualine_c = { diff, diagnostics },
-                lualine_x = { 'encoding', fileformat, filetype },
-                lualine_y = { 'progress' },
-                lualine_z = { 'location' },
+                lualine_a = { lbar },
+                lualine_b = {},
+                lualine_c = { branch, diff },
+                lualine_x = { diagnostics, lsp, 'location', 'encoding', fileformat, filetype, 'progress' },
+                lualine_y = {},
+                lualine_z = { rbar },
             },
             inactive_sections = {
                 lualine_a = {},
