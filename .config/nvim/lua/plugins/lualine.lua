@@ -22,15 +22,15 @@ local diagnostics = {
     sections = { 'error', 'warn' }, -- Displays diagnostics for the defined severity types, also has info and hint
     diagnostics_color = {
         -- Same values as the general color option can be used here.
-        error = 'DiagnosticError', -- Changes diagnostics' error color.
-        warn  = 'DiagnosticWarn', -- Changes diagnostics' warn color.
-        info  = 'DiagnosticInfo', -- Changes diagnostics' info color.
-        hint  = 'DiagnosticHint', -- Changes diagnostics' hint color.
+        error = 'DiagnosticError',           -- Changes diagnostics' error color.
+        warn  = 'DiagnosticWarn',            -- Changes diagnostics' warn color.
+        info  = 'DiagnosticInfo',            -- Changes diagnostics' info color.
+        hint  = 'DiagnosticHint',            -- Changes diagnostics' hint color.
     },
     symbols = { error = ' ', warn = ' ' }, -- Also has info and hint
-    colored = false, -- Displays diagnostics status in color if set to true.
-    update_in_insert = false, -- Update diagnostics in insert mode.
-    always_visible = false, -- Show diagnostics even if there are none.,
+    colored = false,                         -- Displays diagnostics status in color if set to true.
+    update_in_insert = false,                -- Update diagnostics in insert mode.
+    always_visible = false,                  -- Show diagnostics even if there are none.,
     cond = conditions.hide_in_width,
 }
 
@@ -39,12 +39,12 @@ local diff = {
     colored = false, -- Displays a colored diff status if set to true
     diff_color = {
         -- Same color values as the general color option can be used here.
-        added    = 'DiffAdd', -- Changes the diff's added color
-        modified = 'DiffChange', -- Changes the diff's modified color
-        removed  = 'DiffDelete', -- Changes the diff's removed color you
+        added    = 'DiffAdd',                                    -- Changes the diff's added color
+        modified = 'DiffChange',                                 -- Changes the diff's modified color
+        removed  = 'DiffDelete',                                 -- Changes the diff's removed color you
     },
     symbols = { added = ' ', modified = ' ', removed = ' ' }, -- Changes the symbols used by the diff.
-    source = nil, -- A function that works as a data source for diff.
+    source = nil,                                                -- A function that works as a data source for diff.
     -- It must return a table as such:
     --   { added = add_count, modified = modified_count, removed = removed_count }
     -- or nil on failure. count <= 0 won't be displayed.
@@ -69,9 +69,9 @@ local fileformat = {
 
 local filename = {
     'filename',
-    file_status = true, -- Displays file status (readonly status, modified status)
+    file_status = true,     -- Displays file status (readonly status, modified status)
     newfile_status = false, -- Display new file status (new file means no write after created)
-    path = 0, -- 0: Just the filename
+    path = 0,               -- 0: Just the filename
     -- 1: Relative path
     -- 2: Absolute path
     -- 3: Absolute path, with tilde as the home directory
@@ -80,17 +80,17 @@ local filename = {
     shorting_target = 40, -- Shortens path to leave 40 spaces in the window
     -- for other components. (terrible name, any suggestions?)
     symbols = {
-        modified = '[+]', -- Text to show when the file is modified.
-        readonly = '[-]', -- Text to show when the file is non-modifiable or readonly.
+        modified = '[+]',      -- Text to show when the file is modified.
+        readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
         unnamed = '[No Name]', -- Text to show for unnamed buffers.
-        newfile = '[New]', -- Text to show for newly created file before first write
+        newfile = '[New]',     -- Text to show for newly created file before first write
     }
 }
 
 local filetype = {
     'filetype',
-    colored = true, -- Displays filetype icon in color if set to true
-    icon_only = false, -- Display only an icon for filetype
+    colored = true,            -- Displays filetype icon in color if set to true
+    icon_only = false,         -- Display only an icon for filetype
     icon = { align = 'left' }, -- Display filetype icon on the right hand side
     -- icon =    {'X', align='right'}
     -- Icon string ^ in table is ignored in filetype component
@@ -125,7 +125,7 @@ local mode = {
     -- and right will be placed on its right.
     --
 
-    cond = nil, -- Condition function, the component is loaded when the function returns `true`.
+    cond = nil,         -- Condition function, the component is loaded when the function returns `true`.
 
     draw_empty = false, -- Whether to draw component even if it's empty.
     -- Might be useful if you want just the separator.
@@ -195,7 +195,7 @@ return {
                     'NvimTree',
                     -- 'neo-tree',
                     statusline = {}, -- only ignores the ft for statusline.
-                    winbar = {}, -- only ignores the ft for winbar.
+                    winbar = {},     -- only ignores the ft for winbar.
                 },
 
                 ignore_focus = {}, -- If current filetype is in this list it'll
@@ -216,8 +216,8 @@ return {
                 refresh = {
                     -- sets how often lualine should refresh it's contents (in ms)
                     statusline = 1000, -- The refresh option sets minimum time that lualine tries
-                    tabline = 1000, -- to maintain between refresh. It's not guarantied if situation
-                    winbar = 1000 -- arises that lualine needs to refresh itself before this time
+                    tabline = 1000,    -- to maintain between refresh. It's not guarantied if situation
+                    winbar = 1000      -- arises that lualine needs to refresh itself before this time
                     -- it'll do it.
 
                     -- Also you can force lualine's refresh by calling refresh function

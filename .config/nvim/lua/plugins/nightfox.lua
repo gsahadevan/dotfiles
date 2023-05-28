@@ -45,5 +45,8 @@ return {
             specs = {},
             groups = {},
         })
+
+        -- setup must be called before loading
+        vim.api.nvim_command("colorscheme carbonfox")
     end,
 }

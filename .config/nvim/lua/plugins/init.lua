@@ -1,5 +1,4 @@
 return {
-    { 'moll/vim-bbye' }, -- required for closing last buffer :BDelete
     { 'kevinhwang91/nvim-hlslens' },
     { 'petertriho/nvim-scrollbar' },
     { 'williamboman/mason.nvim' },           -- automatically install and manage LSP servers, instead of manually installing them
