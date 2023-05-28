@@ -1,6 +1,4 @@
 return {
-    { 'kevinhwang91/nvim-hlslens' },
-    { 'petertriho/nvim-scrollbar' },
     { 'williamboman/mason.nvim' },           -- automatically install and manage LSP servers, instead of manually installing them
     { 'williamboman/mason-lspconfig.nvim' }, -- closes gaps between mason and lspconfig
     { 'neovim/nvim-lspconfig' },             -- configurations for neovim LSP

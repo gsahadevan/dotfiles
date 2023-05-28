@@ -45,16 +45,16 @@ keymap('n', '<leader>-', '<C-x>', opts)
 
 -- Move window
 -- keymap.set('n', '<Space>', '<C-w>w')
--- keymap.set('n', 'sh', '<C-w>h')
--- keymap.set('n', 'sk', '<C-w>k')
--- keymap.set('n', 'sj', '<C-w>j')
--- keymap.set('n', 'sl', '<C-w>l')
+-- keymap('n', 'sh', '<C-w>h')
+-- keymap('n', 'sk', '<C-w>k')
+-- keymap('n', 'sj', '<C-w>j')
+-- keymap('n', 'sl', '<C-w>l')
 
 -- Resize window
--- keymap.set('n', '<C-w><left>', '<C-w><')
--- keymap.set('n', '<C-w><right>', '<C-w>>')
--- keymap.set('n', '<C-w><up>', '<C-w>+')
--- keymap.set('n', '<C-w><down>', '<C-w>-')
+-- keymap('n', '<C-w><left>', '<C-w><')
+-- keymap('n', '<C-w><right>', '<C-w>>')
+-- keymap('n', '<C-w><up>', '<C-w>+')
+-- keymap('n', '<C-w><down>', '<C-w>-')
 
 -- Better window navigation
 keymap('n', '<C-h>', '<C-w>h', opts)
