@@ -105,7 +105,7 @@ local filename = {
     'filename',
     file_status = true,     -- Displays file status (readonly status, modified status)
     newfile_status = false, -- Display new file status (new file means no write after created)
-    path = 0,               -- 0: Just the filename
+    path = 1,               -- 0: Just the filename
     -- 1: Relative path
     -- 2: Absolute path
     -- 3: Absolute path, with tilde as the home directory
@@ -220,7 +220,7 @@ local rbar = {
     function()
         return '▊'
     end,
-    padding = { left = 0, right = 0 }
+    padding = { left = 0, right = 1 }
 }
 
 local lsp = {
@@ -248,13 +248,26 @@ local branch = {
     color = { fg = colors.cyan },
 }
 
+
+local location = {
+    'location',
+    color = { fg = colors.magenta },
+    padding = { left = 1, right = 1 },
+}
+
+local progress = {
+    'progress',
+    color = { fg = colors.yellow },
+    padding = { left = 1, right = 1 },
+}
+
 local sbar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
 local scrollbar = {
     function()
         local curr_line = vim.api.nvim_win_get_cursor(0)[1]
         local lines = vim.api.nvim_buf_line_count(0)
         local i = math.floor((curr_line - 1) / lines * #sbar) + 1
-        if sbar[i] then return sbar[i] end
+        if sbar[i] then return string.rep(sbar[i], 2) end
     end,
     color = { fg = colors.yellow },
     padding = { left = 1, right = 1 }
@@ -314,9 +327,9 @@ return {
             sections = {
                 lualine_a = { lbar },
                 lualine_b = {},
-                lualine_c = { branch, diff },
-                lualine_x = { diagnostics, lsp, 'location', 'encoding', fileformat, filetype, 'progress' },
-                lualine_y = { scrollbar },
+                lualine_c = { branch, diff, filename },
+                lualine_x = { diagnostics, lsp, 'encoding', fileformat, filetype, location, progress, scrollbar },
+                lualine_y = {},
                 lualine_z = { rbar },
             },
             inactive_sections = {
