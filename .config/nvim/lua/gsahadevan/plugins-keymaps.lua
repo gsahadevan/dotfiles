@@ -316,3 +316,13 @@ if lspsaga then
     -- Floating terminal
     vim.keymap.set({ 'n', 't' }, '<A-d>', '<cmd>Lspsaga term_toggle<CR>')
 end
+
+local _, todo_comments = pcall(require, 'todo-comments')
+if todo_comments then
+    vim.keymap.set('n', ']t', todo_comments.jump_next, { desc = 'Todo Comment - jump to next' })
+    vim.keymap.set('n', '[t', todo_comments.jump_prev, { desc = 'Todo Comment - jump to prev' })
+    -- You can also specify a list of valid jump keywords
+    vim.keymap.set('n', ']t', function()
+        require('todo-comments').jump_next({ keywords = { 'ERROR', 'WARNING' } })
+    end, { desc = 'Todo Comment - jump to next error / warning' })
+end
