@@ -2,7 +2,8 @@ return {
     'folke/which-key.nvim',
     config = function()
         vim.o.timeout = true
-        vim.o.timeoutlen = 300
+        -- vim.o.timeoutlen = 300
+        vim.o.timeoutlen = 600
         require('which-key').setup({
             -- your configuration comes here
             -- or leave it empty to use the default settings
@@ -14,7 +15,8 @@ return {
                 -- No actual key bindings are created
                 spelling = {
                     enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-                    suggestions = 20, -- how many suggestions should be shown in the list?
+                    -- suggestions = 20, -- how many suggestions should be shown in the list?
+                    suggestions = 40, -- how many suggestions should be shown in the list?
                 },
                 presets = {
                     operators = true,    -- adds help for operators like d, y, ...

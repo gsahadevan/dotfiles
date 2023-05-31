@@ -37,7 +37,8 @@ return {
             style = 'minimal',
             relative = 'cursor',
             row = 0,
-            col = 1
+            col = 1,
+            height = 20,
         },
         yadm = {
             enable = false

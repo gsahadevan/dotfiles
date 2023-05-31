@@ -162,12 +162,22 @@ if telescope then
     --    }
 end
 
+local _, git = pcall(require, 'Git')
+if git then
+    vim.keymap.set('n', '<leader>gdo', '<cmd>GitDiff<CR>', { desc = 'Git diff open' })
+    vim.keymap.set('n', '<leader>gdc', '<cmd>GitDiffClose<CR>', { desc = 'Git diff close' })
+end
+
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
-    vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'Git diff' })
-    vim.keymap.set('n', '<leader>gl', function() require('gitsigns').blame_line() end, { desc = 'Git blame' })
-    vim.keymap.set('n', '<leader>gL', function() require('gitsigns').blame_line { full = true } end,
-        { desc = 'Git blame with details' })
+    -- git diff gives better options to open and close
+    -- use <leader>gdo and <leader>gdc instead, refer Git section for more details
+    -- vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'Git diff' })
+    --
+    -- not using this option, git-messenger gives better config
+    -- vim.keymap.set('n', '<leader>gl', function() require('gitsigns').blame_line() end, { desc = 'Git blame' })
+    -- vim.keymap.set('n', '<leader>gL', function() require('gitsigns').blame_line { full = true } end,
+    --     { desc = 'Git blame with details' })
     vim.keymap.set('n', '<leader>g]', function() require('gitsigns').next_hunk() end, { desc = 'Git next hunk' })
     vim.keymap.set('n', '<leader>g[', function() require('gitsigns').prev_hunk() end, { desc = 'Git prev hunk' })
     vim.keymap.set('n', '<leader>gp', function() require('gitsigns').preview_hunk() end, { desc = 'Git preview hunk' })
@@ -176,6 +186,15 @@ if gitsigns then
     vim.keymap.set('n', '<leader>gh', function() require('gitsigns').reset_hunk() end, { desc = 'Git reset hunk' })
     vim.keymap.set('n', '<leader>gS', function() require('gitsigns').stage_buffer() end, { desc = 'Git stage buffer' })
     vim.keymap.set('n', '<leader>gH', function() require('gitsigns').reset_buffer() end, { desc = 'Git reset buffer' })
+end
+
+-- TODO:decide whether to proceed and use this plugin or not
+-- not going to use this new plugin, the same feature is available in gitsigns
+-- use <leader>gl and <leader>gL
+local _, git_messenger = pcall(require, 'git-messenger')
+if git_messenger then
+    vim.keymap.set('n', '<leader>gmo', '<cmd>GitMessenger<CR>', { desc = 'Git messenger open' })
+    vim.keymap.set('n', '<leader>gmc', '<cmd>GitMessengerClose<CR>', { desc = 'Git messenger close' })
 end
 
 local _, trouble = pcall(require, 'trouble')
@@ -325,4 +344,11 @@ if todo_comments then
     vim.keymap.set('n', ']t', function()
         require('todo-comments').jump_next({ keywords = { 'ERROR', 'WARNING' } })
     end, { desc = 'Todo Comment - jump to next error / warning' })
+end
+
+local _, aerial = pcall(require, 'aerial')
+if aerial then
+    -- You probably also want to set a keymap to toggle aerial
+    vim.keymap.set('n', '<leader>ao', '<cmd>AerialToggle<CR>', { desc = 'Aerial toggle' })
+    vim.keymap.set('n', '<leader>an', '<cmd>AerialNavToggle<CR>', { desc = 'Aerial toggle nav window' })
 end

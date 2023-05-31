@@ -327,7 +327,7 @@ return {
             sections = {
                 lualine_a = { lbar },
                 lualine_b = {},
-                lualine_c = { branch, diff, filename },
+                lualine_c = { branch, diff },
                 lualine_x = { diagnostics, lsp, 'encoding', fileformat, filetype, location, progress, scrollbar },
                 lualine_y = {},
                 lualine_z = { rbar },

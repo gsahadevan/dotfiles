@@ -1,3 +1,11 @@
+-- Modes
+--   normal_mode = 'n',
+--   insert_mode = 'i',
+--   visual_mode = 'v',
+--   visual_block_mode = 'x',
+--   term_mode = 't',
+--   command_mode = 'c',
+
 local opts = { noremap = true, silent = true }
 
 -- Shorten function name
@@ -8,20 +16,9 @@ keymap('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Modes
---   normal_mode = 'n',
---   insert_mode = 'i',
---   visual_mode = 'v',
---   visual_block_mode = 'x',
---   term_mode = 't',
---   command_mode = 'c',
 
--- Normal --
--- Select all
-keymap('n', '<C-a>', 'gg<S-v>G', opts)
-
--- Remove search highlighting
-keymap('n', '<leader>nh', ':nohl<CR>', opts)
+keymap('n', '<C-a>', 'gg<S-v>G', opts)                                                                       -- Select all
+keymap('n', '<leader>nh', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) highlighting' }) -- Remove search highlighting
 
 -- Save with root permission (not working for now)
 -- vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
@@ -34,12 +31,13 @@ keymap('n', '<leader>nh', ':nohl<CR>', opts)
 -- keymap('n', 'tc', ':tabclose<CR>', opts)
 
 -- Split window
-keymap('n', 'ss', ':split<Return><C-w>w', opts)
-keymap('n', 'sv', ':vsplit<Return><C-w>w', opts)
-keymap('n', 'se', '<C-w>=', opts)
-keymap('n', 'sw', ':close<CR>', opts)
+keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Split current window vertically' })
+keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Split current window horizontally' })
+keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Make all windows equal size' })
+keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Close current window' })
 
 -- Increment and Decrement numbers
+-- TODO: first one doesnt work - conflicts with select all before
 keymap('n', '<leader>+', '<C-a>', opts)
 keymap('n', '<leader>-', '<C-x>', opts)
 
