@@ -1,3 +1,5 @@
+-- :h mason-introduction
+--
 -- mason.nvim helps to easily install and manage external editor tooling such as LSP servers, DAP servers, linters, and formatters through a single interface.
 return {
     'williamboman/mason.nvim',
