@@ -45,7 +45,7 @@ return {
             -- }
             highlights = {
                 ['@comment'] = { fg = 'Gray', fmt = 'italic' },
-                ['Normal'] = { bg = '#1c1d22' },
+                -- ['Normal'] = { bg = '#1c1d22' },
                 ['NeoTreeNormal'] = { bg = '#1e2227' },
                 ['NeoTreeNormalNC'] = { bg = '#1e2227' },
             },
