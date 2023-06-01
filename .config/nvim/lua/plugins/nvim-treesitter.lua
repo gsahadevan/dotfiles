@@ -52,6 +52,11 @@ return {
                     node_decremental = '<c-backspace>',
                 },
             },
+
+            -- enable the nvim-ts-context-commentstring module from nvim-treesitter setup
+            context_commentstring = {
+                enable = true,
+            },
             -- textobjects = {
             --   select = {
             --     enable = true,
@@ -130,6 +135,9 @@ return {
                     },
                 }
             }
-        end
+        end,
+        dependencies = {
+            'JoosepAlviste/nvim-ts-context-commentstring',
+        },
     },
 }
