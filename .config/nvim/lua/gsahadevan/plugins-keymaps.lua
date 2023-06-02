@@ -101,12 +101,13 @@ if telescope then
         }
     end
 
+    local grep_search_args = function()
+        telescope.extensions.live_grep_args.live_grep_args()
+    end
+
     local find_color_schemes = function()
         builtin.colorscheme { enable_preview = true }
     end
-
-    -- Enable telescope fzf native, if installed
-    pcall(require('telescope').load_extension, 'fzf')
 
     -- See `:help telescope.builtin`
     -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -123,6 +124,7 @@ if telescope then
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = 'Telescope list diagnostics' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
     vim.keymap.set('n', '<leader>sG', grep_search_all, { desc = 'Telescope search using live grep incl. hidden' })
+    vim.keymap.set('n', '<leader>fG', grep_search_args, { desc = 'Telescope search using live grep incl. args' })
     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Telescope search for word under cursor' })
     -- git
     vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope list git branches' })
