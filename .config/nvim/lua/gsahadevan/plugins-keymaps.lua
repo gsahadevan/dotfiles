@@ -151,6 +151,8 @@ if telescope then
     --        { function() require('telescope').extensions.notify.notify() end, desc = 'Find notifications' }
     --    end
 
+    vim.keymap.set('n', '<leader>vd', '<cmd>lua require("telescope.builtin").lsp_definitions({jump_type="vsplit"})<cr>',
+        { desc = 'Telescope LSP go to definition in vsplit' })
     --    maps.n['<leader>ls'] = {
     --        function()
     --            local aerial_avail, _ = pcall(require, 'aerial')
