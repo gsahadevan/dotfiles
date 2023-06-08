@@ -1,7 +1,7 @@
 local ELLIPSIS_CHAR = '…'
-local MAX_LABEL_WIDTH = 35
-local MIN_LABEL_WIDTH = 35
-local icons = require "icons.font-icons"
+local MAX_LABEL_WIDTH = 30
+local MIN_LABEL_WIDTH = 30
+local icons = require 'icons.font-icons'
 
 return {
     'hrsh7th/nvim-cmp',         -- autocompletion plugin
@@ -16,6 +16,25 @@ return {
         'rafamadriz/friendly-snippets',
     },
     config = function()
+        local function get_lsp_completion_context(completion, source)
+            local status, source_name = pcall(function() return source.source.client.config.name end)
+            if not status then
+                return nil
+            end
+
+            if source_name == 'tsserver' then
+                return completion.detail
+            elseif source_name == 'gopls' then -- testing for gopls
+                return completion.detail
+            elseif source_name == 'pyright' then
+                if completion.labelDetails ~= nil then
+                    return completion.labelDetails.description
+                end
+            end
+        end
+
+        -- local WIN_HIGHLIGHT = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:Search'
+        local WIN_HIGHLIGHT = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search'
         local cmp = require('cmp')
         cmp.setup({
             snippet = {
@@ -41,12 +60,16 @@ return {
                 { name = 'path' },
             }),
             window = {
-                completion    = cmp.config.window.bordered(),
-                documentation = cmp.config.window.bordered(),
+                -- completion    = cmp.config.window.bordered(),
+                -- documentation = cmp.config.window.bordered(),
+                completion    = cmp.config.window.bordered({ winhighlight = WIN_HIGHLIGHT }),
+                documentation = cmp.config.window.bordered({ winhighlight = WIN_HIGHLIGHT }),
+                preview       = cmp.config.window.bordered({ winhighlight = WIN_HIGHLIGHT }),
                 -- winhighlight  = 'Normal:Pmenu,FloatBorder:Pmenu,Search:None',
-                winhighlight  = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
+                -- winhighlight  = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:None',
                 col_offset    = -3,
                 side_padding  = 0,
+                max_width     = 50,
             },
             formatting = {
                 fields = { 'kind', 'abbr', 'menu' },
@@ -61,19 +84,30 @@ return {
                         vim_item.abbr = label .. padding
                     end
 
-                    vim_item.kind = string.format('%s%s', icons.Completion[vim_item.kind], vim_item.kind) -- add icons along with item kind
+                    -- add icons along with item kind
+                    vim_item.kind = string.format('%s%s', icons.Completion[vim_item.kind], vim_item.kind)
                     vim_item.menu = ({
-                        nvim_lsp = '[LSP]',
+                        nvim_lsp = '[LSP] ',
                         nvim_lua = '[Lua]',
                         luasnip  = '[Snip]',
                         buffer   = '[Bufr]',
                         path     = '[Path]',
                     })[entry.source.name]
+
+                    -- Add the completions source file path
+                    -- https://www.reddit.com/r/neovim/comments/128ndxk/how_to_show_file_path_or_library_in_cmpsnippet/
+                    -- Ref: https://github.com/giuseppe-g-gelardi/nvim/blob/mac/after/plugin/cmp.lua
+                    -- Ref: https://github.com/ditsuke/nvim-config --> the github account of the user who posted the answer on reddit
+                    local completion_context = get_lsp_completion_context(entry.completion_item, entry.source)
+                    if completion_context ~= nil and completion_context ~= "" then
+                        vim_item.menu = vim_item.menu .. completion_context
+                    end
+                    vim_item.menu = string.sub(vim_item.menu, 1, 25)
+
                     return vim_item
                 end,
             },
         })
-
 
         local luasnip = require('luasnip')
         local s = luasnip.snippet
