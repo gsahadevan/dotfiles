@@ -356,3 +356,20 @@ if aerial then
     vim.keymap.set('n', '<leader>ao', '<cmd>AerialToggle<CR>', { desc = 'Aerial toggle' })
     vim.keymap.set('n', '<leader>an', '<cmd>AerialNavToggle<CR>', { desc = 'Aerial toggle nav window' })
 end
+
+local _, symbols_outline = pcall(require, 'symbols-outline')
+if symbols_outline then
+    vim.keymap.set('n', '<leader>so', '<cmd>SymbolsOutline<CR>', { desc = 'Symbols outline toggle' })
+end
+
+local _, goto_preview = pcall(require, 'goto-preview')
+if goto_preview then
+    -- mappings are not possible due to conflicts
+    -- vim.keymap.set('n', '<leader>gpd', 'goto_preview.goto_preview_definition', { desc = 'Go to preview definition' })
+    -- vim.keymap.set('n', '<leader>gpt', 'goto_preview.goto_preview_type_definition',
+    --     { desc = 'Go to preview type definition' })
+    -- vim.keymap.set('n', '<leader>gpi', 'goto_preview.goto_preview_implementation',
+    --     { desc = 'Go to preview implementation' })
+    -- vim.keymap.set('n', '<leader>gP', 'goto_preview.close_all_win', { desc = 'Go to close all win' })
+    -- vim.keymap.set('n', '<leader>gpr', 'goto_preview.goto_preview_references', { desc = 'Go to preview references' })
+end
