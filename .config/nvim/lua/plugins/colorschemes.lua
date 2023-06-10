@@ -1,5 +1,15 @@
 return {
     { 'Yazeed1s/minimal.nvim' },
+    { 'sainnhe/edge' },
+    { 'lunarvim/horizon.nvim' },
+    -- { 'ayu-theme/ayu-vim' }, -- implemented in vim script
+    { 'Shatur/neovim-ayu' }, -- A colorscheme for Neovim 0.8+ reimplemented in lua from ayu-vim.
+    {
+        'folke/tokyonight.nvim',
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
     {
         'rose-pine/neovim',
         name = 'rose-pine',
