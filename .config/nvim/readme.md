@@ -6,3 +6,6 @@
 - https://github.com/SmiteshP/nvim-navbuddy
 - https://github.com/kevinhwang91/nvim-bqf#installation
 - https://github.com/luukvbaal/statuscol.nvim
+- https://github.com/jose-elias-alvarez/typescript.nvim
+- https://github.com/phaazon/hop.nvim
+
