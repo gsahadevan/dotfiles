@@ -30,6 +30,8 @@ return {
                 if completion.labelDetails ~= nil then
                     return completion.labelDetails.description
                 end
+            else
+                return 'No source'
             end
         end
 
@@ -87,11 +89,11 @@ return {
                     -- add icons along with item kind
                     vim_item.kind = string.format('%s%s', icons.Completion[vim_item.kind], vim_item.kind)
                     vim_item.menu = ({
-                        nvim_lsp = '[LSP] ',
-                        nvim_lua = '[Lua]',
-                        luasnip  = '[Snip]',
-                        buffer   = '[Bufr]',
-                        path     = '[Path]',
+                        nvim_lsp = '_lsp ',
+                        nvim_lua = '_lua ',
+                        luasnip  = 'snip ',
+                        buffer   = 'bufr ',
+                        path     = 'path ',
                     })[entry.source.name]
 
                     -- Add the completions source file path
