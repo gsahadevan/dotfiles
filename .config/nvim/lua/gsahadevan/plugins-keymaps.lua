@@ -203,22 +203,19 @@ end
 
 local _, trouble = pcall(require, 'trouble')
 if trouble then
-    vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>',
-        { desc = 'Trouble toggle' })
+    vim.keymap.set('n', '<leader>xx', '<cmd>TroubleToggle<cr>', { desc = 'Trouble toggle' })
     vim.keymap.set('n', '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>',
         { desc = 'Trouble show workspace diagnostics' })
     vim.keymap.set('n', '<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>',
         { desc = 'Trouble show document diagnostics' })
-    vim.keymap.set('n', '<leader>xl', '<cmd>TroubleToggle loclist<cr>',
-        { desc = 'Trouble show window location list' })
-    vim.keymap.set('n', '<leader>xq', '<cmd>TroubleToggle quickfix<cr>',
-        { desc = 'Trouble show quickfix list' })
-    vim.keymap.set('n', 'gR', '<cmd>TroubleToggle lsp_references<cr>',
-        { silent = true, noremap = true, desc = 'Trouble show references under word cursor' })
-    vim.keymap.set('n', 'gD', '<cmd>TroubleToggle lsp_definitions<cr>',
-        { silent = true, noremap = true, desc = 'Trouble show definitions under word cursor' })
-    vim.keymap.set('n', 'gT', '<cmd>TroubleToggle lsp_type_definitions<cr>',
-        { silent = true, noremap = true, desc = 'Trouble show type definitions under word cursor' })
+    vim.keymap.set('n', '<leader>xl', '<cmd>TroubleToggle loclist<cr>', { desc = 'Trouble show window location list' })
+    vim.keymap.set('n', '<leader>xq', '<cmd>TroubleToggle quickfix<cr>', { desc = 'Trouble show quickfix list' })
+    vim.keymap.set('n', '<leader>xr', '<cmd>TroubleToggle lsp_references<cr>',
+        { desc = 'Trouble show references under word cursor' })
+    vim.keymap.set('n', '<leader>xD', '<cmd>TroubleToggle lsp_definitions<cr>',
+        { desc = 'Trouble show definitions under word cursor' })
+    vim.keymap.set('n', '<leader>xT', '<cmd>TroubleToggle lsp_type_definitions<cr>',
+        { desc = 'Trouble show type definitions under word cursor' })
 
     -- api you can use the following functions in your keybindings
     -- jump to the next item, skipping the groups

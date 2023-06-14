@@ -14,6 +14,12 @@ return {
         'L3MON4D3/LuaSnip',     -- snippet engine | needed for completion
         'saadparwaiz1/cmp_luasnip',
         'rafamadriz/friendly-snippets',
+        'hrsh7th/cmp-vsnip',
+        'hrsh7th/vim-vsnip',
+        'SirVer/ultisnips',
+        'quangnguyen30192/cmp-nvim-ultisnips',
+        'dcampos/nvim-snippy',
+        'dcampos/cmp-snippy',
     },
     config = function()
         local function get_lsp_completion_context(completion, source)
@@ -55,9 +61,9 @@ return {
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
                 { name = 'nvim_lua' },
-                { name = 'luasnip' },
-                { name = 'buffer',  option = { keyword_length = 5 } },
-                { name = 'path' },
+                { name = 'luasnip', option = { keyword_length = 3 } },
+                { name = 'buffer',  option = { keyword_length = 3 } },
+                { name = 'path',    option = { keyword_length = 3 } },
             }),
             window = {
                 -- completion    = cmp.config.window.bordered(),
@@ -72,7 +78,7 @@ return {
                 max_width     = 50,
             },
             formatting = {
-                fields = { 'kind', 'abbr', 'menu' },
+                fields = { 'abbr', 'kind', 'menu' },
                 format = function(entry, vim_item)
                     -- add ellipsis and extra padding to match the width
                     local label = vim_item.abbr

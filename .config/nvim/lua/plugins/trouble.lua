@@ -1,6 +1,6 @@
 return {
     'folke/trouble.nvim',
-    requires = 'nvim-tree/nvim-web-devicons',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
         position = 'bottom',            -- position of the list can be: bottom, top, left, right
         height = 10,                    -- height of the trouble list when position is top or bottom

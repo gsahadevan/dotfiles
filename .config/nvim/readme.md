@@ -9,3 +9,8 @@
 - https://github.com/jose-elias-alvarez/typescript.nvim
 - https://github.com/phaazon/hop.nvim
 
+#### Few additional installations 
+
+- python3 -m pip install --user --upgrade pynvim
+- brew install wget
+- npm install -g neovim

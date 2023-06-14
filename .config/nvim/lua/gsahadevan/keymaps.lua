@@ -97,10 +97,10 @@ keymap('x', '<A-j>', ":move '>+2<CR>gv-gv", opts)
 keymap('x', '<A-k>', ":move '<-1<CR>gv-gv", opts)
 
 -- Diagnostics --
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic goto prev' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic goto next' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic open float window' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic set loc list' })
 
 -- Terminal --
 -- Better terminal navigation
