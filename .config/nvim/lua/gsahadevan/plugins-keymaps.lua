@@ -143,9 +143,9 @@ if telescope then
     -- lsp
     vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = 'Telescope LSP show document symbols' })
     vim.keymap.set('n', '<leader>lw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP show workspace symbols' })
-    -- vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = 'Telescope LSP show definitions' })
-    -- vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = 'Telescope LSP show implementations' })
-    -- vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = 'Telescope LSP show references' })
+    vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = 'Telescope LSP show definitions' })
+    vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = 'Telescope LSP show implementations' })
+    vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = 'Telescope LSP show references' })
     --    if is_available 'nvim-notify' then
     --        maps.n['<leader>fn'] =
     --        { function() require('telescope').extensions.notify.notify() end, desc = 'Find notifications' }
