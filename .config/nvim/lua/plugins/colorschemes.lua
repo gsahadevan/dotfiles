@@ -1,4 +1,9 @@
 return {
+    {
+        'catppuccin/nvim',
+        name = 'catppuccin',
+        priority = 1000
+    },
     { 'Yazeed1s/minimal.nvim' },
     { 'sainnhe/edge' },
     { 'lunarvim/horizon.nvim' },

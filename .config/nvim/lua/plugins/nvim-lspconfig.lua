@@ -64,6 +64,7 @@ return {
                     }
                 end
             },
+            { 'ray-x/lsp_signature.nvim' },
         },
         config = function()
             -- local protocol = require('vim.lsp.protocol')
@@ -202,6 +203,12 @@ return {
 
 
             require('lspconfig.ui.windows').default_options = { border = 'single' }
+            require 'lsp_signature'.setup({
+                bind = true, -- This is mandatory, otherwise border config won't get registered.
+                handler_opts = {
+                    border = 'rounded',
+                }
+            })
         end
     },
 }

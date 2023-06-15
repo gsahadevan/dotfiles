@@ -102,6 +102,9 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic goto ne
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic open float window' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic set loc list' })
 
+-- Default LSP --
+vim.keymap.set('n', '<c-k>', ':lua vim.lsp.buf.signature_help()<cr>', { desc = 'LSP show signature help' })
+
 -- Terminal --
 -- Better terminal navigation
 -- local term_opts = { silent = true }

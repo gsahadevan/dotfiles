@@ -370,3 +370,18 @@ if goto_preview then
     -- vim.keymap.set('n', '<leader>gP', 'goto_preview.close_all_win', { desc = 'Go to close all win' })
     -- vim.keymap.set('n', '<leader>gpr', 'goto_preview.goto_preview_references', { desc = 'Go to preview references' })
 end
+
+local _, dap = pcall(require, 'dap')
+if dap then
+    vim.keymap.set('n', '<F5>', function() require('dap').continue() end, { desc = 'DAP continue' })
+    -- vim.keymap.set("n", "<F5>", ":lua require'dap'.continue()<CR>")
+    -- vim.keymap.set("n", "<F3>", ":lua require'dap'.step_over()<CR>")
+    -- vim.keymap.set("n", "<F2>", ":lua require'dap'.step_into()<CR>")
+    -- vim.keymap.set("n", "<F12>", ":lua require'dap'.step_out()<CR>")
+    -- vim.keymap.set("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>")
+    -- vim.keymap.set("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+    -- vim.keymap.set("n", "<leader>lp",
+    --     ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>")
+    -- vim.keymap.set("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>")
+    -- vim.keymap.set("n", "<leader>dt", ":lua require'dap-go'.debug_test()<CR>")
+end
