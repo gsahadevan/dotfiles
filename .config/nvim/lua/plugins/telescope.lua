@@ -13,6 +13,7 @@ return {
     config = function()
         require('telescope').setup {
             defaults = {
+                prompt_prefix = '❯ ',
                 path_display = { 'smart' },
                 -- Default configuration for telescope goes here:
                 -- config_key = value,
