@@ -135,6 +135,13 @@ return {
 
     },
     Prefix                 = '●',
+    lualine                = {
+        Error = ' ',
+        Hint = ' ',
+        -- Info = ' ',
+        Info = ' ',
+        Warn = ' ',
+    }
 }
 
 

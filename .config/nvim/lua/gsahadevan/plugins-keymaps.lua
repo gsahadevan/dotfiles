@@ -35,15 +35,22 @@
 
 local _, cokeline = pcall(require, 'cokeline')
 if cokeline then
-    vim.api.nvim_set_keymap('n', '<s-tab>', '<Plug>(cokeline-focus-prev)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<tab>', '<Plug>(cokeline-focus-next)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<leader>p', '<Plug>(cokeline-switch-prev)', { silent = true })
-    vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>(cokeline-switch-next)', { silent = true })
+    vim.api.nvim_set_keymap('n', '<s-tab>', '<Plug>(cokeline-focus-prev)',
+        { silent = true, desc = 'Cokeline focus prev buffer' })
+    vim.api.nvim_set_keymap('n', '<tab>', '<Plug>(cokeline-focus-next)',
+        { silent = true, desc = 'Cokeline focus next buffer' })
+    vim.api.nvim_set_keymap('n', '<leader>p', '<Plug>(cokeline-switch-prev)',
+        { silent = true, desc = 'Cokeline move current buffer backward' })
+    vim.api.nvim_set_keymap('n', '<leader>n', '<Plug>(cokeline-switch-next)',
+        { silent = true, desc = 'Cokeline move current buffer forward' })
 end
 
 local _, vim_bbye = pcall(require, 'vim-bbye')
 if vim_bbye then
-    vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<cr>', { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('n', '<leader>w', ':Bdelete<cr>',
+        { noremap = true, silent = true, desc = 'Close current buffer' })
+    vim.api.nvim_set_keymap('n', '<leader>W', ':Bdelete!<cr>',
+        { noremap = true, silent = true, desc = 'Close current buffer without warning' })
 end
 
 local _, telescope = pcall(require, 'telescope')
@@ -169,8 +176,25 @@ end
 
 local _, git = pcall(require, 'Git')
 if git then
-    vim.keymap.set('n', '<leader>gdo', '<cmd>GitDiff<CR>', { desc = 'Git diff open' })
-    vim.keymap.set('n', '<leader>gdc', '<cmd>GitDiffClose<CR>', { desc = 'Git diff close' })
+    -- vim.keymap.set('n', '<leader>gb', '<cmd>GitBlame<cr>', { desc = 'Git open blame window' })
+    -- vim.keymap.set('n', '<leader>gd', '<cmd>GitDiff<cr>', { desc = 'Git open diff window' })
+    -- vim.keymap.set('n', '<leader>gD', '<cmd>GitDiffClose<cr>', { desc = 'Git close diff window' })
+
+    vim.keymap.set('n', '<leader>gb', function() require('git.blame').blame() end, { desc = 'Git open blame window' })
+    vim.keymap.set('n', '<leader>gd', function() require('git.diff').open() end, { desc = 'Git open diff window' })
+    vim.keymap.set('n', '<leader>gD', function() require('git.diff').close() end, { desc = 'Git close diff window' })
+    vim.keymap.set('n', '<leader>gn', function() require('git.browse').create_pull_request() end,
+        { desc = 'Git create a pull request' })
+    vim.keymap.set('n', '<leader>go', function() require('git.browse').open(false) end,
+        { desc = 'Git open file / folder in repo' })
+    vim.keymap.set('n', '<leader>gp', function() require('git.browse').pull_request() end,
+        { desc = 'Git open pull request of current branch' })
+
+    -- simple commands for complex activities - personally not recommended
+    -- vim.keymap.set('n', '<leader>gr', function() require('git.revert').open(false) end,
+    --     { desc = 'Git revert to spec. commit' })
+    -- vim.keymap.set('n', '<leader>gR', function() require('git.revert').open(true) end,
+    --     { desc = 'Git revert current file to spec. commit' })
 end
 
 local _, gitsigns = pcall(require, 'gitsigns')
@@ -178,19 +202,22 @@ if gitsigns then
     -- git diff gives better options to open and close
     -- use <leader>gdo and <leader>gdc instead, refer Git section for more details
     -- vim.keymap.set('n', '<leader>gd', function() require('gitsigns').diffthis() end, { desc = 'Git diff' })
-    --
+
     -- not using this option, git-messenger gives better config
     -- vim.keymap.set('n', '<leader>gl', function() require('gitsigns').blame_line() end, { desc = 'Git blame' })
     -- vim.keymap.set('n', '<leader>gL', function() require('gitsigns').blame_line { full = true } end,
     --     { desc = 'Git blame with details' })
-    vim.keymap.set('n', '<leader>g]', function() require('gitsigns').next_hunk() end, { desc = 'Git next hunk' })
-    vim.keymap.set('n', '<leader>g[', function() require('gitsigns').prev_hunk() end, { desc = 'Git prev hunk' })
-    vim.keymap.set('n', '<leader>gp', function() require('gitsigns').preview_hunk() end, { desc = 'Git preview hunk' })
-    vim.keymap.set('n', '<leader>gs', function() require('gitsigns').stage_hunk() end, { desc = 'Git stage hunk' })
-    vim.keymap.set('n', '<leader>gu', function() require('gitsigns').undo_stage_hunk() end, { desc = 'Git unstage hunk' })
-    vim.keymap.set('n', '<leader>gh', function() require('gitsigns').reset_hunk() end, { desc = 'Git reset hunk' })
-    vim.keymap.set('n', '<leader>gS', function() require('gitsigns').stage_buffer() end, { desc = 'Git stage buffer' })
-    vim.keymap.set('n', '<leader>gH', function() require('gitsigns').reset_buffer() end, { desc = 'Git reset buffer' })
+
+    vim.keymap.set('n', '<leader>g]', gitsigns.next_hunk, { desc = 'Git next hunk' })
+    vim.keymap.set('n', '<leader>g[', gitsigns.prev_hunk, { desc = 'Git prev hunk' })
+    vim.keymap.set('n', '<leader>ghp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })
+    vim.keymap.set('n', '<leader>ghs', gitsigns.stage_hunk, { desc = 'Git hunk stage' })
+    vim.keymap.set('n', '<leader>ghu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
+    vim.keymap.set('n', '<leader>ghr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
+
+    -- simple commands for complex activities - personally not recommended
+    -- vim.keymap.set('n', '<leader>ghS', gitsigns.stage_buffer, { desc = 'Git buffer stage' })
+    -- vim.keymap.set('n', '<leader>ghH', gitsigns.reset_buffer, { desc = 'Git buffer reset' })
 end
 
 -- TODO:decide whether to proceed and use this plugin or not
@@ -348,29 +375,31 @@ if todo_comments then
     end, { desc = 'Todo Comment - jump to next error / warning' })
 end
 
-local _, aerial = pcall(require, 'aerial')
-if aerial then
-    -- You probably also want to set a keymap to toggle aerial
-    vim.keymap.set('n', '<leader>ao', '<cmd>AerialToggle<CR>', { desc = 'Aerial toggle' })
-    vim.keymap.set('n', '<leader>an', '<cmd>AerialNavToggle<CR>', { desc = 'Aerial toggle nav window' })
-end
+-- Removing in favour of lspsaga outline
+-- local _, aerial = pcall(require, 'aerial')
+-- if aerial then
+--     -- You probably also want to set a keymap to toggle aerial
+--     vim.keymap.set('n', '<leader>ao', '<cmd>AerialToggle<CR>', { desc = 'Aerial toggle' })
+--     vim.keymap.set('n', '<leader>an', '<cmd>AerialNavToggle<CR>', { desc = 'Aerial toggle nav window' })
+-- end
 
-local _, symbols_outline = pcall(require, 'symbols-outline')
-if symbols_outline then
-    vim.keymap.set('n', '<leader>so', '<cmd>SymbolsOutline<CR>', { desc = 'Symbols outline toggle' })
-end
+-- Removing in favour of lspsaga outline
+-- local _, symbols_outline = pcall(require, 'symbols-outline')
+-- if symbols_outline then
+--     vim.keymap.set('n', '<leader>so', '<cmd>SymbolsOutline<CR>', { desc = 'Symbols outline toggle' })
+-- end
 
-local _, goto_preview = pcall(require, 'goto-preview')
-if goto_preview then
-    -- mappings are not possible due to conflicts
-    -- vim.keymap.set('n', '<leader>gpd', 'goto_preview.goto_preview_definition', { desc = 'Go to preview definition' })
-    -- vim.keymap.set('n', '<leader>gpt', 'goto_preview.goto_preview_type_definition',
-    --     { desc = 'Go to preview type definition' })
-    -- vim.keymap.set('n', '<leader>gpi', 'goto_preview.goto_preview_implementation',
-    --     { desc = 'Go to preview implementation' })
-    -- vim.keymap.set('n', '<leader>gP', 'goto_preview.close_all_win', { desc = 'Go to close all win' })
-    -- vim.keymap.set('n', '<leader>gpr', 'goto_preview.goto_preview_references', { desc = 'Go to preview references' })
-end
+-- local _, goto_preview = pcall(require, 'goto-preview')
+-- if goto_preview then
+-- mappings are not possible due to conflicts
+-- vim.keymap.set('n', '<leader>gpd', 'goto_preview.goto_preview_definition', { desc = 'Go to preview definition' })
+-- vim.keymap.set('n', '<leader>gpt', 'goto_preview.goto_preview_type_definition',
+--     { desc = 'Go to preview type definition' })
+-- vim.keymap.set('n', '<leader>gpi', 'goto_preview.goto_preview_implementation',
+--     { desc = 'Go to preview implementation' })
+-- vim.keymap.set('n', '<leader>gP', 'goto_preview.close_all_win', { desc = 'Go to close all win' })
+-- vim.keymap.set('n', '<leader>gpr', 'goto_preview.goto_preview_references', { desc = 'Go to preview references' })
+-- end
 
 local _, dap = pcall(require, 'dap')
 if dap then

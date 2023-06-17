@@ -17,7 +17,8 @@ return {
             -- for your Neovim config directory, the config.library settings will be used as is
             -- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
             -- for any other directory, config.library.enabled will be set to false
-            override = function(root_dir, options) end,
+            override = function(root_dir, options)
+            end,
             -- With lspconfig, Neodev will automatically setup your lua-language-server
             -- If you disable this, then you have to set {before_init=require('neodev.lsp').before_init}
             -- in your lsp start options
@@ -64,7 +65,7 @@ return {
                     }
                 end
             },
-            { 'ray-x/lsp_signature.nvim' },
+            -- { 'ray-x/lsp_signature.nvim' },
         },
         config = function()
             -- local protocol = require('vim.lsp.protocol')
@@ -77,6 +78,9 @@ return {
                     update_in_insert = false,
                     virtual_text = { spacing = 4, prefix = signs.TabClose },
                     severity_sort = true,
+                    float = {
+                        border = 'rounded',
+                    }
                 }
             )
 
@@ -84,7 +88,7 @@ return {
                 vim.lsp.handlers.hover,
                 {
                     border = 'rounded',
-                    silent = true
+                    silent = true,
                 }
             )
 
@@ -92,7 +96,7 @@ return {
                 vim.lsp.handlers.signature_help,
                 {
                     border = 'rounded',
-                    silent = true
+                    silent = true,
                 }
             )
 
@@ -106,6 +110,7 @@ return {
                 update_in_insert = true,
                 virtual_text = { spacing = 4, prefix = signs.TabClose },
                 float = {
+                    border = 'rounded',
                     source = 'always', -- Or 'if_many'
                 },
             })
@@ -202,13 +207,15 @@ return {
             end
 
 
-            require('lspconfig.ui.windows').default_options = { border = 'single' }
-            require 'lsp_signature'.setup({
-                bind = true, -- This is mandatory, otherwise border config won't get registered.
-                handler_opts = {
-                    border = 'rounded',
-                }
-            })
+            require('lspconfig.ui.windows').default_options.border = 'rounded'
+            require('lspconfig.ui.windows').default_options = { border = 'rounded' }
+            -- removed lsp_signature plugin in favour of cmp-nvim-lsp-signature-help
+            -- require 'lsp_signature'.setup({
+            --     bind = true, -- This is mandatory, otherwise border config won't get registered.
+            --     handler_opts = {
+            --         border = 'rounded',
+            --     }
+            -- })
         end
     },
 }
