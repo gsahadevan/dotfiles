@@ -37,10 +37,19 @@ vim.opt.backspace      = { 'start', 'eol', 'indent' }
 vim.opt.completeopt    = 'menuone,noselect' -- set completeopt to have a better completion experience
 vim.opt.clipboard      = 'unnamed'
 
-vim.opt.foldcolumn     = '2'         -- show foldcolumn in nvim 0.9
-vim.opt.foldlevel      = 99          -- set high fold level for nvim-ufo
-vim.opt.foldlevelstart = 99          -- start with all code unfolded
-vim.opt.foldenable     = true        -- enable fold for nvim-ufo
+vim.opt.foldcolumn     = '2'  -- show foldcolumn in nvim 0.9
+vim.opt.foldlevel      = 99   -- set high fold level for nvim-ufo
+vim.opt.foldlevelstart = 99   -- start with all code unfolded
+vim.opt.foldenable     = true -- enable fold for nvim-ufo
+
+vim.opt.cursorline     = true
+vim.opt.termguicolors  = true
+vim.opt.winblend       = 0
+vim.opt.wildoptions    = 'pum'
+vim.opt.pumblend       = 0
+vim.opt.pumheight      = 15 -- completion height, adds scrollbar
+vim.opt.pumwidth       = 50 -- completion width
+vim.opt.background     = 'dark'
 
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
