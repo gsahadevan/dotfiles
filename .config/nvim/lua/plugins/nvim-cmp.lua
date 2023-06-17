@@ -4,15 +4,15 @@ local MIN_LABEL_WIDTH = 30
 local icons = require 'icons.font-icons'
 
 return {
-    'hrsh7th/nvim-cmp',                        -- autocompletion plugin
+    'hrsh7th/nvim-cmp',         -- autocompletion plugin
     dependencies = {
-        'hrsh7th/cmp-buffer',                  -- completion source for buffer words
-        'hrsh7th/cmp-nvim-lua',                -- completion source for lua
-        'hrsh7th/cmp-path',                    -- completion source for path
-        'hrsh7th/cmp-cmdline',                 -- completion source for path
-        'hrsh7th/cmp-nvim-lsp',                -- LSP source for nvim-cmp
-        'hrsh7th/cmp-nvim-lsp-signature-help', -- nvim-cmp source for displaying function signatures with the current parameter emphasized:
-        'L3MON4D3/LuaSnip',                    -- snippet engine | needed for completion
+        'hrsh7th/cmp-buffer',   -- completion source for buffer words
+        'hrsh7th/cmp-nvim-lua', -- completion source for lua
+        'hrsh7th/cmp-path',     -- completion source for path
+        'hrsh7th/cmp-cmdline',  -- completion source for path
+        'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
+        -- 'hrsh7th/cmp-nvim-lsp-signature-help', -- nvim-cmp source for displaying function signatures with the current parameter emphasized:
+        'L3MON4D3/LuaSnip',     -- snippet engine | needed for completion
         'saadparwaiz1/cmp_luasnip',
         'rafamadriz/friendly-snippets',
         'hrsh7th/cmp-vsnip',
@@ -62,12 +62,12 @@ return {
                 }),
             }),
             sources = cmp.config.sources({
-                { name = 'nvim_lsp_signature_help' },
+                -- { name = 'nvim_lsp_signature_help' },
                 { name = 'nvim_lsp' },
                 { name = 'nvim_lua' },
-                { name = 'luasnip',                option = { keyword_length = 3 } },
-                { name = 'buffer',                 option = { keyword_length = 3 } },
-                { name = 'path',                   option = { keyword_length = 3 } },
+                { name = 'luasnip', option = { keyword_length = 3 } },
+                { name = 'buffer',  option = { keyword_length = 3 } },
+                { name = 'path',    option = { keyword_length = 3 } },
             }),
             window = {
                 -- completion    = cmp.config.window.bordered(),

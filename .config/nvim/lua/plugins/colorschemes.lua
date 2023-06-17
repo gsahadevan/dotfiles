@@ -120,6 +120,8 @@ return {
                     -- ['Normal']          = { bg = '#1c1d22' },
                     -- ['NeoTreeNormal']   = { bg = '#1e2227' },
                     -- ['NeoTreeNormalNC'] = { bg = '#1e2227' },
+                    -- ['FloatBorder'] = { bg = 'None' },
+                    -- ['FoldColumn'] = { bg = 'None' },
                 },
 
                 -- Plugins Config --

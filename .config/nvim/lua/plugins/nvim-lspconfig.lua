@@ -65,7 +65,7 @@ return {
                     }
                 end
             },
-            -- { 'ray-x/lsp_signature.nvim' },
+            { 'ray-x/lsp_signature.nvim' },
         },
         config = function()
             -- local protocol = require('vim.lsp.protocol')
@@ -209,13 +209,14 @@ return {
 
             require('lspconfig.ui.windows').default_options.border = 'rounded'
             require('lspconfig.ui.windows').default_options = { border = 'rounded' }
+            -- TODO: check the possibility of removing
             -- removed lsp_signature plugin in favour of cmp-nvim-lsp-signature-help
-            -- require 'lsp_signature'.setup({
-            --     bind = true, -- This is mandatory, otherwise border config won't get registered.
-            --     handler_opts = {
-            --         border = 'rounded',
-            --     }
-            -- })
+            require 'lsp_signature'.setup({
+                bind = true, -- This is mandatory, otherwise border config won't get registered.
+                handler_opts = {
+                    border = 'rounded',
+                }
+            })
         end
     },
 }
