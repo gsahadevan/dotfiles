@@ -116,10 +116,10 @@ return {
                 --     ['@function.builtin'] = {fg = '#0059ff'}
                 -- }
                 highlights = {
-                    ['@comment']        = { fg = 'Gray', fmt = 'italic' },
-                    ['Normal']          = { bg = '#1c1d22' },
-                    ['NeoTreeNormal']   = { bg = '#1e2227' },
-                    ['NeoTreeNormalNC'] = { bg = '#1e2227' },
+                    -- ['@comment']        = { fg = 'Gray', fmt = 'italic' },
+                    -- ['Normal']          = { bg = '#1c1d22' },
+                    -- ['NeoTreeNormal']   = { bg = '#1e2227' },
+                    -- ['NeoTreeNormalNC'] = { bg = '#1e2227' },
                 },
 
                 -- Plugins Config --
