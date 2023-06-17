@@ -14,7 +14,17 @@ return {
         require('telescope').setup {
             defaults = {
                 prompt_prefix = '❯ ',
-                path_display = { 'smart' },
+                -- use the below to display default telescope theme
+                -- layout_strategy = 'bottom_pane',
+                -- layout_config = {
+                --     height = 0.9,
+                -- },
+                -- border = true,
+                -- sorting_strategy = 'ascending',
+                -- path_display = { 'absolute' },
+                -- path_display = { 'smart' }, -- get more info :h telescope.default.path_display
+
+                path_display = { 'absolute' },
                 -- Default configuration for telescope goes here:
                 -- config_key = value,
                 mappings = {
@@ -100,7 +110,7 @@ return {
                     theme = 'dropdown',
                     layout_config = {
                         height = 0.9,
-                        width = 0.8,
+                        width = 0.9,
                     }
                 }
             },
