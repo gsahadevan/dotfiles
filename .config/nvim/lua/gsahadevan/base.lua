@@ -1,87 +1,53 @@
 vim.cmd('autocmd!')
 
-vim.scriptencoding    = 'utf-8'
-vim.opt.encoding      = 'utf-8'
-vim.opt.fileencoding  = 'utf-8'
+vim.wo.number          = true
+vim.wo.relativenumber  = true
 
-vim.wo.number         = true
-vim.wo.relativenumber = true
+vim.scriptencoding     = 'utf-8'
+vim.opt.encoding       = 'utf-8'
+vim.opt.fileencoding   = 'utf-8'
 
-vim.opt.tabstop       = 4
-vim.opt.softtabstop   = 4
-vim.opt.shiftwidth    = 4
-vim.opt.expandtab     = true
-vim.opt.smarttab      = true
+vim.g.indentLine_char  = '┃' -- indentLine
 
-vim.opt.title         = true
-vim.opt.autoindent    = true
-vim.opt.smartindent   = true
-vim.opt.breakindent   = true
+vim.opt.tabstop        = 4
+vim.opt.softtabstop    = 4
+vim.opt.shiftwidth     = 4
+vim.opt.expandtab      = true
+vim.opt.smarttab       = true
 
-vim.opt.hlsearch      = true
-vim.opt.incsearch     = true
-vim.opt.ignorecase    = true -- Case insensitive searching UNLESS /C or capital in search
+vim.opt.title          = true
+vim.opt.autoindent     = true
+vim.opt.smartindent    = true
+vim.opt.breakindent    = true
 
-vim.opt.backup        = false
-vim.opt.showcmd       = true
-vim.opt.cmdheight     = 1
-vim.opt.laststatus    = 2
-vim.opt.backupskip    = { '/tmp/*', '/private/tmp/*' }
-vim.opt.inccommand    = 'split'
-vim.opt.signcolumn    = 'yes:3'             -- always shows the sign column, otherwise it would shift the text each time
-vim.opt.wrap          = false               -- do not wrap lines, display one long line
-vim.opt.linebreak     = false               -- if wrap is enabled, set to true | donot split words
-vim.opt.backspace     = { 'start', 'eol', 'indent' }
-vim.opt.path:append { '**' }                -- Finding files - Search down into subfolders
-vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.hlsearch       = true
+vim.opt.incsearch      = true
+vim.opt.ignorecase     = true -- Case insensitive searching UNLESS /C or capital in search
+
+vim.opt.backup         = false
+vim.opt.showcmd        = true
+vim.opt.cmdheight      = 1
+vim.opt.laststatus     = 2
+vim.opt.backupskip     = { '/tmp/*', '/private/tmp/*' }
+vim.opt.inccommand     = 'split'
+vim.opt.signcolumn     = 'yes:3'            -- always shows the sign column, otherwise it would shift the text each time
+vim.opt.wrap           = false              -- do not wrap lines, display one long line
+vim.opt.linebreak      = false              -- if wrap is enabled, set to true | donot split words
+vim.opt.backspace      = { 'start', 'eol', 'indent' }
 vim.opt.completeopt    = 'menuone,noselect' -- set completeopt to have a better completion experience
 vim.opt.clipboard      = 'unnamed'
 
-vim.opt.foldcolumn     = '2'  -- show foldcolumn in nvim 0.9
-vim.opt.foldlevel      = 99   -- set high fold level for nvim-ufo
-vim.opt.foldlevelstart = 99   -- start with all code unfolded
-vim.opt.foldenable     = true -- enable fold for nvim-ufo
--- https://github.com/kevinhwang91/nvim-ufo/issues/4
--- vim.opt.fillchars      = { eob = ' ', fold = ' ', foldopen = '', foldsep = ' ', foldclose = '' }
+vim.opt.foldcolumn     = '2'         -- show foldcolumn in nvim 0.9
+vim.opt.foldlevel      = 99          -- set high fold level for nvim-ufo
+vim.opt.foldlevelstart = 99          -- start with all code unfolded
+vim.opt.foldenable     = true        -- enable fold for nvim-ufo
 
--- vim.opt.scrolloff = 10 -- min number of screen lines to keep above and below the cursor
--- vim.opt.shell = 'fish'
--- vim.opt.showcmd = true
--- vim.opt.showmode = true
--- vim.opt.list = true
--- vim.opt.listchars = { eol = '↴', tab = '▸ ', trail = '»', space = '⋅' }
--- vim.opt.fillchars = {
---     stl = ' ',
---     stlnc = ' ',
---     diff = '∙',
---     eob = ' ',
---     fold = '·',
---     horiz = '━',
---     horizup = '┻',
---     horizdown = '┳',
---     vert = '┃',
---     vertleft = '┫',
---     vertright = '┣',
---     verthoriz = '╋'
--- }
-vim.g.indentLine_char  = '┃' -- indentLine
-
--- Undercurl | does not work on iterm yet
--- vim.cmd([[let &t_Cs = "\e[4:3m"]])
--- vim.cmd([[let &t_Ce = "\e[4:0m"]])
+vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
+vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
     pattern = "*",
     command = "set nopaste"
 })
-
--- Add asterisks in block comments
-vim.opt.formatoptions:append { 'r' }
-
--- vim.opt.updatetime = 300
---
--- vim.api.nvim_create_autocmd("CursorHold", {
---     pattern = "*",
---     command = "lua vim.diagnostic.open_float()"
--- })
