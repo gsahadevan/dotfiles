@@ -40,9 +40,10 @@ keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic open fl
 keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic set loc list' })
 
 -- Terminal --
+-- For now, '<c-\\>' opens term_toggle using lspsaga (which opens in a floating window)
 -- Some other options are
 -- :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
-keymap('n', '<c-\\>', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
+keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
 
 -- Better terminal navigation
 local term_opts = { silent = true }
