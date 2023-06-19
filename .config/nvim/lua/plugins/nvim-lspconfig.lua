@@ -66,6 +66,15 @@ return {
                 end
             },
             { 'ray-x/lsp_signature.nvim' },
+            {
+                -- renders diagnostics using virtual lines on top of the real line of code
+                'Maan2003/lsp_lines.nvim',
+                config = function()
+                    require('lsp_lines').setup()
+                    vim.diagnostic.config({ virtual_lines = true })
+                    vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
+                end
+            },
         },
         config = function()
             -- local protocol = require('vim.lsp.protocol')
