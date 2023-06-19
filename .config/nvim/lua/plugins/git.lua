@@ -1,29 +1,17 @@
 return {
     {
-        'dinhhuy258/git.nvim',       -- for git blame & browse
+        'dinhhuy258/git.nvim',        -- for git blame & browse
         opts = {
-            default_mappings = true, -- NOTE: `quit_blame` and `blame_commit` are still merged to the keymaps even if `default_mappings = false`
-            -- keymaps = {
-            --     blame = '<leader>gb',               -- Open blame window
-            --     quit_blame = 'q',                   -- Close blame window
-            --     blame_commit = '<cr>',              -- Open blame commit
-            --     browse = '<leader>go',              -- Open file/folder in git repository
-            --     open_pull_request = '<leader>gp',   -- Open pull request of the current branch
-            --     create_pull_request = '<leader>gn', -- Create a pull request with the target branch is set in the `target_branch` option
-            --     diff = '<leader>gd',                -- Opens a new diff that compares against the current index
-            --     diff_close = '<leader>gD',          -- Close git diff
-            --     revert = '<leader>gr',              -- Revert to the specific commit
-            --     revert_file = '<leader>gR',         -- Revert the current file to the specific commit
-            -- },
+            default_mappings = true,  -- NOTE: `quit_blame` and `blame_commit` are still merged to the keymaps even if `default_mappings = false`
             target_branch = 'master', -- Default target branch when create a pull request
         },
     },
-    -- git-messenger.vim is a Vim/Neovim plugin to reveal the hidden message from Git under the cursor quickly.
-    -- It shows the history of commits under the cursor in popup window.
-    -- This plugin shows the message of the last commit in a 'popup window'.
-    -- If the last commit is not convenient, you can explore older commits in the popup window.
-    -- Additionally you can also check diff of the commit.
     {
+        -- git-messenger.vim is a Vim/Neovim plugin to reveal the hidden message from Git under the cursor quickly.
+        -- It shows the history of commits under the cursor in popup window.
+        -- This plugin shows the message of the last commit in a 'popup window'.
+        -- If the last commit is not convenient, you can explore older commits in the popup window.
+        -- Additionally you can also check diff of the commit.
         'rhysd/git-messenger.vim', -- shows history of commits under cursor in a pop window
     },
     {
