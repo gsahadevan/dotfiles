@@ -27,6 +27,18 @@
 -      require 'hop'.setup { keys = 'etovxpqdgfblzhckisuran' }
 -    end
 -  }
+- add to nvim-lspconfig
+`
+{
+    -- renders diagnostics using virtual lines on top of the real line of code
+    'Maan2003/lsp_lines.nvim',
+    config = function()
+        require('lsp_lines').setup()
+        vim.diagnostic.config({ virtual_lines = true })
+        vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
+    end
+},
+`
 
 #### Plugins for full stack dev
 -  use 'pangloss/vim-javascript' --JS support
