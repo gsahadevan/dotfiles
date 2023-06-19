@@ -14,6 +14,7 @@
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>%</kbd>								                  | split current pane vertically
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>"</kbd>								                  | split current pane horizontally
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>x</kbd>								                  | close the current pane
+|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>z</kbd>								                  | toggle zoomed state of the current pane
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>q</kbd>								                  | shows pane numbers
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>h</kbd>								                  | select pane left
 |<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>j</kbd>           			                  | select pane down
