@@ -56,6 +56,10 @@ if telescope then
         builtin.current_buffer_fuzzy_find(opts)
     end
 
+    local find_open_buffers = function()
+        builtin.buffers(opts)
+    end
+
     local find_files_all = function()
         builtin.find_files {
             hidden = true,
@@ -91,7 +95,7 @@ if telescope then
     -- You can pass additional configuration to telescope to change theme, layout, etc.
     keymap('n', '<leader>/', buffer_fuzzy_find, { desc = 'Telescope fuzzy search in curr. buffer' })
     keymap('n', '<leader>?', builtin.oldfiles, { desc = 'Telescope find recently opened files' })
-    keymap('n', '<leader><space>', builtin.buffers, { desc = 'Telescope show existing buffers' })
+    keymap('n', '<leader><space>', find_open_buffers, { desc = 'Telescope show existing buffers' })
 
     keymap('n', '<leader>f<cr>', builtin.resume, { desc = 'Telescope find, resume previous search' })
     keymap('n', '<leader>fp', builtin.find_files, { desc = 'Telescope find files with preview' })
