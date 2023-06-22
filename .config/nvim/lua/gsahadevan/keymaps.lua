@@ -33,6 +33,10 @@ keymap('n', '<C-l>', '<C-w>l', opts)
 keymap('v', '<', '<gv', opts)
 keymap('v', '>', '>gv', opts)
 
+-- Move visually selected text up and down
+keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts) -- in normal mode J -> joins lines
+keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hover doc
+
 -- Diagnostics --
 keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic goto prev' })
 keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic goto next' })
@@ -52,19 +56,18 @@ keymap('t', '<C-j>', '<C-\\><C-N><C-w>j', term_opts)
 keymap('t', '<C-k>', '<C-\\><C-N><C-w>k', term_opts)
 keymap('t', '<C-l>', '<C-\\><C-N><C-w>l', term_opts)
 
-keymap('n', 'J', 'mzJ`z')          -- keeps cursor in place when joining lines
-keymap('n', '<C-d>', '<C-d>zz')    -- keeps cursor in the middle of screen
-keymap('n', '<C-u>', '<C-u>zz')    -- keeps cursor in the middle of screen
-keymap('n', 'n', 'nzzzv')          -- keeps cursor in the middle for search terms
-keymap('n', 'N', 'Nzzzv')          -- keeps cursor in the middle for search terms
-keymap('x', '<leader>pp', '\'_dp') -- preserve pasted in buffer
-keymap('n', 'x', '"_x')            -- do not save characters cut using x
+keymap('n', 'J', 'mzJ`z')         -- keeps cursor in place when joining lines
+keymap('n', '<C-d>', '<C-d>zz')   -- keeps cursor in the middle of screen
+keymap('n', '<C-u>', '<C-u>zz')   -- keeps cursor in the middle of screen
+keymap('n', 'n', 'nzzzv')         -- keeps cursor in the middle for search terms
+keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
+keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer
+keymap('n', 'x', '"_x')           -- do not save characters cut using x
 
--- pressing leaderY would enabled further yanking to save yanked text to clipboard
-keymap('n', '<leader>y', '\'+y')
-keymap('v', '<leader>y', '\'+y')
-keymap('n', '<leader>Y', '\'+Y')
+-- pressing leaderY would enable further yanking to save yanked text to clipboard
+keymap('n', '<leader>y', '"+y')
+keymap('v', '<leader>y', '"+y')
+keymap('n', '<leader>Y', '"+Y')
 
-keymap('n', '<leader>d', '\'_d')
-keymap('v', '<leader>d', '\'_d')
-keymap('v', '<leader>d', '\'_d')
+keymap('n', '<leader>d', '"_d')
+keymap('v', '<leader>d', '"_d')
