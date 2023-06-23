@@ -122,7 +122,7 @@ alias vim="nvim" # Remap vim to nvim
 # some minor scripts for tmux
 alias tsh="tmux split-window -h -p 50"
 alias tsv="tmux split-window -v -p 50"
-alias ide="tmux rename-window 'ide'; tmux split-window -v -p 30; tmux split-window -h -p 33"
+alias ide="tmux rename-window 'ide'; tmux split-window -v -p 15; tmux split-window -h -p 20"
 
 # For git
 alias gs="git status"
@@ -130,12 +130,19 @@ alias gp="git pull"
 alias gcm="git checkout master"
 alias gpom="git pull origin master --no-rebase"
 
-# Mac setup for pomo, requires below packages
-# brew install terminal-notifier caarlos0/tap/timer
-# For M1 or M2, use arch -arm64 brew install ...
-alias work="timer 20m -n 'Pomodoro - Work time' && terminal-notifier -message 'Pomodoro'\
-    -title 'Work time is up! Take a break'\
-    -sound Crystal"
-alias rest="timer 05m -n 'Pomodoro - Rest time' && terminal-notifier -message 'Pomodoro'\
-    -title 'Break is over! Get back to work'\
-    -sound Crystal"
+# brew install caarlos0/tap/timer
+POMO_DEFAULT_TIME='5'
+POMO_DEFAULT_TASK='work'
+function pomo() {
+    if [ -n "$1" ]
+    then
+        if [ -n "$2" ]
+        then
+            timer "$2"m -n "$1 for $2 mins" && afplay /System/Library/Sounds/Funk.aiff
+        else
+            timer 5m -n "$1 for $POMO_DEFAULT_TIME mins" && afplay /System/Library/Sounds/Funk.aiff
+        fi 
+    else
+        timer 5m -n "$POMO_DEFAULT_TASK for $POMO_DEFAULT_TIME mins" && afplay /System/Library/Sounds/Funk.aiff
+    fi
+}
