@@ -34,6 +34,11 @@
 
 ## pomodoro timer
 
+to use pomodoro timer.
+```bash
+pomo <task_title> <time_in_mins>
+```
+
 there are plenty of ways to implement the pomodoro timer. listed below some of the ideas that got archived.
 ```bash
 # requires timer
