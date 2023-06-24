@@ -127,8 +127,6 @@ alias ide="tmux rename-window 'ide'; tmux split-window -v -p 15; tmux split-wind
 # For git
 alias gs="git status"
 alias gp="git pull"
-alias gcm="git checkout master"
-alias gpom="git pull origin master --no-rebase"
 
 # brew install caarlos0/tap/timer
 POMO_DEFAULT_TIME='5'
