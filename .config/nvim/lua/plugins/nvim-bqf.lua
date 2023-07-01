@@ -12,6 +12,7 @@ return {
             auto_enable = true,
             auto_resize_height = true, -- highly recommended enable
             preview = {
+                auto_preview = false,
                 win_height = 12,
                 win_vheight = 12,
                 delay_syntax = 80,

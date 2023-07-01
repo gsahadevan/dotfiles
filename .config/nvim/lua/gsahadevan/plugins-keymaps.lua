@@ -36,7 +36,10 @@ if telescope then
             grouped = true,
             previewer = false,
             initial_mode = 'insert', -- can be normal
-            layout_config = { height = 20 }
+            layout_config = {
+                height = 0.4,
+                width = 0.8,
+            }
         })
     end
 
@@ -44,10 +47,10 @@ if telescope then
     -- Ref: https://github.com/nvim-telescope/telescope.nvim/issues/848
     local opts = themes.get_dropdown {
         path_display = { 'absolute' },
-        winblend = 10,
+        -- winblend = 10,
         previewer = false,
         layout_config = {
-            height = 0.9,
+            height = 0.4,
             width = 0.8,
         },
     }
@@ -232,4 +235,9 @@ if dap then
     --     ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<cr>")
     -- keymap("n", "<leader>dr", ":lua require'dap'.repl.open()<cr>")
     -- keymap("n", "<leader>dt", ":lua require'dap-go'.debug_test()<cr>")
+end
+
+local _, ranger = pcall(require, 'ranger-nvim')
+if ranger then
+    keymap('n', '<leader>ef', ranger.open, { desc = 'Ranger open' })
 end

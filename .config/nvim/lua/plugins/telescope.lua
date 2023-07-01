@@ -16,15 +16,16 @@ return {
                 prompt_prefix = '❯ ',
                 -- use the below to display default telescope theme
                 -- layout_strategy = 'bottom_pane',
-                -- layout_config = {
-                --     height = 0.9,
-                -- },
+                layout_config = {
+                    height = 0.95,
+                    width = 0.95,
+                },
                 -- border = true,
                 -- sorting_strategy = 'ascending',
                 -- path_display = { 'absolute' },
                 -- path_display = { 'smart' }, -- get more info :h telescope.default.path_display
 
-                path_display = { 'absolute' },
+                path_display = { 'smart' },
                 -- Default configuration for telescope goes here:
                 -- config_key = value,
                 mappings = {

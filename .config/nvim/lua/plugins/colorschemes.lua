@@ -6,6 +6,7 @@ return {
     },
     { 'Yazeed1s/minimal.nvim' },
     { 'lunarvim/horizon.nvim' },
+    { 'rebelot/kanagawa.nvim' },
     { 'Shatur/neovim-ayu' }, -- A colorscheme for Neovim 0.8+ reimplemented in lua from ayu-vim.
     {
         'folke/tokyonight.nvim',

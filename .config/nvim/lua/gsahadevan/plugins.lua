@@ -13,8 +13,8 @@ vim.opt.rtp:prepend(lazypath)
 
 local opts = {
     ui = {
-        width = 0.8,
-        height = 0.9,
+        height = 0.95,
+        width = 0.95,
         border = 'rounded',
     }
 }
