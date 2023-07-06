@@ -71,3 +71,5 @@ keymap('n', '<leader>Y', '"+Y')
 
 keymap('n', '<leader>d', '"_d')
 keymap('v', '<leader>d', '"_d')
+
+keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })

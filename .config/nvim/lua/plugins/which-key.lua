@@ -1,3 +1,4 @@
+-- we can still use telescope keymaps instead
 return {
     'folke/which-key.nvim',
     config = function()
