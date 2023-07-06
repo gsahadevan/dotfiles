@@ -9,28 +9,28 @@
 
 ## tmux keymaps
 
-|Keymaps         															                                |Function                        
+| Keymaps         															  | Function                        
 |-----------------------------------------------------------------------------|--------------------------
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>%</kbd>								                  | split current pane vertically
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>"</kbd>								                  | split current pane horizontally
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>x</kbd>								                  | close the current pane
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>z</kbd>								                  | toggle zoomed state of the current pane
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>q</kbd>								                  | shows pane numbers
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>h</kbd>								                  | select pane left
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>j</kbd>           			                  | select pane down
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>k</kbd>            			                | select pane up
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>l</kbd>                      			      | select pane right
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>h</kbd>                | resize pane left
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>j</kbd>                | resize pane down
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>k</kbd>                | resize pane up
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>l</kbd>                | resize pane right
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>, </kbd>								                  | rename current window
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>c</kbd>                                  | create window
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>1</kbd>								                  | move to window with number 1
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>p</kbd>								                  | move to previous window
-|<kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>n</kbd>								                  | move to next window
-|<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8592;</kbd>					            | move current window to left
-|<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8594;</kbd>					            | move current window to right
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>%</kbd>								  | split current pane vertically
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>"</kbd>								  | split current pane horizontally
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>x</kbd>								  | close the current pane
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>z</kbd>								  | toggle zoomed state of the current pane
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>q</kbd>								  | shows pane numbers
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>h</kbd>								  | select pane left
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>j</kbd>           			          | select pane down
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>k</kbd>            			          | select pane up
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>l</kbd>                      			  | select pane right
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>h</kbd>               | resize pane left
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>j</kbd>               | resize pane down
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>k</kbd>               | resize pane up
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>Ctrl</kbd> + <kbd>l</kbd>               | resize pane right
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>, </kbd>								  | rename current window
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>c</kbd>                                 | create window
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>1</kbd>								  | move to window with number 1
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>p</kbd>								  | move to previous window
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>n</kbd>								  | move to next window
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8592;</kbd>					  | move current window to left
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8594;</kbd>					  | move current window to right
 
 ## pomodoro timer
 
@@ -67,4 +67,33 @@ printf \\a
 osascript -e beep
 say done
 afplay /System/Library/Sounds/Funk.aiff
+```
+
+## kitty keymaps
+
+a more detailed list is provided in the [kitty documentation](https://sw.kovidgoyal.net/kitty/overview/#design-philosophy).
+
+| Keymaps         															  | Function                        
+|-----------------------------------------------------------------------------|--------------------------
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>t</kbd>  						  | switch to new tab
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>q</kbd>  						  | close the current tab 
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8594;</kbd>					  | switch to next tab
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8592;</kbd>					  | switch to prev tab
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd>  					  | switch to new window
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>w</kbd>  						  | close the current window
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>]</kbd>  						  | switch to next window
+| <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>[</kbd>  						  | switch to prev window
+
+## kitty keymaps - macos (one could also use the keymaps above)
+
+| Keymaps         															  | Function                        
+|-----------------------------------------------------------------------------|--------------------------
+| <kbd>Command</kbd> + <kbd>t</kbd>  						                  | switch to new tab
+| <kbd>Command</kbd> + <kbd>Enter</kbd>  						              | switch to new window
+| <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>d</kbd> 						  | close the current window
+
+choosing a kitty theme flavour
+```bash
+kitty +kitten themes --reload-in=all <optional: theme name>
+kitty +kitten themes --reload-in=all Catppuccin-Frappe
 ```
