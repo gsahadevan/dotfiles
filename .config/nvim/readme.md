@@ -40,6 +40,9 @@
 },
 `
 
+- https://github.com/sidebar-nvim/sidebar.nvim/ -> did try, didn;t like the current state.
+
+
 #### Plugins for full stack dev
 -  use 'pangloss/vim-javascript' --JS support
 -  use 'leafgarland/typescript-vim' --TS support

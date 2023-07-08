@@ -1,5 +1,14 @@
 return {
     {
+        -- git.nvim is the simple clone of the plugin vim-fugitive which is written in Lua.
+        -- some available commands
+        -- :Git                       -- run git command in terminal (for example :Git checkout -b test)
+        -- :GitBlame                  -- opens git blame window
+        -- :GitDiff                   -- opens a new diff that compares against the current index. You can also provide any valid git rev to the command. Eg: :GitDiff HEAD~2
+        -- :GitDiffClose              -- close the git diff window
+        -- :GitCreatePullRequest      -- create pull request in git repository, the default target branch is set in the target_branch option. If you provide the branch then the default target_branch will be ignored
+        -- :GitRevert                 -- revert to specific commit
+        -- :GitRevertFile             -- revert the current file to specific commit
         'dinhhuy258/git.nvim',        -- for git blame & browse
         opts = {
             default_mappings = true,  -- NOTE: `quit_blame` and `blame_commit` are still merged to the keymaps even if `default_mappings = false`
@@ -62,7 +71,7 @@ return {
         },
     },
     {
-        -- Vim's diff mode is pretty good, but there is no convenient way to quickly bring up all modified files in a diffsplit.
+        -- vim's diff mode is pretty good, but there is no convenient way to quickly bring up all modified files in a diffsplit.
         -- This plugin aims to provide a simple, unified, single tabpage interface
         -- that lets you easily review all changed files for any git rev.
         'sindrets/diffview.nvim',
@@ -187,7 +196,14 @@ return {
                         -- tabpage is a Diffview.
                         -- prettier-ignore
                         -- stylua: ignore
-                        { 'n', '<tab>',     actions.select_next_entry, { desc = 'Open the diff for the next file' } },
+                        {
+                            'n',
+                            '<tab>',
+                            actions.select_next_entry,
+                            {
+                                desc = 'Open the diff for the next file'
+                            }
+                        },
                         { 'n', '<s-tab>', actions.select_prev_entry, {
                             desc =
                             'Open the diff for the previous file'
@@ -208,7 +224,7 @@ return {
                             desc =
                             'Bring focus to the file panel'
                         } },
-                        { 'n', '<leader>b', actions.toggle_files,      { desc = 'Toggle the file panel.' } },
+                        { 'n', '<leader>b', actions.toggle_files,            { desc = 'Toggle the file panel.' } },
                         { 'n', 'g<C-x>', actions.cycle_layout, {
                             desc =
                             'Cycle through available layouts.'
@@ -243,7 +259,7 @@ return {
                                 desc =
                                 'Choose all the versions of a conflict'
                             } },
-                        { 'n', 'dx', actions.conflict_choose('none'), { desc = 'Delete the conflict region' } },
+                        { 'n', 'dx',        actions.conflict_choose('none'), { desc = 'Delete the conflict region' } },
                         { 'n', '<leader>cO', actions.conflict_choose_all('ours'),
                             {
                                 desc =
