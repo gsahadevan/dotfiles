@@ -8,27 +8,35 @@
 - https://github.com/luukvbaal/statuscol.nvim
 - https://github.com/jose-elias-alvarez/typescript.nvim
 - https://github.com/phaazon/hop.nvim
+- https://github.com/sidebar-nvim/sidebar.nvim/ -> did try, didn't like the current state.
 - TimUntersberger/neogit
 - rhysd/vim-grammarous
 - sheerun/vim-polyglot
 - Markdown preview
 - use 'ellisonleao/glow.nvim'
-- install without yarn or npm
-- use({ 
--   "iamcco/markdown-preview.nvim",
--   run = function() vim.fn["mkdp#util#install"]() end,
--  })
-- Nvim motions
--  use {
--    'phaazon/hop.nvim',
--     branch = 'v2',
--     requires = { 'nvim-lua/plenary.nvim' },
--   config = function()
--      require 'hop'.setup { keys = 'etovxpqdgfblzhckisuran' }
--    end
--  }
-- add to nvim-lspconfig
-`
+
+install without yarn or npm
+```
+use({ 
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn['mkdp#util#install']() end,
+})
+```
+
+nvim motions
+```
+use {
+    'phaazon/hop.nvim',
+    branch = 'v2',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+        require 'hop'.setup { keys = 'etovxpqdgfblzhckisuran' }
+    end
+}
+```
+
+add to nvim-lspconfig
+```
 {
     -- renders diagnostics using virtual lines on top of the real line of code
     'Maan2003/lsp_lines.nvim',
@@ -38,11 +46,10 @@
         vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
     end
 },
-`
+```
 
-- https://github.com/sidebar-nvim/sidebar.nvim/ -> did try, didn;t like the current state.
-- we could also use bufferline instead of cokeline
-`
+could also use `bufferline` instead of `nvim-cokeline`
+```
 return {
     'akinsho/bufferline.nvim',
     version = "*",
@@ -51,18 +58,20 @@ return {
         require("bufferline").setup {}
     end
 }
-`
-
+```
 
 #### Plugins for full stack dev
--  use 'pangloss/vim-javascript' --JS support
--  use 'leafgarland/typescript-vim' --TS support
--  use 'maxmellon/vim-jsx-pretty' --JS and JSX syntax
--  use 'jparise/vim-graphql' --GraphQL syntax
--  use 'mattn/emmet-vim'
+```
+use 'pangloss/vim-javascript'     -- JS support
+use 'leafgarland/typescript-vim'  -- TS support
+use 'maxmellon/vim-jsx-pretty'    -- JS and JSX syntax
+use 'jparise/vim-graphql'         -- GraphQL syntax
+use 'mattn/emmet-vim'
+```
 
-#### Few additional installations 
-
-- python3 -m pip install --user --upgrade pynvim
-- brew install wget
-- npm install -g neovim
+#### Few additional installations
+```
+python3 -m pip install --user --upgrade pynvim
+brew install wget
+npm install -g neovim
+```
