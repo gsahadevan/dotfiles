@@ -41,6 +41,17 @@
 `
 
 - https://github.com/sidebar-nvim/sidebar.nvim/ -> did try, didn;t like the current state.
+- we could also use bufferline instead of cokeline
+`
+return {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+        require("bufferline").setup {}
+    end
+}
+`
 
 
 #### Plugins for full stack dev
