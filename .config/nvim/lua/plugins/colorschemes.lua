@@ -8,6 +8,8 @@ return {
     { 'lunarvim/horizon.nvim' },
     { 'rebelot/kanagawa.nvim' },
     { 'Shatur/neovim-ayu' }, -- A colorscheme for Neovim 0.8+ reimplemented in lua from ayu-vim.
+    { 'frenzyexists/aquarium-vim' },
+    { 'projekt0n/github-nvim-theme' },
     {
         'folke/tokyonight.nvim',
         lazy = false,
