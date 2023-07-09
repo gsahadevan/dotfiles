@@ -18,10 +18,10 @@ keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Se
 keymap('n', '<leader>nh', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
 
 -- Split window
-keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Split current window vertically' })
-keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Split current window horizontally' })
-keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Make all windows equal size' })
-keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Close current window' })
+keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
+keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
+keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
+keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Window close current' })
 
 -- Better window navigation
 keymap('n', '<C-h>', '<C-w>h', opts)

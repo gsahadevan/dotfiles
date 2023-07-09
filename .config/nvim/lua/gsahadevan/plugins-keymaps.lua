@@ -150,12 +150,12 @@ end
 
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
-    keymap('n', '<leader>g]', gitsigns.next_hunk, { desc = 'Git next hunk' })
-    keymap('n', '<leader>g[', gitsigns.prev_hunk, { desc = 'Git prev hunk' })
-    keymap('n', '<leader>ghp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })
-    keymap('n', '<leader>ghs', gitsigns.stage_hunk, { desc = 'Git hunk stage' })
-    keymap('n', '<leader>ghu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
-    keymap('n', '<leader>ghr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
+    keymap('n', '<leader>]h', gitsigns.next_hunk, { desc = 'Git hunk next' })
+    keymap('n', '<leader>[h', gitsigns.prev_hunk, { desc = 'Git hunk prev' })
+    keymap('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })
+    keymap('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Git hunk stage' })
+    keymap('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
+    keymap('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
 end
 
 local _, git_messenger = pcall(require, 'git-messenger')
