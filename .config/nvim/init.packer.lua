@@ -1,4 +1,4 @@
--- add base settings
+-- Add base settings
 vim.cmd('autocmd!')
 
 vim.wo.number          = true
@@ -65,14 +65,24 @@ vim.opt.path:append { '**' }         -- Finding files - Search down into subfold
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
 
--- turn off paste mode when leaving insert
+vim.opt.rtp:append('/opt/homebrew/opt/fzf')
+
+-- Add diagnostic symbols in the sign column (gutter)
+local signs = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
+for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+end
+
+-- Add autocommands
+
+-- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd('InsertLeave', {
     pattern = '*',
     command = 'set nopaste'
 })
 
--- [[ Highlight on yank ]]
--- see `:help vim.highlight.on_yank()`
+-- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
@@ -82,16 +92,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- diagnostic symbols in the sign column (gutter)
-local signs = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
-for type, icon in pairs(signs) do
-    local hl = 'DiagnosticSign' .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-end
-
-vim.opt.rtp:append('/opt/homebrew/opt/fzf')
-
--- add keymaps
+-- Add keymaps
 
 -- Modes reference
 -- n - normal_mode | i - insert_mode | v - visual_mode | x - visual_block_mode | t - term_mode (terminal) | c - command_mode
@@ -105,13 +106,14 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
-keymap('n', '<leader>nh', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
+keymap('n', '<esc>', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
 
 -- Split window
 keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
 keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
 keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
 keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Window close current' })
+keymap('n', 'sr', '<C-w><C-r>', { noremap = true, silent = true, desc = 'Window swap position' })
 
 -- Stay in visual mode while indenting
 keymap('v', '<', '<gv', opts)
@@ -121,7 +123,7 @@ keymap('v', '>', '>gv', opts)
 keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts) -- in normal mode J -> joins lines
 keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hover doc
 
--- some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
+-- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
 keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
 
 keymap('n', 'J', 'mzJ`z')         -- keeps cursor in place when joining lines
@@ -132,7 +134,7 @@ keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
 keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer
 keymap('n', 'x', '"_x')           -- do not save characters cut using x
 
--- pressing leaderY would enable further yanking to save yanked text to clipboard
+-- Pressing leaderY would enable further yanking to save yanked text to clipboard
 keymap('n', '<leader>y', '"+y')
 keymap('v', '<leader>y', '"+y')
 keymap('n', '<leader>Y', '"+Y')
@@ -141,12 +143,14 @@ keymap('n', '<leader>d', '"_d')
 keymap('v', '<leader>d', '"_d')
 
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
+
+-- Specific to this configuration
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
 keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr>', { desc = 'Buffer close' })
 keymap('n', '<leader>W', '<cmd>bdelete!<cr>', { desc = 'Buffer force close' })
 
--- install packer
+-- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -155,7 +159,7 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.cmd [[packadd packer.nvim]]
 end
 
--- install packages
+-- Install packages
 require('packer').startup({
     function(use)
         use { 'wbthomason/packer.nvim' }                                                -- packer can manage itself
@@ -219,7 +223,7 @@ require('packer').startup({
     }
 })
 
--- when we are bootstrapping a configuration, it doesn't make sense to execute the rest of the init.lua.
+-- When we are bootstrapping a configuration, it doesn't make sense to execute the rest of the init.lua.
 -- restart nvim, and then it will work.
 if is_bootstrap then
     print '=================================='
@@ -230,7 +234,7 @@ if is_bootstrap then
     return
 end
 
--- automatically source and re-compile packer whenever you save this init.lua
+-- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
     command = 'source <afile> | PackerCompile',
@@ -238,7 +242,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = vim.fn.expand '$MYVIMRC',
 })
 
--- configure plugins
+-- Configure plugins
 require('Comment').setup()
 require('nvim-tree').setup()
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
@@ -476,7 +480,7 @@ require('gitsigns').setup({
         follow_files = true
     },
     attach_to_untracked = true,
-    current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
     current_line_blame_opts = {
         virt_text = true,
         virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
@@ -503,6 +507,8 @@ require('gitsigns').setup({
 })
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
+    -- Disabled current line blame by default, use this key combination to enable it if required
+    keymap('n', '<leader>gmt', gitsigns.toggle_current_line_blame, { desc = 'Git toggle current line blame' })
     keymap('n', '<leader>]h', gitsigns.next_hunk, { desc = 'Git hunk next' })
     keymap('n', '<leader>[h', gitsigns.prev_hunk, { desc = 'Git hunk prev' })
     keymap('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })

@@ -22,12 +22,14 @@ keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc
 keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
 keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
 keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Window close current' })
+keymap('n', 'sr', '<C-w><C-r>', { noremap = true, silent = true, desc = 'Window swap position' })
 
 -- Better window navigation
-keymap('n', '<C-h>', '<C-w>h', opts)
-keymap('n', '<C-j>', '<C-w>j', opts)
-keymap('n', '<C-k>', '<C-w>k', opts)
-keymap('n', '<C-l>', '<C-w>l', opts)
+-- NOTE: Not required since we have vim-tmux-navigator
+-- keymap('n', '<C-h>', '<C-w>h', opts)
+-- keymap('n', '<C-j>', '<C-w>j', opts)
+-- keymap('n', '<C-k>', '<C-w>k', opts)
+-- keymap('n', '<C-l>', '<C-w>l', opts)
 
 -- Stay in visual mode while indenting
 keymap('v', '<', '<gv', opts)
@@ -38,10 +40,11 @@ keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts) -- in normal mode J -> joins lines
 keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hover doc
 
 -- Diagnostics --
-keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic goto prev' })
-keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic goto next' })
-keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic open float window' })
-keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic set loc list' })
+-- NOTE: Not required since we have lsp configured
+-- keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic goto prev' })
+-- keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic goto next' })
+-- keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic open float window' })
+-- keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Diagnostic set loc list' })
 
 -- Terminal --
 -- For now, '<c-\\>' opens term_toggle using lspsaga (which opens in a floating window)
