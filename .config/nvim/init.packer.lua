@@ -192,13 +192,11 @@ require('packer').startup({
 
         use { 'dinhhuy258/git.nvim' }                                      -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                  -- show git file modification signs on gutter
-        use { 'rhysd/git-messenger.vim' }                                  -- show commit history under cursor in a pop window
         use { 'sindrets/diffview.nvim' }                                   -- single tabpage interface for easily cycling through git diffs
         use { 'NeogitOrg/neogit', requires = { 'nvim-lua/plenary.nvim' } } -- magit clone for nvim
 
         use { 'christoomey/vim-tmux-navigator' }                           -- seamlessly move btw vim panes and tmux
 
-        use { 'folke/trouble.nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
         use { 'kevinhwang91/nvim-bqf' }
         use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
         use { 'nvim-treesitter/nvim-treesitter' }
@@ -244,7 +242,244 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- Configure plugins
 require('Comment').setup()
-require('nvim-tree').setup()
+require('nvim-tree').setup({
+    auto_reload_on_write = true,
+    disable_netrw = false,
+    hijack_cursor = false,
+    hijack_netrw = true,
+    hijack_unnamed_buffer_when_opening = false,
+    sort_by = 'name',
+    root_dirs = {},
+    prefer_startup_root = false,
+    sync_root_with_cwd = false,
+    reload_on_bufenter = false,
+    respect_buf_cwd = false,
+    on_attach = 'default',
+    remove_keymaps = false,
+    select_prompts = false,
+    view = {
+        centralize_selection = true,
+        cursorline = true,
+        debounce_delay = 15,
+        width = 45,
+        hide_root_folder = false,
+        side = 'left',
+        preserve_window_proportions = true,
+        number = false,
+        relativenumber = false,
+        signcolumn = 'yes',
+        mappings = {
+            custom_only = false,
+            list = {
+                -- user mappings go here
+            },
+        },
+        float = {
+            enable = false,
+            quit_on_focus_loss = true,
+            open_win_config = {
+                relative = 'editor',
+                border = 'rounded',
+                width = 30,
+                height = 30,
+                row = 1,
+                col = 1,
+            },
+        },
+    },
+    renderer = {
+        add_trailing = false,
+        group_empty = false,
+        highlight_git = false,
+        full_name = false,
+        highlight_opened_files = 'none',
+        highlight_modified = 'none',
+        root_folder_label = ':~:s?$?/..?',
+        indent_width = 2,
+        indent_markers = {
+            enable = false,
+            inline_arrows = true,
+            icons = {
+                corner = '└',
+                edge = '│',
+                item = '│',
+                bottom = '─',
+                none = ' ',
+            },
+        },
+        icons = {
+            webdev_colors = true,
+            git_placement = 'before',
+            modified_placement = 'after',
+            padding = ' ',
+            symlink_arrow = ' ➛ ',
+            show = {
+                file = true,
+                folder = true,
+                folder_arrow = true,
+                git = true,
+                modified = true,
+            },
+            glyphs = {
+                default = '',
+                symlink = '',
+                bookmark = '󰆤',
+                modified = '●',
+                folder = {
+                    arrow_closed = '',
+                    arrow_open = '',
+                    default = '',
+                    open = '',
+                    empty = '',
+                    empty_open = '',
+                    symlink = '',
+                    symlink_open = '',
+                },
+                git = {
+                    unstaged = '✗',
+                    staged = '✓',
+                    unmerged = '',
+                    renamed = '➜',
+                    untracked = '★',
+                    deleted = '',
+                    ignored = '◌',
+                },
+            },
+        },
+        special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'readme.md' },
+        symlink_destination = true,
+    },
+    hijack_directories = {
+        enable = true,
+        auto_open = true,
+    },
+    update_focused_file = {
+        enable = true,
+        update_root = false,
+        ignore_list = {},
+    },
+    system_open = {
+        cmd = '',
+        args = {},
+    },
+    diagnostics = {
+        enable = true,
+        show_on_dirs = false,
+        show_on_open_dirs = true,
+        debounce_delay = 50,
+        severity = {
+            min = vim.diagnostic.severity.HINT,
+            max = vim.diagnostic.severity.ERROR,
+        },
+        icons = {
+            hint = '',
+            info = '',
+            warning = '',
+            error = '',
+        },
+    },
+    filters = {
+        dotfiles = false,
+        git_clean = false,
+        no_buffer = false,
+        custom = {},
+        exclude = {},
+    },
+    filesystem_watchers = {
+        enable = true,
+        debounce_delay = 50,
+        ignore_dirs = {},
+    },
+    git = {
+        enable = true,
+        ignore = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+        disable_for_dirs = {},
+        timeout = 400,
+    },
+    modified = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+    },
+    actions = {
+        use_system_clipboard = true,
+        change_dir = {
+            enable = true,
+            global = false,
+            restrict_above_cwd = false,
+        },
+        expand_all = {
+            max_folder_discovery = 300,
+            exclude = {},
+        },
+        file_popup = {
+            open_win_config = {
+                col = 1,
+                row = 1,
+                relative = 'cursor',
+                border = 'shadow',
+                style = 'minimal',
+            },
+        },
+        open_file = {
+            quit_on_open = true,
+            resize_window = true,
+            window_picker = {
+                enable = true,
+                picker = 'default',
+                chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
+                exclude = {
+                    filetype = { 'notify', 'packer', 'qf', 'diff', 'fugitive', 'fugitiveblame' },
+                    buftype = { 'nofile', 'terminal', 'help' },
+                },
+            },
+        },
+        remove_file = {
+            close_window = true,
+        },
+    },
+    trash = {
+        cmd = 'gio trash',
+    },
+    live_filter = {
+        prefix = '[FILTER]: ',
+        always_show_folders = true,
+    },
+    tab = {
+        sync = {
+            open = false,
+            close = false,
+            ignore = {},
+        },
+    },
+    notify = {
+        threshold = vim.log.levels.INFO,
+        absolute_path = true,
+    },
+    ui = {
+        confirm = {
+            remove = true,
+            trash = true,
+        },
+    },
+    experimental = {},
+    log = {
+        enable = false,
+        truncate = false,
+        types = {
+            all = false,
+            config = false,
+            copy_paste = false,
+            dev = false,
+            diagnostics = false,
+            git = false,
+            profile = false,
+            watcher = false,
+        },
+    },
+})
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
 require('indent_blankline').setup {
     char = '┊',
@@ -416,27 +651,26 @@ lsp.on_attach(function(client, bufnr)
 end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls()) -- (optional) configure lua language server for neovim
 lsp.setup()
--- list of commands and keymaps
--- K:       vim.lsp.buf.hover()             Displays hover information about the symbol under the cursor in a floating window.
--- gd:      vim.lsp.buf.definition()        Jumps to the definition of the symbol under the cursor.
--- gD:      vim.lsp.buf.declaration()       Jumps to the declaration of the symbol under the cursor. Some servers don't implement this feature.
--- gi:      vim.lsp.buf.implementation()    Lists all the implementations for the symbol under the cursor in the quickfix window.
--- go:      vim.lsp.buf.type_definition()   Jumps to the definition of the type of the symbol under the cursor.
--- gr:      vim.lsp.buf.references()        Lists all the references to the symbol under the cursor in the quickfix window.
--- gs:      vim.lsp.buf.signature_help()    Displays signature information about the symbol under the cursor in a floating window. If a mapping already exists for this key this function is not bound.
--- <F2>:    vim.lsp.buf.rename()            Renames all references to the symbol under the cursor.
--- <F3>:    vim.lsp.buf.format()            Format code in current buffer.
--- <F4>:    vim.lsp.buf.code_action()       Selects a code action available at the current cursor position.
--- gl:      vim.diagnostic.open_float()     Show diagnostics in a floating window.
--- [d:      vim.diagnostic.goto_prev()      Move to the previous diagnostic in the current buffer.
--- ]d:      vim.diagnostic.goto_next()      Move to the next diagnostic.
 
--- add new keymaps since in mac it is hard to use function rows
-keymap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signature info for symbol under cursor' })
-keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references to symbol under cursor' })
+-- Add new keymaps since in mac it is hard to use function rows
+keymap('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover info of symbol under cursor in float window' })
+keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Jumps to definition of symbol under cursor' })
+keymap('n', 'gD', vim.lsp.buf.declaration, { desc = 'Jumps to declaration of symbol under cursor' })
+keymap('n', 'gi', vim.lsp.buf.implementation, { desc = 'Show implementations of symbol under cursor in quickfix' })
+keymap('n', 'go', vim.lsp.buf.type_definition, { desc = 'Jumps to definition of type of symbol under cursor' })
+keymap('n', 'gr', vim.lsp.buf.references, { desc = 'Lists all references of symbol under cursor in quickfix window' })
+keymap('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor in float window' })
+keymap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor' })
+-- keymap('n', '<f2>', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })
+-- keymap('n', '<f3>', vim.lsp.buf.format, { desc = 'Format code in current buffer' })
+-- keymap('n', '<f4>', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })
+keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })
 keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })
 keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
+keymap('n', 'gl', vim.diagnostic.open_float, { desc = 'Show diagnostics in float window' })
+keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
+keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
 
 require('mason').setup({
     ui = {
@@ -516,30 +750,9 @@ if gitsigns then
     keymap('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
     keymap('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
 end
-local _, git_messenger = pcall(require, 'git-messenger')
-if git_messenger then
-    keymap('n', '<leader>gmo', '<cmd>GitMessenger<cr>', { desc = 'Git messenger open' })
-    keymap('n', '<leader>gmc', '<cmd>GitMessengerClose<cr>', { desc = 'Git messenger close' })
-end
 require('diffview').setup({})
 require('neogit').setup {}
 
-local _, trouble = pcall(require, 'trouble')
-if trouble then
-    keymap('n', '<leader>xx', '<cmd>TroubleToggle<cr>', { desc = 'Trouble toggle' })
-    keymap('n', '<leader>xw', '<cmd>TroubleToggle workspace_diagnostics<cr>',
-        { desc = 'Trouble show workspace diagnostics' })
-    keymap('n', '<leader>xd', '<cmd>TroubleToggle document_diagnostics<cr>',
-        { desc = 'Trouble show document diagnostics' })
-    keymap('n', '<leader>xl', '<cmd>TroubleToggle loclist<cr>', { desc = 'Trouble show window location list' })
-    keymap('n', '<leader>xq', '<cmd>TroubleToggle quickfix<cr>', { desc = 'Trouble show quickfix list' })
-    keymap('n', '<leader>xr', '<cmd>TroubleToggle lsp_references<cr>',
-        { desc = 'Trouble show references under word cursor' })
-    keymap('n', '<leader>xD', '<cmd>TroubleToggle lsp_definitions<cr>',
-        { desc = 'Trouble show definitions under word cursor' })
-    keymap('n', '<leader>xT', '<cmd>TroubleToggle lsp_type_definitions<cr>',
-        { desc = 'Trouble show type definitions under word cursor' })
-end
 require('bqf').setup({})
 
 require('nvim-autopairs').setup {}
@@ -549,8 +762,3 @@ require('nvim-surround').setup({})
 require('scrollbar').setup({})
 require('scrollbar.handlers.gitsigns').setup()
 require('scrollbar.handlers.search').setup({})
-require('ufo').setup({
-    provider_selector = function(bufnr, filetype, buftype)
-        return { 'treesitter', 'indent' }
-    end
-})
