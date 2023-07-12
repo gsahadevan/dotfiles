@@ -1,4 +1,3 @@
--- Add base settings
 vim.cmd('autocmd!')
 
 vim.wo.number          = true
@@ -45,7 +44,7 @@ vim.opt.swapfile       = false -- disable swap files in neovim
 vim.opt.undofile       = true  -- save undo history
 vim.opt.updatetime     = 250   -- decrease update time
 
-vim.opt.foldcolumn     = '2'   -- show foldcolumn in nvim 0.9
+vim.opt.foldcolumn     = '1'   -- show foldcolumn in nvim 0.9
 vim.opt.foldlevel      = 99    -- set high fold level for nvim-ufo
 vim.opt.foldlevelstart = 99    -- start with all code unfolded
 vim.opt.foldenable     = true  -- enable fold for nvim-ufo
@@ -83,14 +82,39 @@ vim.api.nvim_create_autocmd('InsertLeave', {
 })
 
 -- Highlight on yank
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
-    group = highlight_group,
+    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
     callback = function()
         vim.highlight.on_yank()
     end,
 })
+
+function OrganizeImports(timeoutms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = { only = { 'source.organizeImports' } }
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
+    for _, res in pairs(result or {}) do
+        for _, r in pairs(res.result or {}) do
+            if r.edit then
+                vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
+            else
+                vim.lsp.buf.execute_command(r.command)
+            end
+        end
+    end
+end
+
+-- Organize the imports
+vim.api.nvim_create_autocmd('BufWritePre', {
+    pattern = '*',
+    callback = function()
+        vim.lsp.buf.format()
+        OrganizeImports(1000)
+    end,
+})
+
+
 
 -- Add keymaps
 
@@ -182,9 +206,10 @@ require('packer').startup({
                 { 'williamboman/mason-lspconfig.nvim' },
                 -- Autocompletion
                 { 'hrsh7th/nvim-cmp' },
-                { 'hrsh7th/cmp-nvim-lsp' },
                 { 'hrsh7th/cmp-buffer' },
                 { 'hrsh7th/cmp-path' },
+                { 'hrsh7th/cmp-cmdline' },
+                { 'hrsh7th/cmp-nvim-lsp' },
                 { 'L3MON4D3/LuaSnip' },
                 { 'saadparwaiz1/cmp_luasnip' }
             }
@@ -199,7 +224,7 @@ require('packer').startup({
 
         use { 'kevinhwang91/nvim-bqf' }
         use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
-        use { 'nvim-treesitter/nvim-treesitter' }
+        use { 'nvim-treesitter/nvim-treesitter' } -- also required for nvim-ufo
 
         use { 'windwp/nvim-autopairs' }
         use { 'windwp/nvim-ts-autotag' }
@@ -652,6 +677,76 @@ end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls()) -- (optional) configure lua language server for neovim
 lsp.setup()
 
+-- You need to setup `cmp` after lsp-zero
+local ELLIPSIS_CHAR = '…'
+local MAX_LABEL_WIDTH = 30
+local MIN_LABEL_WIDTH = 30
+local cmp = require('cmp')
+local cmp_action = require('lsp-zero').cmp_action()
+require('luasnip.loaders.from_vscode').lazy_load()
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users
+        end,
+    },
+    mapping = {
+        -- `Enter` key to confirm completion
+        ['<cr>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true
+        }),
+        -- Ctrl+Space to trigger completion menu
+        ['<C-Space>'] = cmp.mapping.complete(),
+        -- Navigate between snippet placeholder
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip', keyword_length = 2 },
+        { name = 'buffer',  keyword_length = 3 },
+        { name = 'path',    keyword_length = 3 },
+    },
+    window = {
+        completion = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        documentation = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        preview = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        col_offset = -3,
+        side_padding = 0,
+        max_width = 50,
+    },
+    formatting = {
+        fields = { 'abbr', 'kind', 'menu' },
+        format = function(entry, vim_item)
+            -- add ellipsis and extra padding to match the width
+            local label = vim_item.abbr
+            local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+            if truncated_label ~= label then
+                vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+            elseif string.len(label) < MIN_LABEL_WIDTH then
+                local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
+                vim_item.abbr = label .. padding
+            end
+
+            -- add icons along with item kind
+            vim_item.kind = string.format('%s', vim_item.kind)
+            vim_item.menu = ({
+                nvim_lsp = '_lsp ',
+                nvim_lua = '_lua ',
+                luasnip  = 'snip ',
+                buffer   = 'bufr ',
+                path     = 'path ',
+            })[entry.source.name]
+
+            return vim_item
+        end,
+    },
+})
+
 -- Add new keymaps since in mac it is hard to use function rows
 keymap('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover info of symbol under cursor in float window' })
 keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Jumps to definition of symbol under cursor' })
@@ -762,3 +857,8 @@ require('nvim-surround').setup({})
 require('scrollbar').setup({})
 require('scrollbar.handlers.gitsigns').setup()
 require('scrollbar.handlers.search').setup({})
+require('ufo').setup({
+    provider_selector = function(bufnr, filetype, buftype)
+        return { 'treesitter', 'indent' }
+    end
+})
