@@ -2,6 +2,7 @@ require('gsahadevan.base')
 require('gsahadevan.keymaps')
 require('gsahadevan.plugins')
 require('gsahadevan.plugins-keymaps')
+require('gsahadevan.autocmd')
 
 -- setup must be called before loading
 -- you could also change the colorscheme using telescope <leader>ft and :colorscheme

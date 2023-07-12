@@ -150,6 +150,8 @@ end
 
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
+    -- disabled current line blame by default, use this key combination to enable it if required
+    keymap('n', '<leader>gmt', gitsigns.toggle_current_line_blame, { desc = 'Git toggle current line blame' })
     keymap('n', '<leader>]h', gitsigns.next_hunk, { desc = 'Git hunk next' })
     keymap('n', '<leader>[h', gitsigns.prev_hunk, { desc = 'Git hunk prev' })
     keymap('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })

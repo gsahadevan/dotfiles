@@ -3,8 +3,8 @@ vim.cmd('autocmd!')
 vim.wo.number          = true
 vim.wo.relativenumber  = true
 
-vim.opt.wrap           = false              -- do not wrap lines, display one long line
-vim.opt.linebreak      = false              -- if wrap is enabled, set to true | donot split words
+vim.opt.wrap           = false -- do not wrap lines, display one long line
+vim.opt.linebreak      = false -- if wrap is enabled, set to true | donot split words
 
 vim.scriptencoding     = 'utf-8'
 vim.opt.encoding       = 'utf-8'
@@ -61,23 +61,5 @@ vim.opt.background     = 'dark'
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
-
--- turn off paste mode when leaving insert
-vim.api.nvim_create_autocmd('InsertLeave', {
-    pattern = '*',
-    command = 'set nopaste'
-})
-
--- [[ Highlight on yank ]]
--- see `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-    pattern = '*',
-    group = highlight_group,
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
 
 vim.opt.rtp:append('/opt/homebrew/opt/fzf')

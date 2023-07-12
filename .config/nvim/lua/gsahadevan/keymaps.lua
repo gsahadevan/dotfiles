@@ -16,6 +16,7 @@ vim.g.maplocalleader = ' '
 
 keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
 keymap('n', '<leader>nh', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
+keymap('n', '<esc>', ':nohl<CR>', { desc = 'No (Remove) search highlighting' })
 
 -- Split window
 keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
