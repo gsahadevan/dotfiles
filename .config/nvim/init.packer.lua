@@ -18,7 +18,7 @@ vim.opt.shiftwidth     = 4
 vim.opt.expandtab      = true
 vim.opt.smarttab       = true
 
-vim.g.indentLine_char  = '┃' -- indentLine
+vim.g.indentLine_char  = '┊' -- indentLine '┃'
 
 vim.opt.autoindent     = true
 vim.opt.smartindent    = true
@@ -49,15 +49,15 @@ vim.opt.foldlevel      = 99    -- set high fold level for nvim-ufo
 vim.opt.foldlevelstart = 99    -- start with all code unfolded
 vim.opt.foldenable     = true  -- enable fold for nvim-ufo
 
-vim.opt.cursorline     = true
-vim.opt.termguicolors  = true
-vim.opt.winblend       = 10
 vim.opt.wildoptions    = 'pum'
 vim.opt.pumblend       = 0
 vim.opt.pumheight      = 15 -- completion height, adds scrollbar
 vim.opt.pumwidth       = 50 -- completion width
-vim.opt.background     = 'dark'
 
+vim.opt.cursorline     = true
+vim.opt.termguicolors  = true
+vim.opt.background     = 'dark'
+-- vim.opt.winblend       = 10
 -- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar
 
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
@@ -286,7 +286,7 @@ require('nvim-tree').setup({
         centralize_selection = true,
         cursorline = true,
         debounce_delay = 15,
-        width = 45,
+        width = 55,
         hide_root_folder = false,
         side = 'left',
         preserve_window_proportions = true,
@@ -449,7 +449,7 @@ require('nvim-tree').setup({
             },
         },
         open_file = {
-            quit_on_open = true,
+            quit_on_open = false,
             resize_window = true,
             window_picker = {
                 enable = true,
@@ -585,11 +585,11 @@ if telescope then
     -- ref: https://github.com/nvim-telescope/telescope.nvim/issues/848
     local options = themes.get_dropdown {
         path_display = { 'absolute' },
-        winblend = 10,
-        previewer = false,
+        winblend = 0,      -- transparency for floating window, 0 - opaque | 100 - transparent
+        previewer = false, -- do not show previewer for dropdown style here
         layout_config = {
-            height = 0.95,
-            width = 0.95,
+            height = 0.6,
+            width = 0.8,
         },
     }
 
@@ -675,6 +675,7 @@ lsp.on_attach(function(client, bufnr)
     })
 end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls()) -- (optional) configure lua language server for neovim
+require('lspconfig.ui.windows').default_options.border = 'rounded'
 lsp.setup()
 
 -- You need to setup `cmp` after lsp-zero
