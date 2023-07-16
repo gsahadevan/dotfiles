@@ -315,7 +315,10 @@ require('lualine').setup {
         theme = 'papercolor_light',
         component_separators = '|',
         section_separators = '',
-        disabled_filetypes = { 'packer', 'NvimTree', 'mason' },
+        disabled_filetypes = {
+            statusline = { 'packer', 'NvimTree', 'mason' },
+            winbar = { 'packer', 'NvimTree', 'mason' },
+        },
         globalstatus = true,
     },
     winbar = {
@@ -333,11 +336,12 @@ require('lualine').setup {
         lualine_c = {
             {
                 'diagnostics',
+                sections = { 'error', 'warn' },
                 symbols = {
                     error = ' ',
-                    warn = ' ',
-                    info = ' ',
-                    hint = ' ',
+                    warn  = ' ',
+                    info  = ' ',
+                    hint  = ' ',
                 },
             },
         },
