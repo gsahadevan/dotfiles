@@ -1,3 +1,7 @@
+-- ╭───────────────────────────────────╮
+-- │ Add basic options and settings    │
+-- ╰───────────────────────────────────╯
+
 vim.cmd('autocmd!')
 
 vim.wo.number          = true
@@ -66,56 +70,15 @@ vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
 vim.opt.rtp:append('/opt/homebrew/opt/fzf')
 
 -- Add diagnostic symbols in the sign column (gutter)
-local signs = { Error = ' ', Hint = ' ', Info = ' ', Warn = ' ' }
+local signs = { Error = '', Hint = '', Info = '', Warn = '' }
 for type, icon in pairs(signs) do
     local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 
--- Add autocommands
-
--- Turn off paste mode when leaving insert
-vim.api.nvim_create_autocmd('InsertLeave', {
-    pattern = '*',
-    command = 'set nopaste'
-})
-
--- Highlight on yank
-vim.api.nvim_create_autocmd('TextYankPost', {
-    pattern = '*',
-    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
-
-local organize_imports = function(timeoutms)
-    local params = vim.lsp.util.make_range_params()
-    params.context = { only = { 'source.organizeImports' } }
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
-    for _, res in pairs(result or {}) do
-        for _, r in pairs(res.result or {}) do
-            if r.edit then
-                vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
-            else
-                vim.lsp.buf.execute_command(r.command)
-            end
-        end
-    end
-end
-
--- Organize the imports
-vim.api.nvim_create_autocmd({
-    pattern = '*',
-    callback = function()
-        vim.lsp.buf.format()
-        organize_imports(1000)
-    end,
-}, 'BufWritePre')
-
-
-
--- Add keymaps
+-- ╭───────────────────────────────────╮
+-- │ Add keymaps                       │
+-- ╰───────────────────────────────────╯
 
 -- Modes reference
 -- n - normal_mode | i - insert_mode | v - visual_mode | x - visual_block_mode | t - term_mode (terminal) | c - command_mode
@@ -173,7 +136,9 @@ keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr>', { desc = 'Buffer close' })
 keymap('n', '<leader>W', '<cmd>bdelete!<cr>', { desc = 'Buffer force close' })
 
--- Install packer
+-- ╭───────────────────────────────────╮
+-- │ Install packer                    │
+-- ╰───────────────────────────────────╯
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -182,7 +147,9 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.cmd [[packadd packer.nvim]]
 end
 
--- Install packages
+-- ╭───────────────────────────────────╮
+-- │ Install packages                  │
+-- ╰───────────────────────────────────╯
 require('packer').startup({
     function(use)
         use { 'wbthomason/packer.nvim' }                                                -- packer can manage itself
@@ -256,251 +223,83 @@ if is_bootstrap then
     return
 end
 
+-- ╭───────────────────────────────────╮
+-- │ Add autocommands                  │
+-- ╰───────────────────────────────────╯
+
 -- Automatically source and re-compile packer whenever you save this init.lua
-vim.api.nvim_create_autocmd({
+vim.api.nvim_create_autocmd('BufWritePost', {
     command = 'source <afile> | PackerCompile',
     group = vim.api.nvim_create_augroup('Packer', { clear = true }),
     pattern = vim.fn.expand '$MYVIMRC',
-}, 'BufWritePost')
+})
 
--- Configure plugins
+-- Turn off paste mode when leaving insert
+vim.api.nvim_create_autocmd('InsertLeave', {
+    pattern = '*',
+    command = 'set nopaste'
+})
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd('TextYankPost', {
+    pattern = '*',
+    group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+})
+
+local organize_imports = function(timeoutms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = { only = { 'source.organizeImports' } }
+    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
+    for _, res in pairs(result or {}) do
+        for _, r in pairs(res.result or {}) do
+            if r.edit then
+                vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
+            else
+                vim.lsp.buf.execute_command(r.command)
+            end
+        end
+    end
+end
+
+-- Organize the imports
+vim.api.nvim_create_autocmd('BufWritePre', {
+    pattern = '*',
+    callback = function()
+        vim.lsp.buf.format()
+        organize_imports(1000)
+    end,
+})
+
+-- ╭───────────────────────────────────╮
+-- │ Configure packages                │
+-- ╰───────────────────────────────────╯
+
 require('Comment').setup()
+-- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
+-- Contains the complete configuration list is for nvim-tree
 require('nvim-tree').setup({
-    auto_reload_on_write = true,
-    disable_netrw = false,
-    hijack_cursor = false,
-    hijack_netrw = true,
-    hijack_unnamed_buffer_when_opening = false,
-    sort_by = 'name',
-    root_dirs = {},
-    prefer_startup_root = false,
-    sync_root_with_cwd = false,
-    reload_on_bufenter = false,
-    respect_buf_cwd = false,
-    on_attach = 'default',
-    remove_keymaps = false,
-    select_prompts = false,
     view = {
         centralize_selection = true,
-        cursorline = true,
-        debounce_delay = 15,
         width = 55,
-        hide_root_folder = false,
-        side = 'left',
         preserve_window_proportions = true,
-        number = false,
-        relativenumber = false,
-        signcolumn = 'yes',
-        mappings = {
-            custom_only = false,
-            list = {
-                -- user mappings go here
-            },
-        },
-        float = {
-            enable = false,
-            quit_on_focus_loss = true,
-            open_win_config = {
-                relative = 'editor',
-                border = 'rounded',
-                width = 30,
-                height = 30,
-                row = 1,
-                col = 1,
-            },
-        },
-    },
-    renderer = {
-        add_trailing = false,
-        group_empty = false,
-        highlight_git = false,
-        full_name = false,
-        highlight_opened_files = 'none',
-        highlight_modified = 'none',
-        root_folder_label = ':~:s?$?/..?',
-        indent_width = 2,
-        indent_markers = {
-            enable = false,
-            inline_arrows = true,
-            icons = {
-                corner = '└',
-                edge = '│',
-                item = '│',
-                bottom = '─',
-                none = ' ',
-            },
-        },
-        icons = {
-            webdev_colors = true,
-            git_placement = 'before',
-            modified_placement = 'after',
-            padding = ' ',
-            symlink_arrow = ' ➛ ',
-            show = {
-                file = true,
-                folder = true,
-                folder_arrow = true,
-                git = true,
-                modified = true,
-            },
-            glyphs = {
-                default = '',
-                symlink = '',
-                bookmark = '󰆤',
-                modified = '●',
-                folder = {
-                    arrow_closed = '',
-                    arrow_open = '',
-                    default = '',
-                    open = '',
-                    empty = '',
-                    empty_open = '',
-                    symlink = '',
-                    symlink_open = '',
-                },
-                git = {
-                    unstaged = '✗',
-                    staged = '✓',
-                    unmerged = '',
-                    renamed = '➜',
-                    untracked = '★',
-                    deleted = '',
-                    ignored = '◌',
-                },
-            },
-        },
-        special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'readme.md' },
-        symlink_destination = true,
-    },
-    hijack_directories = {
-        enable = true,
-        auto_open = true,
     },
     update_focused_file = {
         enable = true,
-        update_root = false,
-        ignore_list = {},
-    },
-    system_open = {
-        cmd = '',
-        args = {},
     },
     diagnostics = {
         enable = true,
-        show_on_dirs = false,
-        show_on_open_dirs = true,
-        debounce_delay = 50,
-        severity = {
-            min = vim.diagnostic.severity.HINT,
-            max = vim.diagnostic.severity.ERROR,
-        },
         icons = {
-            hint = '',
+            hint = '',
             info = '',
             warning = '',
             error = '',
         },
     },
-    filters = {
-        dotfiles = false,
-        git_clean = false,
-        no_buffer = false,
-        custom = {},
-        exclude = {},
-    },
-    filesystem_watchers = {
-        enable = true,
-        debounce_delay = 50,
-        ignore_dirs = {},
-    },
-    git = {
-        enable = true,
-        ignore = true,
-        show_on_dirs = true,
-        show_on_open_dirs = true,
-        disable_for_dirs = {},
-        timeout = 400,
-    },
     modified = {
         enable = true,
-        show_on_dirs = true,
-        show_on_open_dirs = true,
-    },
-    actions = {
-        use_system_clipboard = true,
-        change_dir = {
-            enable = true,
-            global = false,
-            restrict_above_cwd = false,
-        },
-        expand_all = {
-            max_folder_discovery = 300,
-            exclude = {},
-        },
-        file_popup = {
-            open_win_config = {
-                col = 1,
-                row = 1,
-                relative = 'cursor',
-                border = 'shadow',
-                style = 'minimal',
-            },
-        },
-        open_file = {
-            quit_on_open = false,
-            resize_window = true,
-            window_picker = {
-                enable = true,
-                picker = 'default',
-                chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
-                exclude = {
-                    filetype = { 'notify', 'packer', 'qf', 'diff', 'fugitive', 'fugitiveblame' },
-                    buftype = { 'nofile', 'terminal', 'help' },
-                },
-            },
-        },
-        remove_file = {
-            close_window = true,
-        },
-    },
-    trash = {
-        cmd = 'gio trash',
-    },
-    live_filter = {
-        prefix = '[FILTER]: ',
-        always_show_folders = true,
-    },
-    tab = {
-        sync = {
-            open = false,
-            close = false,
-            ignore = {},
-        },
-    },
-    notify = {
-        threshold = vim.log.levels.INFO,
-        absolute_path = true,
-    },
-    ui = {
-        confirm = {
-            remove = true,
-            trash = true,
-        },
-    },
-    experimental = {},
-    log = {
-        enable = false,
-        truncate = false,
-        types = {
-            all = false,
-            config = false,
-            copy_paste = false,
-            dev = false,
-            diagnostics = false,
-            git = false,
-            profile = false,
-            watcher = false,
-        },
     },
 })
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
@@ -530,7 +329,18 @@ require('lualine').setup {
         },
     },
     sections = {
-        lualine_c = {},
+        lualine_b = { 'branch', 'diff' },
+        lualine_c = {
+            {
+                'diagnostics',
+                symbols = {
+                    error = ' ',
+                    warn = ' ',
+                    info = ' ',
+                    hint = ' ',
+                },
+            },
+        },
     },
     inactive_sections = {
         lualine_c = {},
@@ -556,11 +366,6 @@ require('lualine').setup {
                 },
             },
         },
-        lualine_b = {},
-        lualine_a = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {}
     }
 }
 
@@ -853,6 +658,7 @@ require('nvim-autopairs').setup {}
 require('nvim-ts-autotag').setup()
 require('colorizer').setup()
 require('nvim-surround').setup({})
+require('hlslens').setup()
 require('scrollbar').setup({})
 require('scrollbar.handlers.gitsigns').setup()
 require('scrollbar.handlers.search').setup({})
