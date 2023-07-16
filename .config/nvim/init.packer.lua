@@ -63,7 +63,6 @@ vim.opt.background     = 'dark'
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
-
 vim.opt.rtp:append('/opt/homebrew/opt/fzf')
 
 -- Add diagnostic symbols in the sign column (gutter)
@@ -90,7 +89,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-function OrganizeImports(timeoutms)
+local organize_imports = function(timeoutms)
     local params = vim.lsp.util.make_range_params()
     params.context = { only = { 'source.organizeImports' } }
     local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
@@ -106,13 +105,13 @@ function OrganizeImports(timeoutms)
 end
 
 -- Organize the imports
-vim.api.nvim_create_autocmd('BufWritePre', {
+vim.api.nvim_create_autocmd({
     pattern = '*',
     callback = function()
         vim.lsp.buf.format()
-        OrganizeImports(1000)
+        organize_imports(1000)
     end,
-})
+}, 'BufWritePre')
 
 
 
@@ -258,12 +257,11 @@ if is_bootstrap then
 end
 
 -- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
+vim.api.nvim_create_autocmd({
     command = 'source <afile> | PackerCompile',
-    group = packer_group,
+    group = vim.api.nvim_create_augroup('Packer', { clear = true }),
     pattern = vim.fn.expand '$MYVIMRC',
-})
+}, 'BufWritePost')
 
 -- Configure plugins
 require('Comment').setup()
