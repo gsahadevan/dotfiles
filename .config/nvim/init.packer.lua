@@ -161,6 +161,7 @@ require('packer').startup({
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+        use { 'nvim-telescope/telescope-project.nvim' } -- An extension for telescope.nvim that allows you to switch between projects
 
         use {
             'VonHeikemen/lsp-zero.nvim',
@@ -270,7 +271,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = '*',
     callback = function()
         vim.lsp.buf.format()
-        organize_imports(1000)
+        -- organize_imports(1000)
     end,
 })
 
@@ -383,7 +384,8 @@ require('telescope').setup {
         },
     },
 }
-pcall(require('telescope').load_extension, 'fzf')
+pcall('fzf', require('telescope').load_extension)
+require('telescope').load_extension('project')
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
@@ -473,6 +475,9 @@ if telescope then
     keymap('n', '<leader>tlr', builtin.lsp_references, { desc = 'Telescope LSP show references' })
     keymap('n', '<leader>tls', builtin.lsp_document_symbols, { desc = 'Telescope LSP show document symbols' })
     keymap('n', '<leader>tlw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP show workspace symbols' })
+    -- projects
+    keymap('n', '<leader>tsp', ':lua require(\'telescope\').extensions.project.project{}<cr>',
+        { desc = 'Telescope show projects' })
 end
 
 local lsp = require('lsp-zero').preset({})
