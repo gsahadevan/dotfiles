@@ -134,7 +134,7 @@ keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
 keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr>', { desc = 'Buffer close' })
-keymap('n', '<leader>W', '<cmd>bdelete!<cr>', { desc = 'Buffer force close' })
+keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
@@ -200,7 +200,6 @@ require('packer').startup({
         use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } }
         use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } } -- makes nvim's fold look modern and keep high performance
 
-        use { 'xiyaowong/transparent.nvim' }
         if is_bootstrap then
             require('packer').sync()
         end
@@ -676,15 +675,4 @@ require('ufo').setup({
     provider_selector = function(bufnr, filetype, buftype)
         return { 'treesitter', 'indent' }
     end
-})
-
-require('transparent').setup({
-    groups = { -- table: default groups
-        'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
-        'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
-        'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
-        'SignColumn', 'CursorLineNr', 'EndOfBuffer',
-    },
-    extra_groups = { 'FoldColumn' }, -- table: additional groups that should be cleared
-    exclude_groups = {},             -- table: groups you don't want to clear
 })
