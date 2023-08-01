@@ -154,6 +154,7 @@ require('packer').startup({
     function(use)
         use { 'wbthomason/packer.nvim' }                                                -- packer can manage itself
         use { 'numToStr/Comment.nvim' }                                                 -- smart and powerful commenting plugin for neovim
+        use { 'JoosepAlviste/nvim-ts-context-commentstring' }                           -- sets commentstring option based on the cursor location, checked via treesitter queries
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'lalitmee/cobalt2.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }     -- colorscheme
@@ -278,7 +279,32 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 -- │ Configure packages                │
 -- ╰───────────────────────────────────╯
 
-require('Comment').setup()
+require('Comment').setup {
+    -- pre_hook = function(ctx)
+    --     -- Only calculate commentstring for tsx filetypes
+    --     if vim.bo.filetype == 'typescriptreact' then
+    --         local U = require('Comment.utils')
+    --
+    --         -- Determine whether to use linewise or blockwise commentstring
+    --         local type = ctx.ctype == U.ctype.linewise and '__default' or '__multiline'
+    --
+    --         -- Determine the location where to calculate commentstring from
+    --         local location = nil
+    --         if ctx.ctype == U.ctype.blockwise then
+    --             location = require('ts_context_commentstring.utils').get_cursor_location()
+    --         elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+    --             location = require('ts_context_commentstring.utils').get_visual_start_location()
+    --         end
+    --
+    --         return require('ts_context_commentstring.internal').calculate_commentstring({
+    --             key = type,
+    --             location = location,
+    --         })
+    --     end
+    -- end,
+    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+}
+
 -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
 -- Contains the complete configuration list is for nvim-tree
 require('nvim-tree').setup({
@@ -676,3 +702,19 @@ require('ufo').setup({
         return { 'treesitter', 'indent' }
     end
 })
+-- After nvim-ts-context-commentstring installation
+require('nvim-treesitter.configs').setup {
+    -- Install the parsers for the languages you want to comment in
+    -- Here are the supported languages:
+    ensure_installed = {
+        'astro', 'css', 'glimmer', 'graphql', 'html', 'javascript',
+        'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
+        'typescript', 'vim', 'vue',
+    },
+    context_commentstring = {
+        enable = true,
+    },
+}
+
+local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
