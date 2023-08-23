@@ -136,6 +136,10 @@ keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr>', { desc = 'Buffer close' })
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 
+-- Specific to command line
+keymap('c', 'Q', 'q')
+keymap('c', 'Qa', 'qa')
+
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
 -- ╰───────────────────────────────────╯
@@ -251,29 +255,29 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-local organize_imports = function(timeoutms)
-    local params = vim.lsp.util.make_range_params()
-    params.context = { only = { 'source.organizeImports' } }
-    local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
-    for _, res in pairs(result or {}) do
-        for _, r in pairs(res.result or {}) do
-            if r.edit then
-                vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
-            else
-                vim.lsp.buf.execute_command(r.command)
-            end
-        end
-    end
-end
+-- local organize_imports = function(timeoutms)
+--     local params = vim.lsp.util.make_range_params()
+--     params.context = { only = { 'source.organizeImports' } }
+--     local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
+--     for _, res in pairs(result or {}) do
+--         for _, r in pairs(res.result or {}) do
+--             if r.edit then
+--                 vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
+--             else
+--                 vim.lsp.buf.execute_command(r.command)
+--             end
+--         end
+--     end
+-- end
 
 -- Organize the imports
-vim.api.nvim_create_autocmd('BufWritePre', {
-    pattern = '*',
-    callback = function()
-        vim.lsp.buf.format()
-        -- organize_imports(1000)
-    end,
-})
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--     pattern = '*',
+--     callback = function()
+--         vim.lsp.buf.format()
+--         -- organize_imports(1000)
+--     end,
+-- })
 
 -- ╭───────────────────────────────────╮
 -- │ Configure packages                │
