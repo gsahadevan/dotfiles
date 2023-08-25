@@ -368,7 +368,7 @@ require('telescope').setup {
         },
     },
 }
-require('telescope').load_extension('fzf')
+pcall('fzf', require('telescope').load_extension)
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
