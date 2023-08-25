@@ -143,6 +143,7 @@ keymap('c', 'Qa', 'qa')
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
 -- ╰───────────────────────────────────╯
+
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
@@ -154,6 +155,7 @@ end
 -- ╭───────────────────────────────────╮
 -- │ Install packages                  │
 -- ╰───────────────────────────────────╯
+
 require('packer').startup({
     function(use)
         use { 'wbthomason/packer.nvim' }                                                -- packer can manage itself
@@ -166,7 +168,6 @@ require('packer').startup({
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-        use { 'nvim-telescope/telescope-project.nvim' } -- An extension for telescope.nvim that allows you to switch between projects
 
         use {
             'VonHeikemen/lsp-zero.nvim',
@@ -194,16 +195,17 @@ require('packer').startup({
 
         use { 'christoomey/vim-tmux-navigator' }                           -- seamlessly move btw vim panes and tmux
 
-        use { 'kevinhwang91/nvim-bqf' }
-        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }
-        use { 'nvim-treesitter/nvim-treesitter' } -- also required for nvim-ufo
+        use { 'kevinhwang91/nvim-bqf' }                                             -- make neovim's quickfix window better
+        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }        -- general purpose command line fuzzy finder
+        use { 'nvim-treesitter/nvim-treesitter' }                                   -- also required for nvim-ufo, nvim-ts-autotag
 
-        use { 'windwp/nvim-autopairs' }
-        use { 'windwp/nvim-ts-autotag' }
-        use { 'norcalli/nvim-colorizer.lua' }
-        use { 'kylechui/nvim-surround' }
-        use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } }
-        use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } } -- makes nvim's fold look modern and keep high performance
+        use { 'windwp/nvim-autopairs' }                                             -- powerful autopair plugin that supports multiple characters
+        use { 'windwp/nvim-ts-autotag' }                                            -- use treesitter to autoclose and autorename html tag
+        use { 'norcalli/nvim-colorizer.lua' }                                       -- high performance color highlighter
+        use { 'kylechui/nvim-surround' }                                            -- surround selections, in style
+
+        use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } }         -- extensible neovim scrollbar
+        use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }            -- makes nvim's fold look modern and keep high performance
 
         if is_bootstrap then
             require('packer').sync()
@@ -255,30 +257,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
--- local organize_imports = function(timeoutms)
---     local params = vim.lsp.util.make_range_params()
---     params.context = { only = { 'source.organizeImports' } }
---     local result = vim.lsp.buf_request_sync(0, 'textDocument/codeAction', params, timeoutms)
---     for _, res in pairs(result or {}) do
---         for _, r in pairs(res.result or {}) do
---             if r.edit then
---                 vim.lsp.util.apply_workspace_edit(r.edit, 'UTF-8')
---             else
---                 vim.lsp.buf.execute_command(r.command)
---             end
---         end
---     end
--- end
-
--- Organize the imports
--- vim.api.nvim_create_autocmd('BufWritePre', {
---     pattern = '*',
---     callback = function()
---         vim.lsp.buf.format()
---         -- organize_imports(1000)
---     end,
--- })
-
 -- ╭───────────────────────────────────╮
 -- │ Configure packages                │
 -- ╰───────────────────────────────────╯
@@ -286,7 +264,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('Comment').setup {
     pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
 }
-
 -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
 -- Contains the complete configuration list is for nvim-tree
 require('nvim-tree').setup({
@@ -381,7 +358,7 @@ require('lualine').setup {
         },
     }
 }
-
+-- Configure telescope + add keymaps
 require('telescope').setup {
     defaults = {
         prompt_prefix = '❯ ',
@@ -391,8 +368,7 @@ require('telescope').setup {
         },
     },
 }
-pcall('fzf', require('telescope').load_extension)
-require('telescope').load_extension('project')
+require('telescope').load_extension('fzf')
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
@@ -466,15 +442,9 @@ if telescope then
     keymap('n', '<leader>tgf', builtin.git_files, { desc = 'Telescope list git files' })
     keymap('n', '<leader>tgs', builtin.git_status, { desc = 'Telescope list git status' })
     -- misc
-    keymap('n', '<leader>tsc', builtin.commands, { desc = 'Telescope show plugin commands' })
-    keymap('n', '<leader>tsC', builtin.command_history, { desc = 'Telescope show command history' })
     keymap('n', '<leader>tsd', builtin.diagnostics, { desc = 'Telescope show diagnostics' })
-    keymap('n', '<leader>tsh', builtin.help_tags, { desc = 'Telescope show help tags' })
-    keymap('n', '<leader>tsj', builtin.jumplist, { desc = 'Telescope show jump list' })
-    keymap('n', '<leader>tsk', builtin.keymaps, { desc = 'Telescope show keymaps' })
-    keymap('n', '<leader>tsm', builtin.man_pages, { desc = 'Telescope show man pages' })
     keymap('n', '<leader>tsr', builtin.registers, { desc = 'Telescope show registers' })
-    keymap('n', '<leader>ts;', builtin.marks, { desc = 'Telescope show marks' })
+    keymap('n', '<leader>tsm', builtin.marks, { desc = 'Telescope show marks' })
     -- lsp
     keymap('n', '<leader>vd', show_lsp_definition_in_split, { desc = 'Telescope LSP go to definition in vsplit' })
     keymap('n', '<leader>tld', builtin.lsp_definitions, { desc = 'Telescope LSP show definitions' })
@@ -482,11 +452,8 @@ if telescope then
     keymap('n', '<leader>tlr', builtin.lsp_references, { desc = 'Telescope LSP show references' })
     keymap('n', '<leader>tls', builtin.lsp_document_symbols, { desc = 'Telescope LSP show document symbols' })
     keymap('n', '<leader>tlw', builtin.lsp_workspace_symbols, { desc = 'Telescope LSP show workspace symbols' })
-    -- projects
-    keymap('n', '<leader>tsp', ':lua require(\'telescope\').extensions.project.project{}<cr>',
-        { desc = 'Telescope show projects' })
 end
-
+-- Configure LSP
 local lsp = require('lsp-zero').preset({})
 lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({
@@ -497,7 +464,7 @@ end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls()) -- (optional) configure lua language server for neovim
 require('lspconfig.ui.windows').default_options.border = 'rounded'
 lsp.setup()
-
+-- Configure completion
 -- You need to setup `cmp` after lsp-zero
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 30
@@ -567,7 +534,6 @@ cmp.setup({
         end,
     },
 })
-
 -- Add new keymaps since in mac it is hard to use function rows
 keymap('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover info of symbol under cursor in float window' })
 keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Jumps to definition of symbol under cursor' })
@@ -577,17 +543,14 @@ keymap('n', 'go', vim.lsp.buf.type_definition, { desc = 'Jumps to definition of 
 keymap('n', 'gr', vim.lsp.buf.references, { desc = 'Lists all references of symbol under cursor in quickfix window' })
 keymap('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor in float window' })
 keymap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor' })
--- keymap('n', '<f2>', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })
--- keymap('n', '<f3>', vim.lsp.buf.format, { desc = 'Format code in current buffer' })
--- keymap('n', '<f4>', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })
-keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })
-keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })
-keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })
+keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })   -- changed from <f2>
+keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })                   -- changed from <f3>
+keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })  -- changed from <f4>
 keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
 keymap('n', 'gl', vim.diagnostic.open_float, { desc = 'Show diagnostics in float window' })
 keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
 keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
-
+-- Configure mason
 require('mason').setup({
     ui = {
         border = 'rounded',
@@ -595,7 +558,7 @@ require('mason').setup({
         width = 0.95,
     }
 })
-
+-- Configure git
 require('git').setup({
     default_mappings = true,  -- NOTE: `quit_blame` and `blame_commit` are still merged to the keymaps even if `default_mappings = false`
     target_branch = 'master', -- Default target branch when create a pull request
@@ -666,11 +629,10 @@ if gitsigns then
     keymap('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
     keymap('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
 end
+-- Configure other misc packages
 require('diffview').setup({})
 require('neogit').setup {}
-
 require('bqf').setup({})
-
 require('nvim-autopairs').setup {}
 require('nvim-ts-autotag').setup()
 require('colorizer').setup()
