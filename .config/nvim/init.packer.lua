@@ -546,17 +546,19 @@ keymap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signatu
 keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })   -- changed from <f2>
 keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })                   -- changed from <f3>
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })  -- changed from <f4>
+-- keymap('v', '<leader>cf', vim.lsp.buf.range_formatting, { desc = 'Format code in selected range' })
+-- keymap('v', '<leader>ca', vim.lsp.buf.range_code_actions, { desc = 'Show code action available for selected range' })
 keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
 keymap('n', 'gl', vim.diagnostic.open_float, { desc = 'Show diagnostics in float window' })
-keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
-keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
+keymap('n', '[g', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
+keymap('n', ']g', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
 -- Configure mason
 require('mason').setup({
-    ui = {
-        border = 'rounded',
-        height = 0.95,
-        width = 0.95,
-    }
+ui = {
+border = 'rounded',
+height = 0.95,
+width = 0.95,
+}
 })
 -- Configure git
 require('git').setup({
