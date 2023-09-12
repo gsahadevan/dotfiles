@@ -133,12 +133,13 @@ keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 -- Specific to this configuration
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
 keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
-keymap('n', '<leader>w', '<cmd>bdelete<cr>', { desc = 'Buffer close' })
+keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer close' })
+keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 
 -- Specific to command line
-keymap('c', 'Q', 'q')
-keymap('c', 'Qa', 'qa')
+keymap('c', 'Q', 'q') -- replace Q with q on the command mode
+keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
