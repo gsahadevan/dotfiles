@@ -367,6 +367,14 @@ require('telescope').setup {
             height = 0.95,
             width = 0.95,
         },
+        mappings = {
+            n = {
+                ['<c-w>'] = require('telescope.actions').delete_buffer,
+            },
+            i = {
+                ['<c-w>'] = require('telescope.actions').delete_buffer,
+            },
+        },
     },
 }
 pcall('fzf', require('telescope').load_extension)
@@ -633,15 +641,49 @@ end
 -- Configure other misc packages
 require('diffview').setup({})
 require('neogit').setup {}
-require('bqf').setup({})
+-- Need to configure nvim-bqf with additional values
+-- require('bqf').setup({})
+require('bqf').setup({
+    auto_enable = true,
+    auto_resize_height = true,
+    preview = {
+        auto_preview = true,
+        border = 'rounded',
+        show_title = true,
+        show_scroll_bar = true,
+        delay_sntax = 80,
+        win_height = 999, -- height of the preview window for horizontal layout, default is 15, use 999 for full mode
+        win_vheight = 999,
+        winblend = 0,
+        wrap = false,
+        buf_label = true,
+        should_preview_cb = nil,
+    },
+    filter = {
+        fzf = {
+            ['ctrl-v'] = 'vsplit', -- open up item in new vertical split
+            ['ctrl-x'] = 'split', -- open up item in new horizontal split
+            ['ctrl-c'] = 'closeall', -- close quickfix window and abort fzf
+        }
+    }
+})
 require('nvim-autopairs').setup {}
 require('nvim-ts-autotag').setup()
 require('colorizer').setup()
 require('nvim-surround').setup({})
 require('hlslens').setup()
-require('scrollbar').setup({})
-require('scrollbar.handlers.gitsigns').setup()
-require('scrollbar.handlers.search').setup({})
+require('scrollbar').setup({
+    handlers = {
+        cursor = true,
+        diagnostic = true,
+        gitsigns = true, -- requires gitsigns
+        handle = true,
+        search = true, -- requires hlslens
+        ale = false, -- requires ALE
+    },
+})
+-- require('scrollbar.handlers.gitsigns').setup()
+-- require('scrollbar.handlers.search').setup({})
 require('ufo').setup({
     provider_selector = function(bufnr, filetype, buftype)
         return { 'treesitter', 'indent' }
