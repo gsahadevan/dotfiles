@@ -64,6 +64,9 @@ vim.opt.background     = 'dark'
 -- vim.opt.winblend       = 10
 -- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar
 
+vim.opt.splitright     = true
+vim.opt.splitbelow     = true
+
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
@@ -261,7 +264,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- ╭───────────────────────────────────╮
 -- │ Configure packages                │
 -- ╰───────────────────────────────────╯
-
+-- Configure comment
 require('Comment').setup {
     pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
 }
@@ -290,12 +293,23 @@ require('nvim-tree').setup({
     },
 })
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
-require('indent_blankline').setup {
-    char = '┊',
-    show_trailing_blankline_indent = false,
+-- Configure indent-blankline
+local highlight = {
+    'CursorColumn',
+    'Whitespace',
 }
+require('ibl').setup {
+    indent = { highlight = highlight, char = '┊' },
+    whitespace = {
+        highlight = highlight,
+        remove_blankline_trail = false,
+    },
+    scope = { enabled = false },
+}
+-- Configure cobalt2 colorscheme
 require('colorbuddy').colorscheme('cobalt2')
 vim.api.nvim_command('colorscheme cobalt2')
+-- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
