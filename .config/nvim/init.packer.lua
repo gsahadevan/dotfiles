@@ -141,7 +141,7 @@ keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buf
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 
 -- Specific to command line
-keymap('c', 'Q', 'q') -- replace Q with q on the command mode
+keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 
 -- ╭───────────────────────────────────╮
@@ -193,24 +193,26 @@ require('packer').startup({
             }
         }
 
-        use { 'dinhhuy258/git.nvim' }                                      -- git browse and blame
-        use { 'lewis6991/gitsigns.nvim' }                                  -- show git file modification signs on gutter
-        use { 'sindrets/diffview.nvim' }                                   -- single tabpage interface for easily cycling through git diffs
-        use { 'NeogitOrg/neogit', requires = { 'nvim-lua/plenary.nvim' } } -- magit clone for nvim
+        use { 'nvimdev/lspsaga.nvim' }
 
-        use { 'christoomey/vim-tmux-navigator' }                           -- seamlessly move btw vim panes and tmux
+        use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
+        use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
+        use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
+        use { 'NeogitOrg/neogit', requires = { 'nvim-lua/plenary.nvim' } }              -- magit clone for nvim
 
-        use { 'kevinhwang91/nvim-bqf' }                                             -- make neovim's quickfix window better
-        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }        -- general purpose command line fuzzy finder
-        use { 'nvim-treesitter/nvim-treesitter' }                                   -- also required for nvim-ufo, nvim-ts-autotag
+        use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw vim panes and tmux
 
-        use { 'windwp/nvim-autopairs' }                                             -- powerful autopair plugin that supports multiple characters
-        use { 'windwp/nvim-ts-autotag' }                                            -- use treesitter to autoclose and autorename html tag
-        use { 'norcalli/nvim-colorizer.lua' }                                       -- high performance color highlighter
-        use { 'kylechui/nvim-surround' }                                            -- surround selections, in style
+        use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
+        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }            -- general purpose command line fuzzy finder
+        use { 'nvim-treesitter/nvim-treesitter' }                                       -- also required for nvim-ufo, nvim-ts-autotag
 
-        use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } }         -- extensible neovim scrollbar
-        use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }            -- makes nvim's fold look modern and keep high performance
+        use { 'windwp/nvim-autopairs' }                                                 -- powerful autopair plugin that supports multiple characters
+        use { 'windwp/nvim-ts-autotag' }                                                -- use treesitter to autoclose and autorename html tag
+        use { 'norcalli/nvim-colorizer.lua' }                                           -- high performance color highlighter
+        use { 'kylechui/nvim-surround' }                                                -- surround selections, in style
+
+        use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } } -- extensible neovim scrollbar
+        use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }    -- makes nvim's fold look modern and keep high performance
 
         if is_bootstrap then
             require('packer').sync()
@@ -322,16 +324,17 @@ require('lualine').setup {
         },
         globalstatus = true,
     },
-    winbar = {
-        lualine_c = {
-            { 'filename', path = 3, color = { bg = 'NONE' } }
-        },
-    },
-    inactive_winbar = {
-        lualine_c = {
-            { 'filename', path = 3, color = { bg = 'NONE' } }
-        },
-    },
+    -- Using Lspsaga from now on
+    -- winbar = {
+    --     lualine_c = {
+    --         { 'filename', path = 3, color = { bg = 'NONE' } }
+    --     },
+    -- },
+    -- inactive_winbar = {
+    --     lualine_c = {
+    --         { 'filename', path = 3, color = { bg = 'NONE' } }
+    --     },
+    -- },
     sections = {
         lualine_b = { 'branch', 'diff' },
         lualine_c = {
@@ -488,6 +491,43 @@ end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls()) -- (optional) configure lua language server for neovim
 require('lspconfig.ui.windows').default_options.border = 'rounded'
 lsp.setup()
+-- Configure Lspsaga
+-- For more info - https://nvimdev.github.io/lspsaga/
+require('lspsaga').setup({
+    border_style = 'rounded',
+    symbol_in_winbar = {
+        separator = ' ⮁ ',
+        ignore_patterns = {},
+        hide_keyword = true,
+        show_file = true,
+        folder_level = 6,
+        respect_root = false,
+        color_mode = true,
+    },
+})
+-- Add keymaps for Lspsaga
+keymap('n', 'gk', '<cmd>Lspsaga hover_doc<cr>', { desc = 'Show hover info of symbol under cursor' })
+keymap('n', 'gh', '<cmd>Lspsaga finder tyd+ref+imp+def<cr>', { desc = 'Show LSP finder' })
+keymap('n', '<leader>o', '<cmd>Lspsaga outline<cr>', { desc = 'Open sysmbols outline' })
+keymap('n', '<leader>ca', '<cmd>Lspsaga code_action<cr>', { desc = 'Show code action available for cursor pos' }) -- changed from <f4>
+-- Lspsaga call heirarchy
+keymap('n', '<leader>ci', '<cmd>Lspsaga incoming_calls<cr>', { desc = 'Show incoming call heirarchy' })
+keymap('n', '<leader>co', '<cmd>Lspsaga outgoing_calls<cr>', { desc = 'Show outgoing call heirarchy' })
+-- Lspsaga definitions
+keymap('n', 'gd', '<cmd>Lspsaga goto_definition<cr>', { desc = 'Lspsaga goto definition' })
+keymap('n', 'gD', '<cmd>Lspsaga peek_definition<cr>', { desc = 'Lspsaga peek definition' })
+keymap('n', 'gt', '<cmd>Lspsaga goto_type_definition<cr>', { desc = 'Lspsaga goto type definition' })
+keymap('n', 'gT', '<cmd>Lspsaga peek_type_definition<cr>', { desc = 'Lspsaga peek type definition' })
+-- Lspsaga diagnostics
+keymap('n', 'sl', '<cmd>Lspsaga show_line_diagnostics<cr>', { desc = 'Show line diagnostics' })
+keymap('n', 'sc', '<cmd>Lspsaga show_cursor_diagnostics<cr>', { desc = 'Show cursor diagnostics' })
+keymap('n', 'sb', '<cmd>Lspsaga show_buf_diagnostics<cr>', { desc = 'Show buffer diagnostics' })
+keymap('n', ']g', '<cmd>Lspsaga diagnostic_jump_prev<cr>', { desc = 'Move to the previous diagnostic in current buffer' })
+keymap('n', '[g', '<cmd>Lspsaga diagnostic_jump_next<cr>', { desc = 'Move to the previous diagnostic in current buffer' })
+-- Lspsaga misc
+keymap('n', '<leader>cr', '<cmd>Lspsaga rename<cr>', { desc = 'Renames all references of symbol under cursor' })
+keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })
+keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
 -- Configure completion
 -- You need to setup `cmp` after lsp-zero
 local ELLIPSIS_CHAR = '…'
@@ -558,22 +598,6 @@ cmp.setup({
         end,
     },
 })
--- Add new keymaps since in mac it is hard to use function rows
-keymap('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover info of symbol under cursor in float window' })
-keymap('n', 'gd', vim.lsp.buf.definition, { desc = 'Jumps to definition of symbol under cursor' })
-keymap('n', 'gD', vim.lsp.buf.declaration, { desc = 'Jumps to declaration of symbol under cursor' })
-keymap('n', 'gi', vim.lsp.buf.implementation, { desc = 'Show implementations of symbol under cursor in quickfix' })
-keymap('n', 'go', vim.lsp.buf.type_definition, { desc = 'Jumps to definition of type of symbol under cursor' })
-keymap('n', 'gr', vim.lsp.buf.references, { desc = 'Lists all references of symbol under cursor in quickfix window' })
-keymap('n', 'gs', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor in float window' })
-keymap({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Show signature info of symbol under cursor' })
-keymap('n', '<leader>cr', vim.lsp.buf.rename, { desc = 'Renames all references of symbol under cursor' })   -- changed from <f2>
-keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current buffer' })                   -- changed from <f3>
-keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })  -- changed from <f4>
-keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
-keymap('n', 'gl', vim.diagnostic.open_float, { desc = 'Show diagnostics in float window' })
-keymap('n', 'g[', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
-keymap('n', 'g]', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
 -- Configure mason
 require('mason').setup({
     ui = {
@@ -676,8 +700,8 @@ require('bqf').setup({
     },
     filter = {
         fzf = {
-            ['ctrl-v'] = 'vsplit', -- open up item in new vertical split
-            ['ctrl-x'] = 'split', -- open up item in new horizontal split
+            ['ctrl-v'] = 'vsplit',   -- open up item in new vertical split
+            ['ctrl-x'] = 'split',    -- open up item in new horizontal split
             ['ctrl-c'] = 'closeall', -- close quickfix window and abort fzf
         }
     }
@@ -693,8 +717,8 @@ require('scrollbar').setup({
         diagnostic = true,
         gitsigns = true, -- requires gitsigns
         handle = true,
-        search = true, -- requires hlslens
-        ale = false, -- requires ALE
+        search = true,   -- requires hlslens
+        ale = false,     -- requires ALE
     },
 })
 -- require('scrollbar.handlers.gitsigns').setup()
