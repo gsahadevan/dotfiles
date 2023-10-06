@@ -167,7 +167,8 @@ require('packer').startup({
         use { 'JoosepAlviste/nvim-ts-context-commentstring' }                           -- sets commentstring option based on the cursor location, checked via treesitter queries
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
-        use { 'lalitmee/cobalt2.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }     -- colorscheme
+        use { 'lalitmee/cobalt2.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }     -- primary colorscheme
+        -- use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- secondary colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -294,14 +295,9 @@ require('nvim-tree').setup({
 })
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
 -- Configure indent-blankline
-local highlight = {
-    'CursorColumn',
-    'Whitespace',
-}
 require('ibl').setup {
-    indent = { highlight = highlight, char = '┊' },
+    indent = { char = '┊' },
     whitespace = {
-        highlight = highlight,
         remove_blankline_trail = false,
     },
     scope = { enabled = false },
@@ -309,11 +305,15 @@ require('ibl').setup {
 -- Configure cobalt2 colorscheme
 require('colorbuddy').colorscheme('cobalt2')
 vim.api.nvim_command('colorscheme cobalt2')
+-- Configure catppuccin colorscheme | secondary colorscheme
+-- vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+
 -- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
         theme = 'papercolor_light',
+        -- theme = 'catppuccin', -- secondary colorscheme
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
@@ -367,6 +367,7 @@ require('lualine').setup {
                 use_mode_colors = false,
                 buffers_color = {
                     active = { fg = 'black', bg = 'white' },
+                    -- active = { fg = 'black', bg = '#ef9f76' }, -- secondary colorscheme
                     inactive = {},
                 },
             },
@@ -571,8 +572,8 @@ keymap('n', '<leader>cf', vim.lsp.buf.format, { desc = 'Format code in current b
 keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Show code action available for cursor pos' })  -- changed from <f4>
 keymap('n', '<leader>cq', vim.diagnostic.setloclist, { desc = 'Open diagnostic set loc list' })
 keymap('n', 'gl', vim.diagnostic.open_float, { desc = 'Show diagnostics in float window' })
-keymap('n', '[g', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
-keymap('n', ']g', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
+keymap('n', 'g[', vim.diagnostic.goto_prev, { desc = 'Move to the previous diagnostic in current buffer' })
+keymap('n', 'g]', vim.diagnostic.goto_next, { desc = 'Move to the next diagnostic' })
 -- Configure mason
 require('mason').setup({
     ui = {
@@ -645,8 +646,8 @@ local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
     -- Disabled current line blame by default, use this key combination to enable it if required
     keymap('n', '<leader>gmt', gitsigns.toggle_current_line_blame, { desc = 'Git toggle current line blame' })
-    keymap('n', '<leader>]h', gitsigns.next_hunk, { desc = 'Git hunk next' })
-    keymap('n', '<leader>[h', gitsigns.prev_hunk, { desc = 'Git hunk prev' })
+    keymap('n', '<leader>h]', gitsigns.next_hunk, { desc = 'Git hunk next' })
+    keymap('n', '<leader>h[', gitsigns.prev_hunk, { desc = 'Git hunk prev' })
     keymap('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'Git hunk preview' })
     keymap('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'Git hunk stage' })
     keymap('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'Git hunk unstage' })
