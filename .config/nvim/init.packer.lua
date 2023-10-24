@@ -168,7 +168,7 @@ require('packer').startup({
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'lalitmee/cobalt2.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }     -- primary colorscheme
-        -- use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- secondary colorscheme
+        use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- secondary colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -305,17 +305,17 @@ require('ibl').setup {
     scope = { enabled = false },
 }
 -- Configure cobalt2 colorscheme
-require('colorbuddy').colorscheme('cobalt2')
-vim.api.nvim_command('colorscheme cobalt2')
+-- require('colorbuddy').colorscheme('cobalt2')
+-- vim.api.nvim_command('colorscheme cobalt2')
 -- Configure catppuccin colorscheme | secondary colorscheme
--- vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 -- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'papercolor_light',
-        -- theme = 'catppuccin', -- secondary colorscheme
+        -- theme = 'papercolor_light',
+        theme = 'catppuccin', -- secondary colorscheme
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
@@ -369,8 +369,8 @@ require('lualine').setup {
                 },
                 use_mode_colors = false,
                 buffers_color = {
-                    active = { fg = 'black', bg = 'white' },
-                    -- active = { fg = 'black', bg = '#ef9f76' }, -- secondary colorscheme
+                    -- active = { fg = 'black', bg = 'white' },
+                    active = { fg = 'black', bg = '#ca9ee6' }, -- secondary colorscheme
                     inactive = {},
                 },
             },
@@ -495,6 +495,28 @@ lsp.setup()
 -- For more info - https://nvimdev.github.io/lspsaga/
 require('lspsaga').setup({
     border_style = 'rounded',
+    ui = {
+        border = 'rounded',
+    },
+    hover = {
+        max_width = 0.6,
+        max_height = 0.5,
+    },
+    finder = {
+        max_height = 0.5,
+        left_width = 0.3,
+        default = 'tyd+ref+imp+def',
+        keys = {
+            shuttle = '[w',
+            toggle_or_open = 'o',
+            vsplit = 's',
+            split = 'i',
+            tabe = 't',
+            tabnew = 'r',
+            quit = 'q',
+            close = '<C-c>k',
+        },
+    },
     symbol_in_winbar = {
         separator = ' ⮁ ',
         ignore_patterns = {},
@@ -507,14 +529,14 @@ require('lspsaga').setup({
 })
 -- Add keymaps for Lspsaga
 keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>', { nowait = true, noremap = true, silent = true, desc = 'Show hover info of symbol under cursor' })
-keymap('n', 'gh', '<cmd>Lspsaga finder tyd+ref+imp+def<cr>', { noremap = true, silent = true, desc = 'Show LSP finder' })
+keymap('n', 'gh', '<cmd>Lspsaga finder<cr>', { noremap = true, silent = true, desc = 'Show LSP finder' })
 keymap('n', '<leader>o', '<cmd>Lspsaga outline<cr>', { noremap = true, silent = true, desc = 'Open sysmbols outline' })
 keymap('n', '<leader>ca', '<cmd>Lspsaga code_action<cr>', { noremap = true, silent = true, desc = 'Show code action available for cursor pos' }) -- changed from <f4>
 -- Lspsaga call heirarchy
 keymap('n', '<leader>ci', '<cmd>Lspsaga incoming_calls<cr>', { noremap = true, silent = true, desc = 'Show incoming call heirarchy' })
 keymap('n', '<leader>co', '<cmd>Lspsaga outgoing_calls<cr>', { noremap = true, silent = true, desc = 'Show outgoing call heirarchy' })
 -- Lspsaga definitions
-keymap('n', 'gd', '<cmd>Lspsaga goto_definition<cr>', { nowait = true, noremap = true, silent = true })
+keymap('n', 'gd', '<cmd>Lspsaga goto_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto definition' })
 keymap('n', 'gD', '<cmd>Lspsaga peek_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek definition' })
 keymap('n', 'gt', '<cmd>Lspsaga goto_type_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto type definition' })
 keymap('n', 'gT', '<cmd>Lspsaga peek_type_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek type definition' })
@@ -563,26 +585,26 @@ cmp.setup({
     window = {
         completion = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        documentation = cmp.config.window.bordered({
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        preview = cmp.config.window.bordered({
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        col_offset = -3,
-        side_padding = 0,
-        max_width = 50,
-    },
-    formatting = {
-        fields = { 'abbr', 'kind', 'menu' },
-        format = function(entry, vim_item)
-            -- add ellipsis and extra padding to match the width
-            local label = vim_item.abbr
-            local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
-            if truncated_label ~= label then
-                vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
-            elseif string.len(label) < MIN_LABEL_WIDTH then
-                local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
-                vim_item.abbr = label .. padding
-            end
+            documentation = cmp.config.window.bordered({
+                winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+                preview = cmp.config.window.bordered({
+                    winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+                    col_offset = -3,
+                    side_padding = 0,
+                    max_width = 50,
+                },
+                formatting = {
+                    fields = { 'abbr', 'kind', 'menu' },
+                    format = function(entry, vim_item)
+                        -- add ellipsis and extra padding to match the width
+                        local label = vim_item.abbr
+                        local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+                        if truncated_label ~= label then
+                            vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+                        elseif string.len(label) < MIN_LABEL_WIDTH then
+                            local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
+                            vim_item.abbr = label .. padding
+                        end
 
             -- add icons along with item kind
             vim_item.kind = string.format('%s', vim_item.kind)
