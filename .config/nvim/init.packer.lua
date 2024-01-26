@@ -550,6 +550,15 @@ keymap('n', 'g[', '<cmd>Lspsaga diagnostic_jump_next<cr>', { noremap = true, sil
 keymap('n', '<leader>cr', '<cmd>Lspsaga rename<cr>', { noremap = true, silent = true, desc = 'Renames all references of symbol under cursor' })
 keymap('n', '<leader>cf', vim.lsp.buf.format, { noremap = true, silent = true, desc = 'Format code in current buffer' })
 keymap('n', '<leader>cq', vim.diagnostic.setloclist, { noremap = true, silent = true, desc = 'Open diagnostic set loc list' })
+-- https://stackoverflow.com/questions/67988374/neovim-lsp-auto-fix-fix-current
+-- To make sure you only apply relevant fixes, you can use the filter attribute and look for the "prefered" fixes.
+local function quickfix()
+    vim.lsp.buf.code_action({
+        filter = function(a) return a.isPreferred end,
+        apply = true
+    })
+end
+vim.keymap.set('n', '<leader>qf', quickfix, { noremap = true, silent = true, desc = 'Format code by applying quickfix on code actions' })
 -- Configure completion
 -- You need to setup `cmp` after lsp-zero
 local ELLIPSIS_CHAR = '…'
@@ -743,8 +752,6 @@ require('scrollbar').setup({
         ale = false,     -- requires ALE
     },
 })
--- require('scrollbar.handlers.gitsigns').setup()
--- require('scrollbar.handlers.search').setup({})
 require('ufo').setup({
     provider_selector = function(bufnr, filetype, buftype)
         return { 'treesitter', 'indent' }
@@ -759,10 +766,10 @@ require('nvim-treesitter.configs').setup {
         'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
         'typescript', 'vim', 'vue',
     },
-    context_commentstring = {
-        enable = true,
-    },
 }
+-- context_commentstring is deprecated
+require('ts_context_commentstring').setup {}
+vim.g.skip_ts_context_commentstring_module = true
 
 local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
