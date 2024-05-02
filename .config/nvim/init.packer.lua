@@ -60,7 +60,7 @@ vim.opt.pumwidth       = 50 -- completion width
 
 vim.opt.cursorline     = true
 vim.opt.termguicolors  = true
-vim.opt.background     = 'dark'
+-- vim.opt.background     = 'dark'
 -- vim.opt.winblend       = 10
 -- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar
 
@@ -189,6 +189,7 @@ require('packer').startup({
                 { 'hrsh7th/cmp-cmdline' },
                 { 'hrsh7th/cmp-nvim-lsp' },
                 { 'L3MON4D3/LuaSnip' },
+                { 'rafamadriz/friendly-snippets' },
                 { 'saadparwaiz1/cmp_luasnip' }
             }
         }
@@ -528,28 +529,43 @@ require('lspsaga').setup({
     },
 })
 -- Add keymaps for Lspsaga
-keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>', { nowait = true, noremap = true, silent = true, desc = 'Show hover info of symbol under cursor' })
+keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>',
+    { nowait = true, noremap = true, silent = true, desc = 'Show hover info of symbol under cursor' })
 keymap('n', 'gh', '<cmd>Lspsaga finder<cr>', { noremap = true, silent = true, desc = 'Show LSP finder' })
 keymap('n', '<leader>o', '<cmd>Lspsaga outline<cr>', { noremap = true, silent = true, desc = 'Open sysmbols outline' })
-keymap('n', '<leader>ca', '<cmd>Lspsaga code_action<cr>', { noremap = true, silent = true, desc = 'Show code action available for cursor pos' }) -- changed from <f4>
+keymap('n', '<leader>ca', '<cmd>Lspsaga code_action<cr>',
+    { noremap = true, silent = true, desc = 'Show code action available for cursor pos' })                                                       -- changed from <f4>
 -- Lspsaga call heirarchy
-keymap('n', '<leader>ci', '<cmd>Lspsaga incoming_calls<cr>', { noremap = true, silent = true, desc = 'Show incoming call heirarchy' })
-keymap('n', '<leader>co', '<cmd>Lspsaga outgoing_calls<cr>', { noremap = true, silent = true, desc = 'Show outgoing call heirarchy' })
+keymap('n', '<leader>ci', '<cmd>Lspsaga incoming_calls<cr>',
+    { noremap = true, silent = true, desc = 'Show incoming call heirarchy' })
+keymap('n', '<leader>co', '<cmd>Lspsaga outgoing_calls<cr>',
+    { noremap = true, silent = true, desc = 'Show outgoing call heirarchy' })
 -- Lspsaga definitions
-keymap('n', 'gd', '<cmd>Lspsaga goto_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto definition' })
-keymap('n', 'gD', '<cmd>Lspsaga peek_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek definition' })
-keymap('n', 'gt', '<cmd>Lspsaga goto_type_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto type definition' })
-keymap('n', 'gT', '<cmd>Lspsaga peek_type_definition<cr>', { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek type definition' })
+keymap('n', 'gd', '<cmd>Lspsaga goto_definition<cr>',
+    { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto definition' })
+keymap('n', 'gD', '<cmd>Lspsaga peek_definition<cr>',
+    { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek definition' })
+keymap('n', 'gt', '<cmd>Lspsaga goto_type_definition<cr>',
+    { nowait = true, noremap = true, silent = true, desc = 'Lspsaga goto type definition' })
+keymap('n', 'gT', '<cmd>Lspsaga peek_type_definition<cr>',
+    { nowait = true, noremap = true, silent = true, desc = 'Lspsaga peek type definition' })
 -- Lspsaga diagnostics
-keymap('n', 'sl', '<cmd>Lspsaga show_line_diagnostics<cr>', { noremap = true, silent = true, desc = 'Show line diagnostics' })
-keymap('n', 'sc', '<cmd>Lspsaga show_cursor_diagnostics<cr>', { noremap = true, silent = true, desc = 'Show cursor diagnostics' })
-keymap('n', 'sb', '<cmd>Lspsaga show_buf_diagnostics<cr>', { noremap = true, silent = true, desc = 'Show buffer diagnostics' })
-keymap('n', 'g]', '<cmd>Lspsaga diagnostic_jump_prev<cr>', { noremap = true, silent = true, desc = 'Move to the prev diagnostic in current buffer' })
-keymap('n', 'g[', '<cmd>Lspsaga diagnostic_jump_next<cr>', { noremap = true, silent = true, desc = 'Move to the next diagnostic in current buffer' })
+keymap('n', 'sl', '<cmd>Lspsaga show_line_diagnostics<cr>',
+    { noremap = true, silent = true, desc = 'Show line diagnostics' })
+keymap('n', 'sc', '<cmd>Lspsaga show_cursor_diagnostics<cr>',
+    { noremap = true, silent = true, desc = 'Show cursor diagnostics' })
+keymap('n', 'sb', '<cmd>Lspsaga show_buf_diagnostics<cr>',
+    { noremap = true, silent = true, desc = 'Show buffer diagnostics' })
+keymap('n', 'g]', '<cmd>Lspsaga diagnostic_jump_prev<cr>',
+    { noremap = true, silent = true, desc = 'Move to the prev diagnostic in current buffer' })
+keymap('n', 'g[', '<cmd>Lspsaga diagnostic_jump_next<cr>',
+    { noremap = true, silent = true, desc = 'Move to the next diagnostic in current buffer' })
 -- Lspsaga misc
-keymap('n', '<leader>cr', '<cmd>Lspsaga rename<cr>', { noremap = true, silent = true, desc = 'Renames all references of symbol under cursor' })
+keymap('n', '<leader>cr', '<cmd>Lspsaga rename<cr>',
+    { noremap = true, silent = true, desc = 'Renames all references of symbol under cursor' })
 keymap('n', '<leader>cf', vim.lsp.buf.format, { noremap = true, silent = true, desc = 'Format code in current buffer' })
-keymap('n', '<leader>cq', vim.diagnostic.setloclist, { noremap = true, silent = true, desc = 'Open diagnostic set loc list' })
+keymap('n', '<leader>cq', vim.diagnostic.setloclist,
+    { noremap = true, silent = true, desc = 'Open diagnostic set loc list' })
 -- https://stackoverflow.com/questions/67988374/neovim-lsp-auto-fix-fix-current
 -- To make sure you only apply relevant fixes, you can use the filter attribute and look for the "prefered" fixes.
 local function quickfix()
@@ -558,7 +574,8 @@ local function quickfix()
         apply = true
     })
 end
-vim.keymap.set('n', '<leader>qf', quickfix, { noremap = true, silent = true, desc = 'Format code by applying quickfix on code actions' })
+vim.keymap.set('n', '<leader>qf', quickfix,
+    { noremap = true, silent = true, desc = 'Format code by applying quickfix on code actions' })
 -- Configure completion
 -- You need to setup `cmp` after lsp-zero
 local ELLIPSIS_CHAR = '…'
@@ -566,7 +583,8 @@ local MAX_LABEL_WIDTH = 30
 local MIN_LABEL_WIDTH = 30
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
-require('luasnip.loaders.from_vscode').lazy_load()
+require('luasnip')
+require('luasnip.loaders.from_vscode').load {}
 cmp.setup({
     snippet = {
         expand = function(args)
@@ -594,26 +612,26 @@ cmp.setup({
     window = {
         completion = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-            documentation = cmp.config.window.bordered({
-                winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-                preview = cmp.config.window.bordered({
-                    winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-                    col_offset = -3,
-                    side_padding = 0,
-                    max_width = 50,
-                },
-                formatting = {
-                    fields = { 'abbr', 'kind', 'menu' },
-                    format = function(entry, vim_item)
-                        -- add ellipsis and extra padding to match the width
-                        local label = vim_item.abbr
-                        local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
-                        if truncated_label ~= label then
-                            vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
-                        elseif string.len(label) < MIN_LABEL_WIDTH then
-                            local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
-                            vim_item.abbr = label .. padding
-                        end
+        documentation = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        preview = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        col_offset = -3,
+        side_padding = 0,
+        max_width = 50,
+    },
+    formatting = {
+        fields = { 'abbr', 'kind', 'menu' },
+        format = function(entry, vim_item)
+            -- add ellipsis and extra padding to match the width
+            local label = vim_item.abbr
+            local truncated_label = vim.fn.strcharpart(label, 0, MAX_LABEL_WIDTH)
+            if truncated_label ~= label then
+                vim_item.abbr = truncated_label .. ELLIPSIS_CHAR
+            elseif string.len(label) < MIN_LABEL_WIDTH then
+                local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
+                vim_item.abbr = label .. padding
+            end
 
             -- add icons along with item kind
             vim_item.kind = string.format('%s', vim_item.kind)
@@ -629,6 +647,8 @@ cmp.setup({
         end,
     },
 })
+
+
 -- Configure mason
 require('mason').setup({
     ui = {
