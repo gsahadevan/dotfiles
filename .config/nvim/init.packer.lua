@@ -79,6 +79,13 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 
+-- To give syntax highlighting for mdx files, similar to md files
+vim.filetype.add({
+    extension = {
+        mdx = 'markdown',
+    }
+})
+
 -- ╭───────────────────────────────────╮
 -- │ Add keymaps                       │
 -- ╰───────────────────────────────────╯
@@ -201,7 +208,7 @@ require('packer').startup({
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
         use { 'NeogitOrg/neogit', requires = { 'nvim-lua/plenary.nvim' } }              -- magit clone for nvim
 
-        use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw vim panes and tmux
+        use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw nvim panes and tmux
 
         use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
         use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }            -- general purpose command line fuzzy finder
@@ -268,6 +275,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- ╭───────────────────────────────────╮
 -- │ Configure packages                │
 -- ╰───────────────────────────────────╯
+
 -- Configure comment
 require('Comment').setup {
     pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
@@ -534,7 +542,7 @@ keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>',
 keymap('n', 'gh', '<cmd>Lspsaga finder<cr>', { noremap = true, silent = true, desc = 'Show LSP finder' })
 keymap('n', '<leader>o', '<cmd>Lspsaga outline<cr>', { noremap = true, silent = true, desc = 'Open sysmbols outline' })
 keymap('n', '<leader>ca', '<cmd>Lspsaga code_action<cr>',
-    { noremap = true, silent = true, desc = 'Show code action available for cursor pos' })                                                       -- changed from <f4>
+    { noremap = true, silent = true, desc = 'Show code action available for cursor pos' }) -- changed from <f4>
 -- Lspsaga call heirarchy
 keymap('n', '<leader>ci', '<cmd>Lspsaga incoming_calls<cr>',
     { noremap = true, silent = true, desc = 'Show incoming call heirarchy' })
