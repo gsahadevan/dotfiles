@@ -138,8 +138,6 @@ keymap('n', '<leader>Y', '"+Y')
 keymap('n', '<leader>d', '"_d')
 keymap('v', '<leader>d', '"_d')
 
-keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
-
 -- Specific to this configuration
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
 keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
@@ -150,6 +148,10 @@ keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 
 -- Specific to command line
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
+
+-- Specific to buffer usage
+keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', {desc = 'Copy absolute file path'})
+keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
