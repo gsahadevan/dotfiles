@@ -150,7 +150,7 @@ keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 
 -- Specific to buffer usage
-keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', {desc = 'Copy absolute file path'})
+keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
 -- ╭───────────────────────────────────╮
@@ -304,6 +304,13 @@ require('nvim-tree').setup({
     },
     modified = {
         enable = true,
+    },
+    filesystem_watchers = {
+        enable = true,
+        debounce_delay = 50,
+        ignore_dirs = {
+            '.*/node_modules/.*',
+        },
     },
 })
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
