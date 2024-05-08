@@ -176,8 +176,7 @@ require('packer').startup({
         use { 'JoosepAlviste/nvim-ts-context-commentstring' }                           -- sets commentstring option based on the cursor location, checked via treesitter queries
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
-        use { 'lalitmee/cobalt2.nvim', requires = { 'tjdevries/colorbuddy.nvim' } }     -- primary colorscheme
-        use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- secondary colorscheme
+        use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -322,18 +321,14 @@ require('ibl').setup {
     },
     scope = { enabled = false },
 }
--- Configure cobalt2 colorscheme
--- require('colorbuddy').colorscheme('cobalt2')
--- vim.api.nvim_command('colorscheme cobalt2')
--- Configure catppuccin colorscheme | secondary colorscheme
+-- Configure catppuccin colorscheme
 vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 
 -- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        -- theme = 'papercolor_light',
-        theme = 'catppuccin', -- secondary colorscheme
+        theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
@@ -342,17 +337,6 @@ require('lualine').setup {
         },
         globalstatus = true,
     },
-    -- Using Lspsaga from now on
-    -- winbar = {
-    --     lualine_c = {
-    --         { 'filename', path = 3, color = { bg = 'NONE' } }
-    --     },
-    -- },
-    -- inactive_winbar = {
-    --     lualine_c = {
-    --         { 'filename', path = 3, color = { bg = 'NONE' } }
-    --     },
-    -- },
     sections = {
         lualine_b = { 'branch', 'diff' },
         lualine_c = {
@@ -387,8 +371,7 @@ require('lualine').setup {
                 },
                 use_mode_colors = false,
                 buffers_color = {
-                    -- active = { fg = 'black', bg = 'white' },
-                    active = { fg = 'black', bg = '#ca9ee6' }, -- secondary colorscheme
+                    active = { fg = 'black', bg = '#ca9ee6' },
                     inactive = {},
                 },
             },
