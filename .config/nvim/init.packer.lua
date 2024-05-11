@@ -62,7 +62,7 @@ vim.opt.cursorline     = true
 vim.opt.termguicolors  = true
 -- vim.opt.background     = 'dark'
 -- vim.opt.winblend       = 10
--- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar
+-- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar | enabling this would show Nvimtree_1 on explorer
 
 vim.opt.splitright     = true
 vim.opt.splitbelow     = true
@@ -101,15 +101,23 @@ keymap('', '<Space>', '<Nop>', opts)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
-keymap('n', '<esc>', ':nohl<CR>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
+-- Buffers
+keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
+keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
+keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer close' })
+keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
+keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 
--- Split window
-keymap('n', 'sv', ':vsplit<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
-keymap('n', 'ss', ':split<Return><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
+-- Windows
+keymap('n', 'sv', '<cmd>vsplit<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
+keymap('n', 'ss', '<cmd>split<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
 keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
-keymap('n', 'sw', ':close<CR>', { noremap = true, silent = true, desc = 'Window close current' })
+keymap('n', 'sw', '<cmd>close<cr>', { noremap = true, silent = true, desc = 'Window close current' })
 keymap('n', 'sr', '<C-w><C-r>', { noremap = true, silent = true, desc = 'Window swap position' })
+
+-- Selection and highlighting
+keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
+keymap('n', '<esc>', '<cmd>nohl<cr>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
 
 -- Stay in visual mode while indenting
 keymap('v', '<', '<gv', opts)
@@ -127,7 +135,8 @@ keymap('n', '<C-d>', '<C-d>zz')   -- keeps cursor in the middle of screen
 keymap('n', '<C-u>', '<C-u>zz')   -- keeps cursor in the middle of screen
 keymap('n', 'n', 'nzzzv')         -- keeps cursor in the middle for search terms
 keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
-keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer
+keymap('v', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual mode
+keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual block mode
 keymap('n', 'x', '"_x')           -- do not save characters cut using x
 
 -- Pressing leaderY would enable further yanking to save yanked text to clipboard
@@ -138,18 +147,11 @@ keymap('n', '<leader>Y', '"+Y')
 keymap('n', '<leader>d', '"_d')
 keymap('v', '<leader>d', '"_d')
 
--- Specific to this configuration
-keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
-keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
-keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer close' })
-keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
-keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
-
--- Specific to command line
+-- Command mode
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 
--- Specific to buffer usage
+-- Misc 
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
@@ -177,10 +179,18 @@ require('packer').startup({
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
+        use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+        use { 'nvim-telescope/telescope-symbols.nvim' }                                 -- find emojis with telescope :Telescope symbols
+        use {                                                                           -- change the sorting algorithm to fuzzy find files using telescope
+            'nvim-telescope/telescope-frecency.nvim',
+            config = function()
+                require('telescope').load_extension 'frecency'
+            end,
+        }
 
         use {
             'VonHeikemen/lsp-zero.nvim',
@@ -323,7 +333,6 @@ require('ibl').setup {
 }
 -- Configure catppuccin colorscheme
 vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
-
 -- Configure lualine
 require('lualine').setup {
     options = {
@@ -395,8 +404,14 @@ require('telescope').setup {
             },
         },
     },
+    extensions = {
+        frecency = {
+            theme = 'dropdown',
+        },
+    },
 }
 pcall('fzf', require('telescope').load_extension)
+pcall('frecency', require('telescope').load_extension)
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
@@ -449,6 +464,11 @@ if telescope then
         builtin.lsp_definitions({ jump_type = 'vsplit' })
     end
 
+    -- Can also be done with <cmd>Telescope frecency workspace=CWD<cr>
+    local show_frecency_workspace_cwd = function()
+        telescope.extensions.frecency.frecency { workspace = 'CWD' }
+    end
+
     -- See `:help telescope.builtin`
     -- You can pass additional configuration to telescope to change theme, layout, etc.
     keymap('n', '<leader>/', buffer_fuzzy_find, { desc = 'Telescope fuzzy search in curr. buffer' })
@@ -459,6 +479,8 @@ if telescope then
     keymap('n', '<leader>fp', builtin.find_files, { desc = 'Telescope find files with preview' })
     keymap('n', '<leader>fP', find_files_all, { desc = 'Telescope find files with preview incl. hidden' })
     keymap('n', '<leader>ff', find_files_wo_preview, { desc = 'Telescope find files without preview' })
+
+    keymap('n', '<leader>fr', show_frecency_workspace_cwd, { desc = 'Telescope find files with frecency' })
 
     keymap('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
     keymap('n', '<leader>sG', grep_search_all, { desc = 'Telescope search using live grep incl. hidden' })
