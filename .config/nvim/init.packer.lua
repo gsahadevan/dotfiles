@@ -130,6 +130,15 @@ keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hove
 -- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
 keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
 
+-- Command mode
+keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
+keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
+
+-- Misc 
+keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listing' })
+keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
+keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
+
 keymap('n', 'J', 'mzJ`z')         -- keeps cursor in place when joining lines
 keymap('n', '<C-d>', '<C-d>zz')   -- keeps cursor in the middle of screen
 keymap('n', '<C-u>', '<C-u>zz')   -- keeps cursor in the middle of screen
@@ -138,22 +147,6 @@ keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
 keymap('v', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual mode
 keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual block mode
 keymap('n', 'x', '"_x')           -- do not save characters cut using x
-
--- Pressing leaderY would enable further yanking to save yanked text to clipboard
-keymap('n', '<leader>y', '"+y')
-keymap('v', '<leader>y', '"+y')
-keymap('n', '<leader>Y', '"+Y')
-
-keymap('n', '<leader>d', '"_d')
-keymap('v', '<leader>d', '"_d')
-
--- Command mode
-keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
-keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
-
--- Misc 
-keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
-keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
@@ -376,7 +369,8 @@ require('lualine').setup {
                     packer = 'Packer',
                     fzf = 'FZF',
                     alpha = 'Alpha',
-                    NvimTree = 'Explorer',
+                    NvimTree = 'Explore',
+                    netrw = 'Explore',
                 },
                 use_mode_colors = false,
                 buffers_color = {
