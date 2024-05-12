@@ -174,17 +174,10 @@ require('packer').startup({
         use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
         use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
-
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-        use { 'nvim-telescope/telescope-symbols.nvim' } -- find emojis with telescope :Telescope symbols
-        use {                                           -- change the sorting algorithm to fuzzy find files using telescope
-            'nvim-telescope/telescope-frecency.nvim',
-            config = function()
-                require('telescope').load_extension 'frecency'
-            end,
-        }
-
+        use { 'nvim-telescope/telescope-symbols.nvim' }  -- find emojis with telescope :Telescope symbols
+        use { 'nvim-telescope/telescope-frecency.nvim' } -- change the sorting algorithm to fuzzy find files using telescope
         use {
             'VonHeikemen/lsp-zero.nvim',
             branch = 'v2.x',
@@ -199,29 +192,23 @@ require('packer').startup({
                 { 'hrsh7th/cmp-path' },
                 { 'hrsh7th/cmp-cmdline' },
                 { 'hrsh7th/cmp-nvim-lsp' },
-                { 'L3MON4D3/LuaSnip' },
+                { 'L3MON4D3/LuaSnip',                 run = 'make install_jsregexp' },
                 { 'rafamadriz/friendly-snippets' },
                 { 'saadparwaiz1/cmp_luasnip' }
             }
         }
-
         use { 'nvimdev/lspsaga.nvim' }
-
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
-
         use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw nvim panes and tmux
-
         use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
         use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }            -- general purpose command line fuzzy finder
         use { 'nvim-treesitter/nvim-treesitter' }                                       -- also required for nvim-ufo, nvim-ts-autotag
-
         use { 'windwp/nvim-autopairs' }                                                 -- powerful autopair plugin that supports multiple characters
         use { 'windwp/nvim-ts-autotag' }                                                -- use treesitter to autoclose and autorename html tag
         use { 'norcalli/nvim-colorizer.lua' }                                           -- high performance color highlighter
         use { 'kylechui/nvim-surround' }                                                -- surround selections, in style
-
         use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } } -- extensible neovim scrollbar
         use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }    -- makes nvim's fold look modern and keep high performance
 
@@ -259,13 +246,11 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     group = vim.api.nvim_create_augroup('Packer', { clear = true }),
     pattern = vim.fn.expand '$MYVIMRC',
 })
-
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd('InsertLeave', {
     pattern = '*',
     command = 'set nopaste'
 })
-
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
@@ -400,6 +385,7 @@ require('telescope').setup {
     extensions = {
         frecency = {
             theme = 'dropdown',
+            show_scores = true,
         },
     },
 }
@@ -459,7 +445,24 @@ if telescope then
 
     -- Can also be done with <cmd>Telescope frecency workspace=CWD<cr>
     local show_frecency_workspace_cwd = function()
-        telescope.extensions.frecency.frecency { workspace = 'CWD' }
+        telescope.extensions.frecency.frecency {
+            workspace = 'CWD',
+            -- layout_strategy = 'center',
+            -- winblend = 0,
+            -- previewer = false,
+            -- layout_config = {
+            --     height = 0.6,
+            --     width = 0.8,
+            -- },
+            -- themes.get_dropdown {
+            --     winblend = 0,
+            --     previewer = false,
+            --     layout_config = {
+            --         height = 0.6,
+            --         width = 0.8,
+            --     },
+            -- },
+        }
     end
 
     -- See `:help telescope.builtin`
@@ -472,7 +475,6 @@ if telescope then
     keymap('n', '<leader>fp', builtin.find_files, { desc = 'Telescope find files with preview' })
     keymap('n', '<leader>fP', find_files_all, { desc = 'Telescope find files with preview incl. hidden' })
     keymap('n', '<leader>ff', find_files_wo_preview, { desc = 'Telescope find files without preview' })
-
     keymap('n', '<leader>fr', show_frecency_workspace_cwd, { desc = 'Telescope find files with frecency' })
 
     keymap('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
@@ -595,12 +597,19 @@ vim.keymap.set('n', '<leader>qf', quickfix,
     { noremap = true, silent = true, desc = 'Format code by applying quickfix on code actions' })
 -- Configure completion
 -- You need to setup `cmp` after lsp-zero
+--
+-- Required for logging / testing
+local log = require('plenary.log').new({
+    level = 'debug'
+})
+-- Call the logging by log.debug('----------')
+-- logs would be found in :messages
 local ELLIPSIS_CHAR = '…'
-local MAX_LABEL_WIDTH = 30
-local MIN_LABEL_WIDTH = 30
+local MAX_LABEL_WIDTH = 25
+local MIN_LABEL_WIDTH = 25
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
-require('luasnip')
+-- require('luasnip')
 require('luasnip.loaders.from_vscode').load {}
 cmp.setup({
     snippet = {
@@ -622,6 +631,7 @@ cmp.setup({
     },
     sources = {
         { name = 'nvim_lsp' },
+        { name = 'nvim_lua' },
         { name = 'luasnip', keyword_length = 2 },
         { name = 'buffer',  keyword_length = 3 },
         { name = 'path',    keyword_length = 3 },
@@ -629,16 +639,20 @@ cmp.setup({
     window = {
         completion = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        documentation = cmp.config.window.bordered({
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        -- documentation = cmp.config.window.bordered({
+        --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        documentation = cmp.config.window.bordered({}),
+        -- winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
         preview = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
         col_offset = -3,
         side_padding = 0,
-        max_width = 50,
+        max_width = 80,
+        min_width = 80,
     },
     formatting = {
-        fields = { 'abbr', 'kind', 'menu' },
+        -- fields = { 'abbr', 'kind', 'menu' },
+        fields = { 'abbr', 'menu' },
         format = function(entry, vim_item)
             -- add ellipsis and extra padding to match the width
             local label = vim_item.abbr
@@ -649,23 +663,35 @@ cmp.setup({
                 local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(label))
                 vim_item.abbr = label .. padding
             end
-
-            -- add icons along with item kind
+            -- Add the kind, check if you could somehow add icons
+            -- Would help save some space
             vim_item.kind = string.format('%s', vim_item.kind)
-            vim_item.menu = ({
+            -- Add vscode style export names at the end
+            -- Again, source name might not be required
+            local return_type = entry:get_completion_item()
+            local source_name = ({
                 nvim_lsp = '_lsp ',
                 nvim_lua = '_lua ',
                 luasnip  = 'snip ',
                 buffer   = 'bufr ',
                 path     = 'path ',
             })[entry.source.name]
-
+            if return_type ~= nil and return_type.data ~= nil and return_type.data.entryNames ~= nil then
+                if return_type.data.entryNames[1] ~= nil and return_type.data.entryNames[1].data ~= nil and return_type.data.entryNames[1].data.exportName ~= nil then
+                    log.debug('------------------------------------')
+                    log.debug('name: ' .. vim_item.abbr)
+                    log.debug(return_type.data.entryNames)
+                    vim_item.menu = return_type.data.entryNames[1].data.exportName
+                else
+                    vim_item.menu = source_name
+                end
+            else
+                vim_item.menu = source_name
+            end
             return vim_item
         end,
     },
 })
-
-
 -- Configure mason
 require('mason').setup({
     ui = {
