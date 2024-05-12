@@ -766,7 +766,7 @@ end
 require('diffview').setup({
     view = {
         merge_tool = {
-            layout = 'diff3_vertical', -- default layout is diff3_horizontal
+            layout = 'diff3_mixed', -- default layout is diff3_horizontal
         },
     },
 })
