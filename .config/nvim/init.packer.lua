@@ -210,7 +210,6 @@ require('packer').startup({
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
-        use { 'NeogitOrg/neogit', requires = { 'nvim-lua/plenary.nvim' } }              -- magit clone for nvim
 
         use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw nvim panes and tmux
 
@@ -489,6 +488,8 @@ if telescope then
     keymap('n', '<leader>tsd', builtin.diagnostics, { desc = 'Telescope show diagnostics' })
     keymap('n', '<leader>tsr', builtin.registers, { desc = 'Telescope show registers' })
     keymap('n', '<leader>tsm', builtin.marks, { desc = 'Telescope show marks' })
+    keymap('n', '<leader>tsj', builtin.jumplist, { desc = 'Telescope show jump list' })
+    keymap('n', '<leader>tsk', builtin.keymaps, { desc = 'Telescope show keymaps' })
     -- lsp
     keymap('n', '<leader>vd', show_lsp_definition_in_split, { desc = 'Telescope LSP go to definition in vsplit' })
     keymap('n', '<leader>tld', builtin.lsp_definitions, { desc = 'Telescope LSP show definitions' })
@@ -499,7 +500,7 @@ if telescope then
 end
 -- Configure LSP
 local lsp = require('lsp-zero').preset({})
-lsp.on_attach(function(client, bufnr)
+lsp.on_attach(function(_, bufnr)
     lsp.default_keymaps({
         buffer = bufnr,
         -- preserve_mappings = false -- read here for more understanding - https://github.com/VonHeikemen/lsp-zero.nvim#keybindings
@@ -751,10 +752,6 @@ end
 --
 -- You can jump between conflict markers with `]x` and `[x`
 --
--- Further, in addition to the normal |copy-diffs| mappings you can use 
--- `2do` to obtain the hunk from the OURS side of the diff,
--- `3do` to obtain the hunk from the THEIRS side of the diff
---
 -- Additionally there are mappings for operating directly on the conflict markers:
 --   • `<leader>co`: Choose the OURS version of the conflict.
 --   • `<leader>ct`: Choose the THEIRS version of the conflict.
@@ -770,9 +767,6 @@ require('diffview').setup({
         },
     },
 })
-require('neogit').setup {}
--- Need to configure nvim-bqf with additional values
--- require('bqf').setup({})
 require('bqf').setup({
     auto_enable = true,
     auto_resize_height = true,
@@ -800,17 +794,6 @@ require('bqf').setup({
 require('nvim-autopairs').setup {}
 require('nvim-ts-autotag').setup()
 require('colorizer').setup()
--- How to use nvim-surround
---     Old text                    Command         New text
--- --------------------------------------------------------------------------------
---     surr*ound_words             ysiw)           (surround_words)
---     *make strings               ys$"            "make strings"
---     [delete ar*ound me!]        ds]             delete around me!
---     remove <b>HTML t*ags</b>    dst             remove HTML tags
---     'change quot*es'            cs'"            "change quotes"
---     <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
---     delete(functi*on calls)     dsf             function calls
---
 require('nvim-surround').setup({})
 require('hlslens').setup()
 require('scrollbar').setup({
@@ -824,7 +807,7 @@ require('scrollbar').setup({
     },
 })
 require('ufo').setup({
-    provider_selector = function(bufnr, filetype, buftype)
+    provider_selector = function(_, _, _)
         return { 'treesitter', 'indent' }
     end
 })

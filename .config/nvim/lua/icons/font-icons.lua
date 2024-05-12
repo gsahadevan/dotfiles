@@ -132,7 +132,6 @@ return {
         Hint  = ' ',
         Info  = ' ',
         Warn  = ' ',
-
     },
     Prefix                 = '●',
     lualine                = {
