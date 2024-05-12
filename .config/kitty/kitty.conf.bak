@@ -1,5 +1,5 @@
 # font_family MonoLisaNerdFontCompleteMono Nerd Font
-font_family JetBrainsMonoNL Nerd Font
+font_family JetBrainsMono Nerd Font
 bold_font auto
 italic_font auto
 bold_italic_font auto
@@ -22,9 +22,9 @@ shell_integration enabled
 allow_hyperlinks yes
 
 # remove the window title bar
-hide_window_decorations yes
-window_border_width 0
-draw_minimal_border yes
+# hide_window_decorations yes
+# window_border_width 0
+# draw_minimal_border yes
 
 window_resize_step_cells 2
 window_resize_step_lines 2
@@ -32,13 +32,13 @@ window_resize_step_lines 2
 initial_window_width  1200
 initial_window_height 800
 
-background_opacity 0.95
-# window_border_width 0.5pt
-# draw_minimal_borders yes
+# background_opacity 0.9
+window_border_width 0.5pt
+draw_minimal_borders yes
 # inactive_text_alpha 0.7
-# hide_window_decorations no
-# macos_titlebar_color background
-# active_border_color none
+hide_window_decorations no
+macos_titlebar_color background
+active_border_color none
 
 # default layout is vertical splits only
 enabled_layouts splits

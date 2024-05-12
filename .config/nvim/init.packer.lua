@@ -134,7 +134,7 @@ keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 
--- Misc 
+-- Misc
 keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listing' })
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
@@ -177,8 +177,8 @@ require('packer').startup({
 
         use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-        use { 'nvim-telescope/telescope-symbols.nvim' }                                 -- find emojis with telescope :Telescope symbols
-        use {                                                                           -- change the sorting algorithm to fuzzy find files using telescope
+        use { 'nvim-telescope/telescope-symbols.nvim' } -- find emojis with telescope :Telescope symbols
+        use {                                           -- change the sorting algorithm to fuzzy find files using telescope
             'nvim-telescope/telescope-frecency.nvim',
             config = function()
                 require('telescope').load_extension 'frecency'
@@ -745,7 +745,31 @@ if gitsigns then
     keymap('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'Git hunk reset' })
 end
 -- Configure other misc packages
-require('diffview').setup({})
+-- diffview gives some default keymaps on the merge_tool
+-- :DiffviewOpen to open the mege_tool during merge or rebase to list the conflicted files
+-- The default mapping `g<C-x>` allows you to cycle through the available layouts
+--
+-- You can jump between conflict markers with `]x` and `[x`
+--
+-- Further, in addition to the normal |copy-diffs| mappings you can use 
+-- `2do` to obtain the hunk from the OURS side of the diff,
+-- `3do` to obtain the hunk from the THEIRS side of the diff
+--
+-- Additionally there are mappings for operating directly on the conflict markers:
+--   • `<leader>co`: Choose the OURS version of the conflict.
+--   • `<leader>ct`: Choose the THEIRS version of the conflict.
+--   • `<leader>cb`: Choose the BASE version of the conflict.
+--   • `<leader>ca`: Choose all versions of the conflict (effectively
+--     just deletes the markers, leaving all the content).
+--   • `dx`: Choose none of the versions of the conflict (delete the
+--     conflict region).
+require('diffview').setup({
+    view = {
+        merge_tool = {
+            layout = 'diff3_vertical', -- default layout is diff3_horizontal
+        },
+    },
+})
 require('neogit').setup {}
 -- Need to configure nvim-bqf with additional values
 -- require('bqf').setup({})
@@ -776,6 +800,17 @@ require('bqf').setup({
 require('nvim-autopairs').setup {}
 require('nvim-ts-autotag').setup()
 require('colorizer').setup()
+-- How to use nvim-surround
+--     Old text                    Command         New text
+-- --------------------------------------------------------------------------------
+--     surr*ound_words             ysiw)           (surround_words)
+--     *make strings               ys$"            "make strings"
+--     [delete ar*ound me!]        ds]             delete around me!
+--     remove <b>HTML t*ags</b>    dst             remove HTML tags
+--     'change quot*es'            cs'"            "change quotes"
+--     <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
+--     delete(functi*on calls)     dsf             function calls
+--
 require('nvim-surround').setup({})
 require('hlslens').setup()
 require('scrollbar').setup({
