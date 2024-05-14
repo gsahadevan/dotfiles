@@ -194,7 +194,7 @@ require('packer').startup({
                 { 'hrsh7th/cmp-nvim-lsp' },
                 { 'L3MON4D3/LuaSnip',                 run = 'make install_jsregexp' },
                 { 'rafamadriz/friendly-snippets' },
-                { 'saadparwaiz1/cmp_luasnip' }
+                { 'saadparwaiz1/cmp_luasnip' },
             }
         }
         use { 'nvimdev/lspsaga.nvim' }
@@ -381,6 +381,7 @@ require('telescope').setup {
                 ['<c-w>'] = require('telescope.actions').delete_buffer,
             },
         },
+        file_ignore_patterns = { 'node_modules' }
     },
     extensions = {
         frecency = {
@@ -447,6 +448,7 @@ if telescope then
     local show_frecency_workspace_cwd = function()
         telescope.extensions.frecency.frecency {
             workspace = 'CWD',
+            previewer = false,
             -- layout_strategy = 'center',
             -- winblend = 0,
             -- previewer = false,
@@ -599,17 +601,18 @@ vim.keymap.set('n', '<leader>qf', quickfix,
 -- You need to setup `cmp` after lsp-zero
 --
 -- Required for logging / testing
-local log = require('plenary.log').new({
-    level = 'debug'
-})
+-- local log = require('plenary.log').new({
+--     level = 'debug'
+-- })
 -- Call the logging by log.debug('----------')
 -- logs would be found in :messages
+--
 local ELLIPSIS_CHAR = '…'
 local MAX_LABEL_WIDTH = 25
 local MIN_LABEL_WIDTH = 25
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
--- require('luasnip')
+require('luasnip')
 require('luasnip.loaders.from_vscode').load {}
 cmp.setup({
     snippet = {
@@ -632,23 +635,21 @@ cmp.setup({
     sources = {
         { name = 'nvim_lsp' },
         { name = 'nvim_lua' },
-        { name = 'luasnip', keyword_length = 2 },
+        { name = 'luasnip', },
         { name = 'buffer',  keyword_length = 3 },
         { name = 'path',    keyword_length = 3 },
     },
     window = {
         completion = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        -- documentation = cmp.config.window.bordered({
-        --     winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
-        documentation = cmp.config.window.bordered({}),
-        -- winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
+        documentation = cmp.config.window.bordered({
+            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
         preview = cmp.config.window.bordered({
             winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,CursorLine:PmenuSel,Search:Search' }),
         col_offset = -3,
         side_padding = 0,
-        max_width = 80,
-        min_width = 80,
+        max_width = 100,
+        min_width = 100,
     },
     formatting = {
         -- fields = { 'abbr', 'kind', 'menu' },
@@ -677,17 +678,29 @@ cmp.setup({
                 path     = 'path ',
             })[entry.source.name]
             if return_type ~= nil and return_type.data ~= nil and return_type.data.entryNames ~= nil then
-                if return_type.data.entryNames[1] ~= nil and return_type.data.entryNames[1].data ~= nil and return_type.data.entryNames[1].data.exportName ~= nil then
-                    log.debug('------------------------------------')
-                    log.debug('name: ' .. vim_item.abbr)
-                    log.debug(return_type.data.entryNames)
-                    vim_item.menu = return_type.data.entryNames[1].data.exportName
+                -- if return_type.data.entryNames[1] ~= nil and return_type.data.entryNames[1].data ~= nil and return_type.data.entryNames[1].data.exportName ~= nil then
+                if return_type.data.entryNames[1] ~= nil and return_type.data.entryNames[1].source ~= nil then
+                    -- log.debug('------------------------------------')
+                    -- log.debug('name: ' .. vim_item.abbr)
+                    -- log.debug(return_type)
+                    -- vim_item.menu = return_type.data.entryNames[1].data.exportName
+                    vim_item.menu = return_type.data.entryNames[1].source
                 else
                     vim_item.menu = source_name
                 end
             else
                 vim_item.menu = source_name
             end
+
+            local menu = vim_item.menu
+            local truncated_menu = vim.fn.strcharpart(menu, 0, MAX_LABEL_WIDTH)
+            if truncated_menu ~= menu then
+                vim_item.menu = truncated_menu .. ELLIPSIS_CHAR
+            elseif string.len(menu) < MIN_LABEL_WIDTH then
+                local padding = string.rep(' ', MIN_LABEL_WIDTH - string.len(menu))
+                vim_item.menu = menu .. padding
+            end
+
             return vim_item
         end,
     },
