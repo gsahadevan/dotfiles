@@ -54,5 +54,5 @@ function pomo() {
     fi
 }
 
-# add empty line after executing every command
+# add empty line before every prompt
 # precmd() { print "" }
