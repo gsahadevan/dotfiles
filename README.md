@@ -97,3 +97,17 @@ choosing a kitty theme flavour
 kitty +kitten themes --reload-in=all <optional: theme name>
 kitty +kitten themes --reload-in=all Catppuccin-Frappe
 ```
+
+## tmux config
+```bash
+# Install tpm, tmux package manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+cd ~
+mkdir .config/tmux
+cd .config/tmux
+# Link the tmux config file
+ln -s ~/Projects/../dotfiles/config/tmux/tmux.conf .
+
+# Enter tmux using command tmux
+# Ctrl + t + I (Shift + I) would install tpm packages listed in tmux.conf
+```
