@@ -174,7 +174,7 @@ require('packer').startup({
         use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
         use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
-        use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
+        use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use { 'nvim-telescope/telescope-symbols.nvim' }  -- find emojis with telescope :Telescope symbols
         use { 'nvim-telescope/telescope-frecency.nvim' } -- change the sorting algorithm to fuzzy find files using telescope
