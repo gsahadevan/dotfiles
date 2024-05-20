@@ -174,7 +174,7 @@ require('packer').startup({
         use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
         use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
         use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
-        use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+        use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use { 'nvim-telescope/telescope-symbols.nvim' }  -- find emojis with telescope :Telescope symbols
         use { 'nvim-telescope/telescope-frecency.nvim' } -- change the sorting algorithm to fuzzy find files using telescope
@@ -373,6 +373,7 @@ require('telescope').setup {
             height = 0.95,
             width = 0.95,
         },
+        path_display = { 'filename_first' },
         mappings = {
             n = {
                 ['<c-w>'] = require('telescope.actions').delete_buffer,
@@ -400,7 +401,7 @@ if telescope then
     -- intention is to pass options to the existing pickers
     -- ref: https://github.com/nvim-telescope/telescope.nvim/issues/848
     local options = themes.get_dropdown {
-        path_display = { 'absolute' },
+        path_display = { 'filename_first' },
         winblend = 0,      -- transparency for floating window, 0 - opaque | 100 - transparent
         previewer = false, -- do not show previewer for dropdown style here
         layout_config = {
@@ -444,10 +445,9 @@ if telescope then
         builtin.lsp_definitions({ jump_type = 'vsplit' })
     end
 
-
     local frecency_options = themes.get_dropdown {
         workspace = 'CWD',         -- frecency scope is limited to current working directory
-        path_display = { 'absolute' },
+        path_display = { 'filename_first' },
         winblend = 0,              -- transparency for floating window, 0 - opaque | 100 - transparent
         previewer = false,         -- do not show previewer for dropdown style here
         layout_config = {
