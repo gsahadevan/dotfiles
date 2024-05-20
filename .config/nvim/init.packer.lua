@@ -444,27 +444,25 @@ if telescope then
         builtin.lsp_definitions({ jump_type = 'vsplit' })
     end
 
+
+    local frecency_options = themes.get_dropdown {
+        workspace = 'CWD',         -- frecency scope is limited to current working directory
+        path_display = { 'absolute' },
+        winblend = 0,              -- transparency for floating window, 0 - opaque | 100 - transparent
+        previewer = false,         -- do not show previewer for dropdown style here
+        layout_config = {
+            height = 0.6,
+            width = 0.8,
+        },
+    }
+
     -- Can also be done with <cmd>Telescope frecency workspace=CWD<cr>
     local show_frecency_workspace_cwd = function()
-        telescope.extensions.frecency.frecency {
-            workspace = 'CWD',
-            previewer = false,
-            -- layout_strategy = 'center',
-            -- winblend = 0,
-            -- previewer = false,
-            -- layout_config = {
-            --     height = 0.6,
-            --     width = 0.8,
-            -- },
-            -- themes.get_dropdown {
-            --     winblend = 0,
-            --     previewer = false,
-            --     layout_config = {
-            --         height = 0.6,
-            --         width = 0.8,
-            --     },
-            -- },
-        }
+        telescope.extensions.frecency.frecency(frecency_options)
+    end
+
+    local show_marks = function()
+        builtin.marks(options)
     end
 
     -- See `:help telescope.builtin`
@@ -478,6 +476,7 @@ if telescope then
     keymap('n', '<leader>fP', find_files_all, { desc = 'Telescope find files with preview incl. hidden' })
     keymap('n', '<leader>ff', find_files_wo_preview, { desc = 'Telescope find files without preview' })
     keymap('n', '<leader>fr', show_frecency_workspace_cwd, { desc = 'Telescope find files with frecency' })
+    keymap('n', '<leader>fm', show_marks, { desc = 'Telescope show marks without preview' })
 
     keymap('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
     keymap('n', '<leader>sG', grep_search_all, { desc = 'Telescope search using live grep incl. hidden' })
