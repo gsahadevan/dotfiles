@@ -70,7 +70,8 @@ vim.opt.splitbelow     = true
 vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
-vim.opt.rtp:append('/opt/homebrew/opt/fzf')
+vim.opt.rtp:append('/opt/homebrew/opt/fzf') -- for macos
+vim.opt.rtp:append('/usr/bin/fzf') -- for linux 
 
 -- Add diagnostic symbols in the sign column (gutter)
 local signs = { Error = '', Hint = '', Info = '', Warn = '' }
@@ -166,18 +167,17 @@ end
 
 require('packer').startup({
     function(use)
-        use { 'wbthomason/packer.nvim' }                                                -- packer can manage itself
-        use { 'numToStr/Comment.nvim' }                                                 -- smart and powerful commenting plugin for neovim
-        use { 'JoosepAlviste/nvim-ts-context-commentstring' }                           -- sets commentstring option based on the cursor location, checked via treesitter queries
-        use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } } -- a file explorer for nvim written in lua
-        use { 'lukas-reineke/indent-blankline.nvim' }                                   -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
-        use { 'catppuccin/nvim', as = 'catppuccin' }                                    -- colorscheme
-        use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
-        use { 'nvim-lualine/lualine.nvim' }                                             -- statusline written in lua
+        use { 'wbthomason/packer.nvim' }                                                               -- packer can manage itself
+        use { 'numToStr/Comment.nvim' }                                                                -- smart and powerful commenting plugin for neovim
+        use { 'JoosepAlviste/nvim-ts-context-commentstring' }                                          -- sets commentstring option based on the cursor location, checked via treesitter queries
+        use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } }                -- a file explorer for nvim written in lua
+        use { 'lukas-reineke/indent-blankline.nvim' }                                                  -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
+        use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- colorscheme
+        use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
-        use { 'nvim-telescope/telescope-symbols.nvim' }  -- find emojis with telescope :Telescope symbols
-        use { 'nvim-telescope/telescope-frecency.nvim' } -- change the sorting algorithm to fuzzy find files using telescope
+        use { 'nvim-telescope/telescope-symbols.nvim' }                                                -- find emojis with telescope :Telescope symbols
+        use { 'nvim-telescope/telescope-frecency.nvim' }                                               -- change the sorting algorithm to fuzzy find files using telescope
         use {
             'VonHeikemen/lsp-zero.nvim',
             branch = 'v2.x',
@@ -202,15 +202,16 @@ require('packer').startup({
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
         use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw nvim panes and tmux
-        use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
-        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }            -- general purpose command line fuzzy finder
         use { 'nvim-treesitter/nvim-treesitter' }                                       -- also required for nvim-ufo, nvim-ts-autotag
         use { 'windwp/nvim-autopairs' }                                                 -- powerful autopair plugin that supports multiple characters
         use { 'windwp/nvim-ts-autotag' }                                                -- use treesitter to autoclose and autorename html tag
-        use { 'norcalli/nvim-colorizer.lua' }                                           -- high performance color highlighter
         use { 'kylechui/nvim-surround' }                                                -- surround selections, in style
+        use { 'junegunn/fzf', run = function() vim.fn['fzf#install']() end }            -- general purpose command line fuzzy finder
+        use { 'norcalli/nvim-colorizer.lua' }                                           -- high performance color highlighter
+        use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
         use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } } -- extensible neovim scrollbar
         use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }    -- makes nvim's fold look modern and keep high performance
+        use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
 
         if is_bootstrap then
             require('packer').sync()
@@ -385,14 +386,22 @@ require('telescope').setup {
         file_ignore_patterns = { 'node_modules' }
     },
     extensions = {
+        fzf = {
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = 'smart_case',       -- or "ignore_case" or "respect_case"
+        },
         frecency = {
             theme = 'dropdown',
             show_scores = true,
         },
     },
 }
+-- require('telescope').load_extension('fzf')
 pcall('fzf', require('telescope').load_extension)
-pcall('frecency', require('telescope').load_extension)
+require('telescope').load_extension('frecency')
+-- pcall('frecency', require('telescope').load_extension)
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
@@ -446,10 +455,10 @@ if telescope then
     end
 
     local frecency_options = themes.get_dropdown {
-        workspace = 'CWD',         -- frecency scope is limited to current working directory
+        workspace = 'CWD', -- frecency scope is limited to current working directory
         path_display = { 'filename_first' },
-        winblend = 0,              -- transparency for floating window, 0 - opaque | 100 - transparent
-        previewer = false,         -- do not show previewer for dropdown style here
+        winblend = 0,      -- transparency for floating window, 0 - opaque | 100 - transparent
+        previewer = false, -- do not show previewer for dropdown style here
         layout_config = {
             height = 0.6,
             width = 0.8,
