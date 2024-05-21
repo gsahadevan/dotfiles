@@ -100,8 +100,10 @@ kitty +kitten themes --reload-in=all Catppuccin-Frappe
 
 ## tmux config
 ```bash
+# Create folders
+mkdir .config/tmux
 # Install tpm, tmux package manager
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 cd ~
 mkdir .config/tmux
 cd .config/tmux

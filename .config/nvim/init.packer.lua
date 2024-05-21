@@ -67,11 +67,11 @@ vim.opt.termguicolors  = true
 vim.opt.splitright     = true
 vim.opt.splitbelow     = true
 
-vim.opt.path:append { '**' }         -- Finding files - Search down into subfolders
+vim.opt.path:append { '**' }                -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
-vim.opt.formatoptions:append { 'r' } -- Add asterisks in block comments
+vim.opt.formatoptions:append { 'r' }        -- Add asterisks in block comments
 vim.opt.rtp:append('/opt/homebrew/opt/fzf') -- for macos
-vim.opt.rtp:append('/usr/bin/fzf') -- for linux 
+vim.opt.rtp:append('/usr/bin/fzf')          -- for linux
 
 -- Add diagnostic symbols in the sign column (gutter)
 local signs = { Error = '', Hint = '', Info = '', Warn = '' }
@@ -470,8 +470,19 @@ if telescope then
         telescope.extensions.frecency.frecency(frecency_options)
     end
 
+    local marks_options = themes.get_dropdown {
+        initial_mode = 'normal',
+        path_display = { 'filename_first' },
+        winblend = 0,      -- transparency for floating window, 0 - opaque | 100 - transparent
+        previewer = false, -- do not show previewer for dropdown style here
+        layout_config = {
+            height = 0.6,
+            width = 0.8,
+        },
+    }
+
     local show_marks = function()
-        builtin.marks(options)
+        builtin.marks(marks_options)
     end
 
     -- See `:help telescope.builtin`
