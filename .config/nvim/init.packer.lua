@@ -3,6 +3,7 @@
 -- ╰───────────────────────────────────╯
 
 vim.cmd('autocmd!')
+vim.cmd('language en_US')
 
 vim.wo.number          = true
 vim.wo.relativenumber  = true
@@ -494,8 +495,8 @@ if telescope then
     keymap('n', '<leader>f<cr>', builtin.resume, { desc = 'Telescope find, resume previous search' })
     keymap('n', '<leader>fp', builtin.find_files, { desc = 'Telescope find files with preview' })
     keymap('n', '<leader>fP', find_files_all, { desc = 'Telescope find files with preview incl. hidden' })
-    keymap('n', '<leader>ff', find_files_wo_preview, { desc = 'Telescope find files without preview' })
-    keymap('n', '<leader>fr', show_frecency_workspace_cwd, { desc = 'Telescope find files with frecency' })
+    keymap('n', '<leader>fr', find_files_wo_preview, { desc = 'Telescope find files without preview' })
+    keymap('n', '<leader>ff', show_frecency_workspace_cwd, { desc = 'Telescope find files with frecency' })
     keymap('n', '<leader>fm', show_marks, { desc = 'Telescope show marks without preview' })
 
     keymap('n', '<leader>sg', builtin.live_grep, { desc = 'Telescope search using live grep' })
