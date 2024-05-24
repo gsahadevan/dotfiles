@@ -3,7 +3,7 @@
 -- ╰───────────────────────────────────╯
 
 vim.cmd('autocmd!')
-vim.cmd('language en_US')
+-- vim.cmd('language en_US')
 
 vim.wo.number          = true
 vim.wo.relativenumber  = true
