@@ -19,6 +19,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
+# for linux
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # Basic commands 
 alias ouch="tail -50 ~/.zshrc"
 alias code="fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim"
@@ -56,3 +61,18 @@ function pomo() {
 
 # add empty line before every prompt
 # precmd() { print "" }
+
+# tmux ide
+ide () {
+    # Use -d to allow the rest of the function to run
+    tmux new-session -d -s dev
+    # rename the current window to playground
+    tmux rename-window playground
+    # -d to prevent current window from changing
+    tmux new-window -d -n editor
+    tmux new-window -d -n servers
+    tmux new-window -d -n git
+    # -d to detach any other client 
+    # (which there shouldn't be, since you just created the session).
+    tmux attach-session -d -t dev
+}
