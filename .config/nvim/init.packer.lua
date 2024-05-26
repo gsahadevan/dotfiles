@@ -349,6 +349,7 @@ require('lualine').setup {
                 'buffers',
                 mode = 0, -- 0: name, 1: index, 2: name + index, 3: number, 4: name + number
                 -- max_length = vim.o.columns * 2 / 3,
+                max_length = vim.o.columns,
                 filetype_names = {
                     TelescopePrompt = 'Telescope',
                     dashboard = 'Dashboard',
