@@ -347,8 +347,8 @@ require('lualine').setup {
         lualine_c = {
             {
                 'buffers',
-                mode = 2,
-                max_length = vim.o.columns * 2 / 3,
+                mode = 0, -- 0: name, 1: index, 2: name + index, 3: number, 4: name + number
+                -- max_length = vim.o.columns * 2 / 3,
                 filetype_names = {
                     TelescopePrompt = 'Telescope',
                     dashboard = 'Dashboard',
@@ -365,7 +365,7 @@ require('lualine').setup {
                 },
             },
         },
-    }
+    },
 }
 -- Configure telescope + add keymaps
 require('telescope').setup {
