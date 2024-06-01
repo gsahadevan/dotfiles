@@ -113,9 +113,15 @@ keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 
 -- Windows
 keymap('n', 'sv', '<cmd>vsplit<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
 keymap('n', 'ss', '<cmd>split<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
-keymap('n', 'se', '<C-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
 keymap('n', 'sw', '<cmd>close<cr>', { noremap = true, silent = true, desc = 'Window close current' })
-keymap('n', 'sr', '<C-w><C-r>', { noremap = true, silent = true, desc = 'Window swap position' })
+keymap('n', 'sr', '<c-w><c-r>', { noremap = true, silent = true, desc = 'Window swap position' })
+-- Windows re-sizing
+keymap('n', 'se', '<c-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
+keymap('n', 'sz', '<c-w>_ | <c-w>|', { noremap = true, silent = true, desc = 'Window zoom current split' })
+keymap('n', '<m-.>', '<c-w>5>', { noremap = true, silent = true, desc = 'Window increase width' })
+keymap('n', '<m-,>', '<c-w>5<', { noremap = true, silent = true, desc = 'Window decrease width' })
+keymap('n', '<m-t>', '<c-w>+', { noremap = true, silent = true, desc = 'Window increase height' })
+keymap('n', '<m-s>', '<c-w>-', { noremap = true, silent = true, desc = 'Window decrease height' })
 
 -- Selection and highlighting
 keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
@@ -131,6 +137,17 @@ keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hove
 
 -- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
 keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
+-- Easily hit escape in terminal mode
+keymap('t', '<esc><esc>', '<c-\\><c-n>')
+-- Open terminal at the bottom of the screen with a fixed height
+-- Does the same as <leader>tt before
+-- keymap('n', '<leader>ts', function()
+--     vim.cmd.new()
+--     vim.cmd.wincmd 'J'
+--     vim.api.nvim_win_set_height(0, 15)
+--     vim.wo.winfixheight = true
+--     vim.cmd.term()
+-- end)
 
 -- Command mode
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
@@ -142,8 +159,8 @@ keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
 keymap('n', 'J', 'mzJ`z')         -- keeps cursor in place when joining lines
-keymap('n', '<C-d>', '<C-d>zz')   -- keeps cursor in the middle of screen
-keymap('n', '<C-u>', '<C-u>zz')   -- keeps cursor in the middle of screen
+keymap('n', '<c-d>', '<c-d>zz')   -- keeps cursor in the middle of screen
+keymap('n', '<c-u>', '<c-u>zz')   -- keeps cursor in the middle of screen
 keymap('n', 'n', 'nzzzv')         -- keeps cursor in the middle for search terms
 keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
 keymap('v', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual mode
@@ -259,6 +276,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
     callback = function()
         vim.highlight.on_yank()
+    end,
+})
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd('TermOpen', {
+    group = vim.api.nvim_create_augroup('CustomTermOpen', {}),
+    callback = function()
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+        vim.opt_local.scrolloff = 0
     end,
 })
 
