@@ -163,8 +163,8 @@ keymap('n', '<c-d>', '<c-d>zz')   -- keeps cursor in the middle of screen
 keymap('n', '<c-u>', '<c-u>zz')   -- keeps cursor in the middle of screen
 keymap('n', 'n', 'nzzzv')         -- keeps cursor in the middle for search terms
 keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
-keymap('v', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual mode
-keymap('x', '<leader>pp', '"_dp') -- preserve pasted in buffer - visual block mode
+keymap('v', '<leader>p', '"_dp') -- preserve pasted in buffer - visual mode
+keymap('x', '<leader>p', '"_dp') -- preserve pasted in buffer - visual block mode
 keymap('n', 'x', '"_x')           -- do not save characters cut using x
 
 -- ╭───────────────────────────────────╮
