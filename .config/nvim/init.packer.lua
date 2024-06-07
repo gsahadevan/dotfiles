@@ -3,7 +3,7 @@
 -- ╰───────────────────────────────────╯
 
 vim.cmd('autocmd!')
--- vim.cmd('language en_US')
+vim.cmd('language en_US')
 
 vim.wo.number          = true
 vim.wo.relativenumber  = true
@@ -158,14 +158,14 @@ keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listin
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 
-keymap('n', 'J', 'mzJ`z')         -- keeps cursor in place when joining lines
-keymap('n', '<c-d>', '<c-d>zz')   -- keeps cursor in the middle of screen
-keymap('n', '<c-u>', '<c-u>zz')   -- keeps cursor in the middle of screen
-keymap('n', 'n', 'nzzzv')         -- keeps cursor in the middle for search terms
-keymap('n', 'N', 'Nzzzv')         -- keeps cursor in the middle for search terms
+keymap('n', 'J', 'mzJ`z')        -- keeps cursor in place when joining lines
+keymap('n', '<c-d>', '<c-d>zz')  -- keeps cursor in the middle of screen
+keymap('n', '<c-u>', '<c-u>zz')  -- keeps cursor in the middle of screen
+keymap('n', 'n', 'nzzzv')        -- keeps cursor in the middle for search terms
+keymap('n', 'N', 'Nzzzv')        -- keeps cursor in the middle for search terms
 keymap('v', '<leader>p', '"_dp') -- preserve pasted in buffer - visual mode
 keymap('x', '<leader>p', '"_dp') -- preserve pasted in buffer - visual block mode
-keymap('n', 'x', '"_x')           -- do not save characters cut using x
+keymap('n', 'x', '"_x')          -- do not save characters cut using x
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
@@ -185,17 +185,18 @@ end
 
 require('packer').startup({
     function(use)
-        use { 'wbthomason/packer.nvim' }                                                               -- packer can manage itself
-        use { 'numToStr/Comment.nvim' }                                                                -- smart and powerful commenting plugin for neovim
-        use { 'JoosepAlviste/nvim-ts-context-commentstring' }                                          -- sets commentstring option based on the cursor location, checked via treesitter queries
+        use { 'wbthomason/packer.nvim' } -- packer can manage itself
+        -- use { 'numToStr/Comment.nvim' }                                                                -- smart and powerful commenting plugin for neovim
+        -- use { 'JoosepAlviste/nvim-ts-context-commentstring' }                                          -- sets commentstring option based on the cursor location, checked via treesitter queries
+        use { 'folke/ts-comments.nvim' }                                                               -- tiny plugin to enhance neovim 0.10.0 native comments
         use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } }                -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                                  -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
-        use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use { 'nvim-telescope/telescope-symbols.nvim' }                                                -- find emojis with telescope :Telescope symbols
         use { 'nvim-telescope/telescope-frecency.nvim' }                                               -- change the sorting algorithm to fuzzy find files using telescope
+        use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use {
             'VonHeikemen/lsp-zero.nvim',
             branch = 'v2.x',
@@ -216,6 +217,7 @@ require('packer').startup({
             }
         }
         use { 'nvimdev/lspsaga.nvim' }
+        use { 'ray-x/lsp_signature.nvim' }                                              -- show function signature while typing
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
@@ -293,11 +295,12 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- ╰───────────────────────────────────╯
 
 -- Configure comment
-require('Comment').setup {
-    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-}
+-- require('Comment').setup {
+--     pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+-- }
 -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
 -- Contains the complete configuration list is for nvim-tree
+require('ts-comments').setup({})
 require('nvim-tree').setup({
     view = {
         centralize_selection = true,
@@ -752,6 +755,17 @@ cmp.setup({
         end,
     },
 })
+-- Configure lsp_signature
+require 'lsp_signature'.setup({
+    bind = true,
+    handler_opts = {
+        border = 'rounded'
+    },
+})
+local show_toggle_float_window = function()
+    require('lsp_signature').toggle_float_win()
+end
+keymap('n', '<c-k>', show_toggle_float_window, { silent = true, noremap = true, desc = 'LSP toggle signature' })
 -- Configure mason
 require('mason').setup({
     ui = {
@@ -898,18 +912,18 @@ require('ufo').setup({
     end
 })
 -- After nvim-ts-context-commentstring installation
-require('nvim-treesitter.configs').setup {
-    -- Install the parsers for the languages you want to comment in
-    -- Here are the supported languages:
-    ensure_installed = {
-        'astro', 'css', 'glimmer', 'graphql', 'html', 'javascript',
-        'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
-        'typescript', 'vim', 'vue',
-    },
-}
+-- require('nvim-treesitter.configs').setup {
+--     -- Install the parsers for the languages you want to comment in
+--     -- Here are the supported languages:
+--     ensure_installed = {
+--         'astro', 'css', 'glimmer', 'graphql', 'html', 'javascript',
+--         'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
+--         'typescript', 'vim', 'vue',
+--     },
+-- }
 -- context_commentstring is deprecated
-require('ts_context_commentstring').setup {}
-vim.g.skip_ts_context_commentstring_module = true
+-- require('ts_context_commentstring').setup {}
+-- vim.g.skip_ts_context_commentstring_module = true
 
 local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
