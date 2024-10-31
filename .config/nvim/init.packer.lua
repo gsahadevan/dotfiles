@@ -5,30 +5,30 @@
 vim.cmd('autocmd!')
 vim.cmd('language en_US')
 
-vim.wo.number          = true
-vim.wo.relativenumber  = true
+vim.wo.number         = true
+vim.wo.relativenumber = true
 
-vim.opt.showmode       = false -- do not show mode, since it is already shown on status line
+vim.opt.showmode      = false  -- do not show mode, since it is already shown on status line
 
-vim.opt.wrap           = false -- do not wrap lines, display one long line
-vim.opt.linebreak      = false -- if wrap is enabled, set to true | donot split words
+vim.opt.wrap          = false  -- do not wrap lines, display one long line
+vim.opt.linebreak     = false  -- if wrap is enabled, set to true | donot split words
 
-vim.scriptencoding     = 'utf-8'
-vim.opt.encoding       = 'utf-8'
-vim.opt.fileencoding   = 'utf-8'
+vim.scriptencoding    = 'utf-8'
+vim.opt.encoding      = 'utf-8'
+vim.opt.fileencoding  = 'utf-8'
 
-vim.opt.title          = true
+vim.opt.title         = true
 
-vim.opt.tabstop        = 4
-vim.opt.softtabstop    = 4
-vim.opt.shiftwidth     = 4
-vim.opt.expandtab      = true
-vim.opt.smarttab       = true
+vim.opt.tabstop       = 4
+vim.opt.softtabstop   = 4
+vim.opt.shiftwidth    = 4
+vim.opt.expandtab     = true
+vim.opt.smarttab      = true
 
-vim.g.have_nerd_font   = true -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.indentLine_char  = '┊' -- indentLine '┃'
-vim.opt.list           = true -- sets how neovim will display certain whitespace chars in the editor
-vim.opt.listchars      = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.g.have_nerd_font  = true -- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.indentLine_char = '┊' -- indentLine '┃'
+vim.opt.list          = true -- sets how neovim will display certain whitespace chars in the editor
+vim.opt.listchars     = { tab = '» ', trail = '·', nbsp = '␣' }
 
 
 vim.opt.autoindent     = true
