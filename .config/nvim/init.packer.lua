@@ -8,6 +8,8 @@ vim.cmd('language en_US')
 vim.wo.number          = true
 vim.wo.relativenumber  = true
 
+vim.opt.showmode       = false -- do not show mode, since it is already shown on status line
+
 vim.opt.wrap           = false -- do not wrap lines, display one long line
 vim.opt.linebreak      = false -- if wrap is enabled, set to true | donot split words
 
@@ -23,7 +25,11 @@ vim.opt.shiftwidth     = 4
 vim.opt.expandtab      = true
 vim.opt.smarttab       = true
 
+vim.g.have_nerd_font   = true -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.indentLine_char  = '┊' -- indentLine '┃'
+vim.opt.list           = true -- sets how neovim will display certain whitespace chars in the editor
+vim.opt.listchars      = { tab = '» ', trail = '·', nbsp = '␣' }
+
 
 vim.opt.autoindent     = true
 vim.opt.smartindent    = true
@@ -37,7 +43,7 @@ vim.opt.smartcase      = true
 vim.opt.showcmd        = true
 vim.opt.cmdheight      = 1
 vim.opt.laststatus     = 2
-vim.opt.inccommand     = 'split'
+vim.opt.inccommand     = 'split'            -- preview substitutions live, as you type
 vim.opt.signcolumn     = 'yes:3'            -- always shows the sign column, otherwise it would shift the text each time
 vim.opt.backspace      = { 'start', 'eol', 'indent' }
 vim.opt.completeopt    = 'menuone,noselect' -- set completeopt to have a better completion experience
@@ -188,13 +194,16 @@ require('packer').startup({
         use { 'wbthomason/packer.nvim' } -- packer can manage itself
         -- use { 'numToStr/Comment.nvim' }                                                                -- smart and powerful commenting plugin for neovim
         -- use { 'JoosepAlviste/nvim-ts-context-commentstring' }                                          -- sets commentstring option based on the cursor location, checked via treesitter queries
-        use { 'folke/ts-comments.nvim' }                                                               -- tiny plugin to enhance neovim 0.10.0 native comments
-        use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' } }                -- a file explorer for nvim written in lua
+        use { 'folke/ts-comments.nvim' } -- tiny plugin to enhance neovim 0.10.0 native comments
+        use { 'nvim-tree/nvim-tree.lua',
+            requires = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font }
+        }                                                                                              -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                                  -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-symbols.nvim' }                                                -- find emojis with telescope :Telescope symbols
+        use { 'nvim-telescope/telescope-ui-select.nvim' }                                              -- neovim core stuffs can fill telescope
         use { 'nvim-telescope/telescope-frecency.nvim' }                                               -- change the sorting algorithm to fuzzy find files using telescope
         use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
         use {
@@ -231,7 +240,9 @@ require('packer').startup({
         use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
         use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } } -- extensible neovim scrollbar
         use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }    -- makes nvim's fold look modern and keep high performance
-        use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
+        -- use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
+        use { 'mfussenegger/nvim-dap' }                                                 -- debug adapter protocol client implementation for neovim
+        use { 'mxsdev/nvim-dap-vscode-js' }
 
         if is_bootstrap then
             require('packer').sync()
@@ -327,6 +338,8 @@ require('nvim-tree').setup({
         debounce_delay = 50,
         ignore_dirs = {
             '.*/node_modules/.*',
+            '.git',
+            '.nx'
         },
     },
 })
@@ -340,6 +353,63 @@ require('ibl').setup {
     scope = { enabled = false },
 }
 -- Configure catppuccin colorscheme
+require('catppuccin').setup({
+    flavour = 'auto', -- latte, frappe, macchiato, mocha
+    background = {    -- :h background
+        light = 'latte',
+        dark = 'mocha',
+    },
+    transparent_background = false, -- disables setting the background color.
+    show_end_of_buffer = false,     -- shows the '~' characters after the end of buffers
+    term_colors = false,            -- sets terminal colors (e.g. `g:terminal_color_0`)
+    dim_inactive = {
+        enabled = false,            -- dims the background color of inactive window
+        shade = 'dark',
+        percentage = 0.15,          -- percentage of the shade to apply to the inactive window
+    },
+    no_italic = false,              -- Force no italic
+    no_bold = false,                -- Force no bold
+    no_underline = false,           -- Force no underline
+    styles = {                      -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { 'italic' },    -- Change the style of comments
+        conditionals = { 'italic' },
+        loops = {},
+        functions = {},
+        keywords = { 'italic' },
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+        -- miscs = {}, -- Uncomment to turn off hard-coded styles
+    },
+    color_overrides = {},
+    -- custom_highlights = {},
+    custom_highlights = function(colors)
+        return {
+            TabLineSel = { bg = colors.pink },
+            CmpBorder = { fg = colors.surface2 },
+            Pmenu = { bg = colors.none },
+            CursorLine = { bg = colors.surface0 },
+        }
+    end,
+    default_integrations = true,
+    integrations = {
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = false,
+        lsp_saga = true,
+        mini = {
+            enabled = true,
+            indentscope_color = '',
+        },
+        -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+    },
+})
 vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 -- Configure lualine
 require('lualine').setup {
@@ -376,9 +446,8 @@ require('lualine').setup {
         lualine_c = {
             {
                 'buffers',
-                mode = 0, -- 0: name, 1: index, 2: name + index, 3: number, 4: name + number
-                -- max_length = vim.o.columns * 2 / 3,
-                max_length = vim.o.columns,
+                mode = 0,                   -- 0: name, 1: index, 2: name + index, 3: number, 4: name + number
+                max_length = vim.o.columns, -- max_length = vim.o.columns * 2 / 3,
                 filetype_names = {
                     TelescopePrompt = 'Telescope',
                     dashboard = 'Dashboard',
@@ -427,12 +496,19 @@ require('telescope').setup {
             theme = 'dropdown',
             show_scores = true,
         },
+        ['ui-select'] = {
+            require('telescope.themes').get_dropdown {}
+        },
     },
 }
 -- require('telescope').load_extension('fzf')
-pcall('fzf', require('telescope').load_extension)
-require('telescope').load_extension('frecency')
+-- pcall('fzf', require('telescope').load_extension)
+-- require('telescope').load_extension('frecency')
+-- require('telescope').load_extension('ui-select')
 -- pcall('frecency', require('telescope').load_extension)
+pcall(require('telescope').load_extension, 'frecency')
+pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'ui-select')
 local _, telescope = pcall(require, 'telescope')
 if telescope then
     local builtin = require('telescope.builtin')
@@ -569,6 +645,7 @@ require('lspsaga').setup({
     border_style = 'rounded',
     ui = {
         border = 'rounded',
+        kind = require('catppuccin.groups.integrations.lsp_saga').custom_kind(),
     },
     hover = {
         max_width = 0.6,
@@ -830,9 +907,6 @@ require('gitsigns').setup({
         col = 1,
         height = 20,
     },
-    yadm = {
-        enable = false
-    },
 })
 local _, gitsigns = pcall(require, 'gitsigns')
 if gitsigns then
@@ -927,3 +1001,37 @@ require('ufo').setup({
 
 local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
+
+local dap = require('dap')
+dap.adapters.chrome = {
+    type = "executable",
+    command = "node",
+    -- args = { os.getenv("HOME") .. "/path/to/vscode-chrome-debug/out/src/chromeDebug.js" } -- TODO adjust
+    args = { os.getenv("HOME") .. "/.config/nvim/vscode-chrome-debug/out/src/chromeDebug.js" } -- TODO adjust
+}
+
+dap.configurations.javascriptreact = { -- change this to javascript if needed
+    {
+        type = "chrome",
+        request = "attach",
+        program = "${file}",
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = "inspector",
+        port = 9222,
+        webRoot = "${workspaceFolder}"
+    }
+}
+
+dap.configurations.typescriptreact = { -- change to typescript if needed
+    {
+        type = "chrome",
+        request = "attach",
+        program = "${file}",
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = "inspector",
+        port = 9222,
+        webRoot = "${workspaceFolder}"
+    }
+}
