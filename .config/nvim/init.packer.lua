@@ -111,8 +111,8 @@ keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = '
 keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 -- Windows
-keymap('n', 'sv', '<cmd>vsplit<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
-keymap('n', 'ss', '<cmd>split<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
+keymap('n', 'sv', '<cmd>vsplit<cr><c-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
+keymap('n', 'ss', '<cmd>split<cr><c-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
 keymap('n', 'sw', '<cmd>close<cr>', { noremap = true, silent = true, desc = 'Window close current' })
 keymap('n', 'sr', '<c-w><c-r>', { noremap = true, silent = true, desc = 'Window swap position' })
 -- Windows re-sizing
@@ -131,17 +131,23 @@ keymap('v', '>', '>gv', opts)
 -- Move visually selected text up and down
 keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts)                                                                        -- in normal mode J -> joins lines
 keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts)                                                                        -- in normal mode K -> LSP show hover doc
-keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })       -- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
+-- keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })       -- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
 keymap('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Exit terminal mode (enter normal mode on terminal) with esc' }) -- Easily hit escape in terminal mode
 -- Open terminal at the bottom of the screen with a fixed height
 -- Does the same as <leader>tt before
--- keymap('n', '<leader>ts', function()
---     vim.cmd.new()
---     vim.cmd.wincmd 'J'
---     vim.api.nvim_win_set_height(0, 15)
---     vim.wo.winfixheight = true
---     vim.cmd.term()
--- end)
+local term_id = 0
+keymap('n', '<leader>tt', function()
+    vim.cmd.new()
+    vim.cmd.wincmd('J')
+    vim.api.nvim_win_set_height(0, 15)
+    vim.wo.winfixheight = true
+    vim.cmd.term()
+    term_id = vim.bo.channel
+end)
+-- Send commands to terminal
+keymap('n', '<leader>ttt', function()
+    vim.fn.chansend(term_id, { "pnpm test\r" })
+end, { desc = 'Run tests in terminal' })
 -- Command mode
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
@@ -194,10 +200,10 @@ require('packer').startup({
         use { 'folke/ts-comments.nvim' }                      -- tiny plugin to enhance neovim 0.10.0 native comments
         use { 'nvim-tree/nvim-tree.lua',
             requires = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font }
-        }                                                                                              -- a file explorer for nvim written in lua
-        use { 'lukas-reineke/indent-blankline.nvim' }                                                  -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
-        use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- primary colorscheme
-        use { 'arzg/vim-colors-xcode' }                                                                -- secondary colorscheme
+        }                                             -- a file explorer for nvim written in lua
+        use { 'lukas-reineke/indent-blankline.nvim' } -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
+        use { 'catppuccin/nvim', as = 'catppuccin' }  -- primary colorscheme
+        use { 'arzg/vim-colors-xcode' }               -- secondary colorscheme
         -- use { 'Mofiqul/dracula.nvim' }                                                                 -- alternative colorscheme
         -- use { 'navarasu/onedark.nvim' }                                                                -- alternative colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
@@ -296,9 +302,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd('TermOpen', {
     group = vim.api.nvim_create_augroup('CustomTermOpen', {}),
     callback = function()
-        vim.opt_local.number = false
-        vim.opt_local.relativenumber = false
-        vim.opt_local.scrolloff = 0
+        vim.wo.number = false
+        vim.wo.relativenumber = false
+        vim.opt.scrolloff = 0
+        vim.wo.cursorline = false
+        vim.wo.cursorcolumn = false
+        vim.wo.foldcolumn = '0'
+        vim.wo.list = false
+        vim.wo.signcolumn = 'no'
+        vim.wo.wrap = false
     end,
 })
 
