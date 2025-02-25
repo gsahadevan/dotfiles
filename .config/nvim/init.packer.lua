@@ -150,15 +150,22 @@ keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listin
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 -- Position of the cursor relative to the screen
--- cnoremap <expr> <CR> getcmdtype() == '/' ? '<CR>zz' : '<CR>'
+-- cnoremap <expr> <CR> getcmdtype() == '/' ? '<CR>zz' : '<CR>' -- can also be done using this command
 keymap('c', '<cr>', function()
     return vim.fn.getcmdtype() == '/' and '<cr>zz' or '<cr>'
-end, { expr = true, desc = 'Keeps cursor in the middle of the screen on first search match' })
-keymap('n', 'n', 'nzzzv', { desc = 'Keeps cursor in the middle for search terms' })
-keymap('n', 'N', 'Nzzzv', { desc = 'Keeps cursor in the middle for search terms' })
+end, { expr = true, desc = 'Keeps cursor in the middle of the screen on first occurrence of next search match' })
+-- cnoremap <expr> <CR> getcmdtype() == '?' ? '<CR>zz' : '<CR>' -- can also be done using this command
+keymap('c', '<cr>', function()
+    return vim.fn.getcmdtype() == '?' and '<cr>zz' or '<cr>'
+end, { expr = true, desc = 'Keeps cursor in the middle of the screen on first occurrence of previous search match' })
+keymap('n', '*', function() vim.cmd('normal! *zz') end, { desc = 'Keeps cursor in the middle on next occurrence' })
+keymap('n', '#', function() vim.cmd('normal! #zz') end, { desc = 'Keeps cursor in the middle on previous occurrence' })
+keymap('n', 'n', 'nzzzv', { desc = 'Keeps cursor in the middle for next occurrence of search terms' })
+keymap('n', 'N', 'Nzzzv', { desc = 'Keeps cursor in the middle for previosu occurence of search terms' })
 keymap('n', 'J', 'mzJ`z', { desc = 'Keeps cursor in place when joining lines' })
 keymap('n', '<c-d>', '<c-d>zz', { desc = 'Keeps cursor in the middle of screen' })
 keymap('n', '<c-u>', '<c-u>zz', { desc = 'Keeps cursor in the middle of screen' })
+-- Preserve pasted in buffer
 keymap('v', '<leader>p', '"_dp', { desc = 'Preserve pasted in buffer - visual mode' })
 keymap('x', '<leader>p', '"_dp', { desc = 'Preserve pasted in buffer - visual block mode' })
 keymap('n', 'x', '"_x', { desc = 'Do not save characters cut using x' })
