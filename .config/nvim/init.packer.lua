@@ -2,83 +2,78 @@
 -- │ Add basic options and settings    │
 -- ╰───────────────────────────────────╯
 
-vim.cmd('autocmd!')
-vim.cmd('language en_US')
-
-vim.wo.number         = true
-vim.wo.relativenumber = true
-
-vim.opt.showmode      = false  -- do not show mode, since it is already shown on status line
-
-vim.opt.wrap          = false  -- do not wrap lines, display one long line
-vim.opt.linebreak     = false  -- if wrap is enabled, set to true | donot split words
-
-vim.scriptencoding    = 'utf-8'
-vim.opt.encoding      = 'utf-8'
-vim.opt.fileencoding  = 'utf-8'
-
-vim.opt.title         = true
-
-vim.opt.tabstop       = 4
-vim.opt.softtabstop   = 4
-vim.opt.shiftwidth    = 4
-vim.opt.expandtab     = true
-vim.opt.smarttab      = true
-
-vim.g.have_nerd_font  = true -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.indentLine_char = '┊' -- indentLine '┃'
-vim.opt.list          = true -- sets how neovim will display certain whitespace chars in the editor
-vim.opt.listchars     = { tab = '» ', trail = '·', nbsp = '␣' }
-
-
-vim.opt.autoindent     = true
-vim.opt.smartindent    = true
-vim.opt.breakindent    = true
-
-vim.opt.hlsearch       = true
-vim.opt.incsearch      = true
+vim.cmd('autocmd!') -- clear all autocmds
+vim.cmd('language en_US') -- set language to en_US
+-- Line numbers, relative numbers
+vim.wo.number          = true -- show line numbers
+vim.wo.relativenumber  = true -- show relative line numbers
+vim.opt.title          = true -- show the title of the file in the window title
+vim.opt.showmode       = false -- do not show mode, since it is already shown on status line
+vim.opt.showcmd        = true -- show command in bottom right
+vim.opt.cmdheight      = 1 -- height of the command bar
+vim.opt.laststatus     = 2 -- always show status line
+-- Encoding
+vim.scriptencoding     = 'utf-8' -- the encoding used for the script
+vim.opt.encoding       = 'utf-8' -- the encoding displayed
+vim.opt.fileencoding   = 'utf-8' -- the encoding written to file
+-- Tabs and spaces
+vim.opt.tabstop        = 4 -- number of spaces that a <Tab> in the file counts for
+vim.opt.softtabstop    = 4 -- size of an indent in spaces
+vim.opt.shiftwidth     = 4 -- size of an indent
+vim.opt.expandtab      = true -- use spaces instead of tabs
+vim.opt.smarttab       = true -- use shiftwidth for tabstop
+-- Line wrap, line break
+vim.opt.wrap           = false -- do not wrap lines, display one long line
+vim.opt.linebreak      = false -- if wrap is enabled, set to true | donot split words
+-- Indentation
+vim.opt.autoindent     = true -- keep indentation from previous line
+vim.opt.smartindent    = true -- smart autoindenting
+vim.opt.breakindent    = true -- indent wrapped lines
+-- Chars and other formatting
+vim.g.have_nerd_font   = true -- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.indentLine_char  = '┊' -- indentLine '┃'
+vim.opt.list           = true -- sets how neovim will display certain whitespace chars in the editor
+vim.opt.listchars      = { tab = '» ', trail = '·', nbsp = '␣' } -- set listchars
+-- Search and replace
+vim.opt.hlsearch       = true -- highlight search results
+vim.opt.incsearch      = true -- show search matches as you type
 vim.opt.ignorecase     = true -- case insensitive searching UNLESS /C or capital in search
-vim.opt.smartcase      = true
-
-vim.opt.showcmd        = true
-vim.opt.cmdheight      = 1
-vim.opt.laststatus     = 2
-vim.opt.inccommand     = 'split'            -- preview substitutions live, as you type
-vim.opt.signcolumn     = 'yes:3'            -- always shows the sign column, otherwise it would shift the text each time
-vim.opt.backspace      = { 'start', 'eol', 'indent' }
+vim.opt.smartcase      = true -- case sensitive searching if any capital letters are used
+-- I don't know what this does
+vim.opt.inccommand     = 'split' -- preview substitutions live, as you type
+vim.opt.signcolumn     = 'yes:3' -- always shows the sign column, otherwise it would shift the text each time
+vim.opt.backspace      = { 'start', 'eol', 'indent' } -- backspace behavior
 vim.opt.completeopt    = 'menuone,noselect' -- set completeopt to have a better completion experience
-vim.opt.clipboard      = 'unnamed'
-
-vim.opt.backupskip     = { '/tmp/*', '/private/tmp/*' }
-vim.opt.backup         = false
+vim.opt.clipboard      = 'unnamed' -- copy/paste to system clipboard
+-- File backup and undo
+vim.opt.backupskip     = { '/tmp/*', '/private/tmp/*' } -- do not backup files in these directories
+vim.opt.backup         = false -- disable backup
 vim.opt.swapfile       = false -- disable swap files in neovim
-vim.opt.undofile       = true  -- save undo history
-vim.opt.updatetime     = 250   -- decrease update time
-
-vim.opt.foldcolumn     = '1'   -- show foldcolumn in nvim 0.9
-vim.opt.foldlevel      = 99    -- set high fold level for nvim-ufo
-vim.opt.foldlevelstart = 99    -- start with all code unfolded
-vim.opt.foldenable     = true  -- enable fold for nvim-ufo
-
-vim.opt.wildoptions    = 'pum'
-vim.opt.pumblend       = 0
+vim.opt.undofile       = true -- save undo history
+vim.opt.updatetime     = 250 -- decrease update time
+-- File folding
+vim.opt.foldcolumn     = '1' -- show foldcolumn in nvim 0.9
+vim.opt.foldlevel      = 99 -- set high fold level for nvim-ufo
+vim.opt.foldlevelstart = 99 -- start with all code unfolded
+vim.opt.foldenable     = true -- enable fold for nvim-ufo
+-- Config for showing completion menu
+vim.opt.wildoptions    = 'pum' -- show popup menu when typing
+vim.opt.pumblend       = 0 -- transparency for popup menu
 vim.opt.pumheight      = 15 -- completion height, adds scrollbar
 vim.opt.pumwidth       = 50 -- completion width
-
-vim.opt.cursorline     = true
-vim.opt.termguicolors  = true
--- vim.opt.background     = 'dark'
--- vim.opt.winblend       = 10
--- vim.opt.winbar         = '%f'        -- shows the absolute file path on winbar | enabling this would show Nvimtree_1 on explorer
-
-vim.opt.splitright     = true
-vim.opt.splitbelow     = true
-
-vim.opt.path:append { '**' }                -- Finding files - Search down into subfolders
-vim.opt.wildignore:append { '*/node_modules/*' }
-vim.opt.formatoptions:append { 'r' }        -- Add asterisks in block comments
-vim.opt.rtp:append('/opt/homebrew/opt/fzf') -- for macos
-vim.opt.rtp:append('/usr/bin/fzf')          -- for linux
+-- Misc options
+vim.opt.cursorline     = true -- highlight the current line
+vim.opt.termguicolors  = true -- enable 24-bit RGB color in the terminal
+-- vim.opt.background     = 'dark'                  -- set the background to dark
+-- vim.opt.winblend       = 10                      -- transparency for floating windows
+-- vim.opt.winbar         = '%f'                    -- shows the absolute file path on winbar | enabling this would show Nvimtree_1 on explorer
+vim.opt.splitright     = true                    -- vertical split to the right
+vim.opt.splitbelow     = true                    -- horizontal split to the bottom
+vim.opt.path:append { '**' }                     -- Finding files - Search down into subfolders
+vim.opt.wildignore:append { '*/node_modules/*' } -- ignore node_modules
+vim.opt.formatoptions:append { 'r' }             -- Add asterisks in block comments
+vim.opt.rtp:append('/opt/homebrew/opt/fzf')      -- for macos
+vim.opt.rtp:append('/usr/bin/fzf')               -- for linux
 
 -- Add diagnostic symbols in the sign column (gutter)
 local signs = { Error = '', Hint = '', Info = '', Warn = '' }
@@ -115,7 +110,6 @@ keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer close' })
 keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
-
 -- Windows
 keymap('n', 'sv', '<cmd>vsplit<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
 keymap('n', 'ss', '<cmd>split<cr><C-w>w', { noremap = true, silent = true, desc = 'Window split current horizontally' })
@@ -128,23 +122,17 @@ keymap('n', '<m-.>', '<c-w>5>', { noremap = true, silent = true, desc = 'Window 
 keymap('n', '<m-,>', '<c-w>5<', { noremap = true, silent = true, desc = 'Window decrease width' })
 keymap('n', '<m-t>', '<c-w>+', { noremap = true, silent = true, desc = 'Window increase height' })
 keymap('n', '<m-s>', '<c-w>-', { noremap = true, silent = true, desc = 'Window decrease height' })
-
 -- Selection and highlighting
 keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
 keymap('n', '<esc>', '<cmd>nohl<cr>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
-
 -- Stay in visual mode while indenting
 keymap('v', '<', '<gv', opts)
 keymap('v', '>', '>gv', opts)
-
 -- Move visually selected text up and down
-keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts) -- in normal mode J -> joins lines
-keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts) -- in normal mode K -> LSP show hover doc
-
--- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
-keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })
--- Easily hit escape in terminal mode
-keymap('t', '<esc><esc>', '<c-\\><c-n>')
+keymap('v', 'J', ':m \'>+1<cr>gv=gv', opts)                                                                        -- in normal mode J -> joins lines
+keymap('v', 'K', ':m \'<-2<cr>gv=gv', opts)                                                                        -- in normal mode K -> LSP show hover doc
+keymap('n', '<leader>tt', ':belowright split | resize 15 | terminal<cr>', { desc = 'Open terminal window' })       -- Some other options are :topleft split | terminal or :vsplit | terminal or :split | resize 20 | term
+keymap('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Exit terminal mode (enter normal mode on terminal) with esc' }) -- Easily hit escape in terminal mode
 -- Open terminal at the bottom of the screen with a fixed height
 -- Does the same as <leader>tt before
 -- keymap('n', '<leader>ts', function()
@@ -154,24 +142,26 @@ keymap('t', '<esc><esc>', '<c-\\><c-n>')
 --     vim.wo.winfixheight = true
 --     vim.cmd.term()
 -- end)
-
 -- Command mode
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
-
 -- Misc
 keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listing' })
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
-
-keymap('n', 'J', 'mzJ`z')        -- keeps cursor in place when joining lines
-keymap('n', '<c-d>', '<c-d>zz')  -- keeps cursor in the middle of screen
-keymap('n', '<c-u>', '<c-u>zz')  -- keeps cursor in the middle of screen
-keymap('n', 'n', 'nzzzv')        -- keeps cursor in the middle for search terms
-keymap('n', 'N', 'Nzzzv')        -- keeps cursor in the middle for search terms
-keymap('v', '<leader>p', '"_dp') -- preserve pasted in buffer - visual mode
-keymap('x', '<leader>p', '"_dp') -- preserve pasted in buffer - visual block mode
-keymap('n', 'x', '"_x')          -- do not save characters cut using x
+-- Position of the cursor relative to the screen
+-- cnoremap <expr> <CR> getcmdtype() == '/' ? '<CR>zz' : '<CR>'
+keymap('c', '<cr>', function()
+    return vim.fn.getcmdtype() == '/' and '<cr>zz' or '<cr>'
+end, { expr = true, desc = 'Keeps cursor in the middle of the screen on first search match' })
+keymap('n', 'n', 'nzzzv', { desc = 'Keeps cursor in the middle for search terms' })
+keymap('n', 'N', 'Nzzzv', { desc = 'Keeps cursor in the middle for search terms' })
+keymap('n', 'J', 'mzJ`z', { desc = 'Keeps cursor in place when joining lines' })
+keymap('n', '<c-d>', '<c-d>zz', { desc = 'Keeps cursor in the middle of screen' })
+keymap('n', '<c-u>', '<c-u>zz', { desc = 'Keeps cursor in the middle of screen' })
+keymap('v', '<leader>p', '"_dp', { desc = 'Preserve pasted in buffer - visual mode' })
+keymap('x', '<leader>p', '"_dp', { desc = 'Preserve pasted in buffer - visual block mode' })
+keymap('n', 'x', '"_x', { desc = 'Do not save characters cut using x' })
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
@@ -191,15 +181,18 @@ end
 
 require('packer').startup({
     function(use)
-        use { 'wbthomason/packer.nvim' } -- packer can manage itself
-        -- use { 'numToStr/Comment.nvim' }                                                                -- smart and powerful commenting plugin for neovim
-        -- use { 'JoosepAlviste/nvim-ts-context-commentstring' }                                          -- sets commentstring option based on the cursor location, checked via treesitter queries
-        use { 'folke/ts-comments.nvim' } -- tiny plugin to enhance neovim 0.10.0 native comments
+        use { 'wbthomason/packer.nvim' }                      -- packer can manage itself
+        use { 'numToStr/Comment.nvim' }                       -- smart and powerful commenting plugin for neovim
+        use { 'JoosepAlviste/nvim-ts-context-commentstring' } -- sets commentstring option based on the cursor location, checked via treesitter queries
+        use { 'folke/ts-comments.nvim' }                      -- tiny plugin to enhance neovim 0.10.0 native comments
         use { 'nvim-tree/nvim-tree.lua',
             requires = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font }
         }                                                                                              -- a file explorer for nvim written in lua
         use { 'lukas-reineke/indent-blankline.nvim' }                                                  -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
-        use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- colorscheme
+        use { 'catppuccin/nvim', as = 'catppuccin' }                                                   -- primary colorscheme
+        use { 'arzg/vim-colors-xcode' }                                                                -- secondary colorscheme
+        -- use { 'Mofiqul/dracula.nvim' }                                                                 -- alternative colorscheme
+        -- use { 'navarasu/onedark.nvim' }                                                                -- alternative colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-symbols.nvim' }                                                -- find emojis with telescope :Telescope symbols
@@ -226,7 +219,7 @@ require('packer').startup({
             }
         }
         use { 'nvimdev/lspsaga.nvim' }
-        use { 'ray-x/lsp_signature.nvim' }                                              -- show function signature while typing
+        -- use { 'ray-x/lsp_signature.nvim' }                                              -- show function signature while typing
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
@@ -243,6 +236,7 @@ require('packer').startup({
         -- use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
         use { 'mfussenegger/nvim-dap' }                                                 -- debug adapter protocol client implementation for neovim
         use { 'mxsdev/nvim-dap-vscode-js' }
+        use { 'github/copilot.vim' }                                                    -- neovim plugin for GitHub copilot
 
         if is_bootstrap then
             require('packer').sync()
@@ -306,9 +300,10 @@ vim.api.nvim_create_autocmd('TermOpen', {
 -- ╰───────────────────────────────────╯
 
 -- Configure comment
--- require('Comment').setup {
---     pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
--- }
+require('Comment').setup {
+    pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+}
+-- require('Comment').setup()
 -- https://github.com/nvim-tree/nvim-tree.lua/blob/master/doc/nvim-tree-lua.txt
 -- Contains the complete configuration list is for nvim-tree
 require('ts-comments').setup({})
@@ -411,6 +406,100 @@ require('catppuccin').setup({
     },
 })
 vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+-- Configure dracula colorscheme
+-- require('dracula').setup({
+--     -- customize dracula color palette
+--     colors = {
+--         bg = "#282A36",
+--         fg = "#F8F8F2",
+--         selection = "#44475A",
+--         comment = "#6272A4",
+--         red = "#FF5555",
+--         orange = "#FFB86C",
+--         yellow = "#F1FA8C",
+--         green = "#50fa7b",
+--         purple = "#BD93F9",
+--         cyan = "#8BE9FD",
+--         pink = "#FF79C6",
+--         bright_red = "#FF6E6E",
+--         bright_green = "#69FF94",
+--         bright_yellow = "#FFFFA5",
+--         bright_blue = "#D6ACFF",
+--         bright_magenta = "#FF92DF",
+--         bright_cyan = "#A4FFFF",
+--         bright_white = "#FFFFFF",
+--         menu = "#21222C",
+--         visual = "#3E4452",
+--         gutter_fg = "#4B5263",
+--         nontext = "#3B4048",
+--         white = "#ABB2BF",
+--         black = "#191A21",
+--     },
+--     -- show the '~' characters after the end of buffers
+--     show_end_of_buffer = true,  -- default false
+--     -- use transparent background
+--     transparent_bg = true,      -- default false
+--     -- set custom lualine background color
+--     lualine_bg_color = "#44475a", -- default nil
+--     -- set italic comment
+--     italic_comment = true,      -- default false
+--     -- overrides the default highlights with table see `:h synIDattr`
+--     overrides = {},
+--     -- You can use overrides as table like this
+--     -- overrides = {
+--     --   NonText = { fg = "white" }, -- set NonText fg to white
+--     --   NvimTreeIndentMarker = { link = "NonText" }, -- link to NonText highlight
+--     --   Nothing = {} -- clear highlight of Nothing
+--     -- },
+--     -- Or you can also use it like a function to get color from theme
+--     -- overrides = function (colors)
+--     --   return {
+--     --     NonText = { fg = colors.white }, -- set NonText fg to white of theme
+--     --   }
+--     -- end,
+-- })
+-- vim.api.nvim_command('colorscheme xcode') -- dracula-soft
+-- Configure onedark colorscheme
+-- require('onedark').setup {
+--     -- Main options --
+--     style = 'dark',               -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+--     transparent = false,          -- Show/hide background
+--     term_colors = true,           -- Change terminal color as per the selected theme style
+--     ending_tildes = false,        -- Show the end-of-buffer tildes. By default they are hidden
+--     cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
+--
+--     -- toggle theme style ---
+--     toggle_style_key = nil,                                                              -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+--     toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
+--
+--     -- Change code style ---
+--     -- Options are italic, bold, underline, none
+--     -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
+--     code_style = {
+--         comments = 'italic',
+--         keywords = 'none',
+--         functions = 'none',
+--         strings = 'none',
+--         variables = 'none'
+--     },
+--
+--     -- Lualine options --
+--     lualine = {
+--         transparent = false, -- lualine center bar transparency
+--     },
+--
+--     -- Custom Highlights --
+--     colors = {},     -- Override default colors
+--     highlights = {}, -- Override highlight groups
+--
+--     -- Plugins Config --
+--     diagnostics = {
+--         darker = true,     -- darker colors for diagnostic
+--         undercurl = true,  -- use undercurl instead of underline for diagnostics
+--         background = true, -- use background color for virtual text
+--     },
+-- }
+-- require('onedark').load()
 -- Configure lualine
 require('lualine').setup {
     options = {
@@ -832,17 +921,18 @@ cmp.setup({
         end,
     },
 })
+-- Disable lsp_signature, causing issues in the work project folder
 -- Configure lsp_signature
-require 'lsp_signature'.setup({
-    bind = true,
-    handler_opts = {
-        border = 'rounded'
-    },
-})
-local show_toggle_float_window = function()
-    require('lsp_signature').toggle_float_win()
-end
-keymap('n', '<c-k>', show_toggle_float_window, { silent = true, noremap = true, desc = 'LSP toggle signature' })
+-- require 'lsp_signature'.setup({
+--     bind = true,
+--     handler_opts = {
+--         border = 'rounded'
+--     },
+-- })
+-- local show_toggle_float_window = function()
+--     require('lsp_signature').toggle_float_win()
+-- end
+-- keymap('n', '<c-k>', show_toggle_float_window, { silent = true, noremap = true, desc = 'LSP toggle signature' })
 -- Configure mason
 require('mason').setup({
     ui = {
@@ -986,15 +1076,15 @@ require('ufo').setup({
     end
 })
 -- After nvim-ts-context-commentstring installation
--- require('nvim-treesitter.configs').setup {
---     -- Install the parsers for the languages you want to comment in
---     -- Here are the supported languages:
---     ensure_installed = {
---         'astro', 'css', 'glimmer', 'graphql', 'html', 'javascript',
---         'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
---         'typescript', 'vim', 'vue',
---     },
--- }
+require('nvim-treesitter.configs').setup {
+    -- Install the parsers for the languages you want to comment in
+    -- Here are the supported languages:
+    ensure_installed = {
+        'astro', 'css', 'glimmer', 'graphql', 'html', 'javascript',
+        'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
+        'typescript', 'vim', 'vue',
+    },
+}
 -- context_commentstring is deprecated
 -- require('ts_context_commentstring').setup {}
 -- vim.g.skip_ts_context_commentstring_module = true
