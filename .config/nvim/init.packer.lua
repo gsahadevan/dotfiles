@@ -108,7 +108,9 @@ vim.g.maplocalleader = ' '
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
 keymap('n', '<s-tab>', '<cmd>bprevious<cr>', { desc = 'Buffer prev' })
 keymap('n', '<leader>w', '<cmd>bdelete<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer close' })
-keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
+-- keymap('n', '<leader>q', '<cmd>%bdelete<cr> <bar> <cmd>edit#<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
+keymap('n', '<leader>q', '<cmd>CustomCloseOtherBuffers<cr>', { desc = 'Buffer close others' }) -- alternatively :%bd|e#
+keymap('n', '<leader>Q', '<cmd>CustomCloseAllBuffers<cr>', { desc = 'Buffer close all' })
 keymap('n', '<leader>W', '<cmd>bdelete!<cr> <bar> <cmd>bprevious<cr>', { desc = 'Buffer force close' })
 -- Windows
 keymap('n', 'sv', '<cmd>vsplit<cr><c-w>w', { noremap = true, silent = true, desc = 'Window split current vertically' })
@@ -118,10 +120,10 @@ keymap('n', 'sr', '<c-w><c-r>', { noremap = true, silent = true, desc = 'Window 
 -- Windows re-sizing
 keymap('n', 'se', '<c-w>=', { noremap = true, silent = true, desc = 'Window make all equal size' })
 keymap('n', 'sz', '<c-w>_ | <c-w>|', { noremap = true, silent = true, desc = 'Window zoom current split' })
-keymap('n', '<m-.>', '<c-w>5>', { noremap = true, silent = true, desc = 'Window increase width' })
-keymap('n', '<m-,>', '<c-w>5<', { noremap = true, silent = true, desc = 'Window decrease width' })
-keymap('n', '<m-t>', '<c-w>+', { noremap = true, silent = true, desc = 'Window increase height' })
-keymap('n', '<m-s>', '<c-w>-', { noremap = true, silent = true, desc = 'Window decrease height' })
+keymap('n', '<c-w>.', '<c-w>5>', { noremap = true, silent = true, desc = 'Window increase width' })
+keymap('n', '<c-w>,', '<c-w>5<', { noremap = true, silent = true, desc = 'Window decrease width' })
+keymap('n', '<c-w>t', '<c-w>+', { noremap = true, silent = true, desc = 'Window increase height' })
+keymap('n', '<c-w>s', '<c-w>-', { noremap = true, silent = true, desc = 'Window decrease height' })
 -- Selection and highlighting
 keymap('n', '<leader>a', 'gg<S-v>G', { noremap = true, silent = true, desc = 'Select all text in buffer' })
 keymap('n', '<esc>', '<cmd>nohl<cr>', { noremap = true, silent = true, desc = 'No (Remove) search highlighting' })
@@ -177,6 +179,87 @@ keymap('x', '<leader>p', '"_dp', { desc = 'Preserve pasted in buffer - visual bl
 keymap('n', 'x', '"_x', { desc = 'Do not save characters cut using x' })
 
 -- ╭───────────────────────────────────╮
+-- │ Custom commands                   │
+-- ╰───────────────────────────────────╯
+
+-- Function to close all other buffers except the current one
+-- local function close_other_buffers()
+--     local current_buf = vim.api.nvim_get_current_buf()
+--     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+--         if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+--             vim.api.nvim_buf_delete(buf, { force = false })
+--         end
+--     end
+-- end
+-- -- Command to close all other buffers except the current one
+-- vim.api.nvim_create_user_command('CustomCloseOtherBuffers', close_other_buffers,
+--     { desc = 'Close all other buffers except the current one' })
+
+-- Function to close all other buffers except the current one, with a warning for unsaved changes
+local function close_other_buffers()
+    local unsaved_buffers = {}
+    local current_buf = vim.api.nvim_get_current_buf()
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+            local modified = vim.api.nvim_get_option_value('modified', { buf = buf})
+            if modified then
+                table.insert(unsaved_buffers, buf)
+            else
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end
+        end
+    end
+    if #unsaved_buffers > 0 then
+        local buffer_names = {}
+        for _, buf in ipairs(unsaved_buffers) do
+            table.insert(buffer_names, vim.api.nvim_buf_get_name(buf))
+        end
+        local message = 'Unsaved changes in buffers:\n' .. table.concat(buffer_names, '\n')
+        print(message)
+    end
+end
+-- Command to close all other buffers except the current one
+vim.api.nvim_create_user_command('CustomCloseOtherBuffers', close_other_buffers,
+    { desc = 'Close all other buffers except the current one, warn about unsaved changes' })
+
+-- -- Function to close all buffers
+-- local function close_all_buffers()
+--     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+--         if vim.api.nvim_buf_is_loaded(buf) then
+--             vim.api.nvim_buf_delete(buf, { force = false })
+--         end
+--     end
+-- end
+-- -- Command to close all buffers
+-- vim.api.nvim_create_user_command('CustomCloseAllBuffers', close_all_buffers, { desc = 'Close all buffers' })
+
+-- Close all buffers with a warning for unsaved changes
+local function close_all_buffers()
+    local unsaved_buffers = {}
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+            local modified = vim.api.nvim_get_option_value('modified', { buf = buf})
+            if modified then
+                table.insert(unsaved_buffers, buf)
+            else
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end
+        end
+    end
+    if #unsaved_buffers > 0 then
+        local buffer_names = {}
+        for _, buf in ipairs(unsaved_buffers) do
+            table.insert(buffer_names, vim.api.nvim_buf_get_name(buf))
+        end
+        local message = 'Unsaved changes in buffers:\n' .. table.concat(buffer_names, '\n')
+        print(message)
+    end
+end
+-- Command to close all buffers
+vim.api.nvim_create_user_command('CustomCloseAllBuffers', close_all_buffers,
+    { desc = 'Close all buffers, warn about unsaved changes' })
+
+-- ╭───────────────────────────────────╮
 -- │ Install packer                    │
 -- ╰───────────────────────────────────╯
 
@@ -204,6 +287,7 @@ require('packer').startup({
         use { 'lukas-reineke/indent-blankline.nvim' } -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }  -- primary colorscheme
         use { 'arzg/vim-colors-xcode' }               -- secondary colorscheme
+        use { 'projekt0n/github-nvim-theme' }         -- alternative colorscheme
         -- use { 'Mofiqul/dracula.nvim' }                                                                 -- alternative colorscheme
         -- use { 'navarasu/onedark.nvim' }                                                                -- alternative colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
@@ -424,7 +508,7 @@ require('catppuccin').setup({
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
     },
 })
-vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+-- vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 -- Configure dracula colorscheme
 -- require('dracula').setup({
 --     -- customize dracula color palette
@@ -519,11 +603,13 @@ vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catpp
 --     },
 -- }
 -- require('onedark').load()
+vim.api.nvim_command('colorscheme github_dark')
 -- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = 'catppuccin',
+        -- theme = 'catppuccin',
+        theme = 'github_dark',
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
