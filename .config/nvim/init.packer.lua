@@ -266,9 +266,9 @@ local function change_colorscheme(themes)
     require('lualine').refresh()
 end
 -- Function to get available colorschemes for completion
-local function colorscheme_completion()
+local function colorscheme_completion(current_input)
     local themes = {}
-    for _, name in ipairs(vim.fn.getcompletion('', 'color')) do
+    for _, name in ipairs(vim.fn.getcompletion(current_input, 'color')) do
         table.insert(themes, name)
     end
     return themes
