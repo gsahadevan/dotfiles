@@ -201,7 +201,7 @@ local function close_other_buffers()
     local current_buf = vim.api.nvim_get_current_buf()
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
-            local modified = vim.api.nvim_get_option_value('modified', { buf = buf})
+            local modified = vim.api.nvim_get_option_value('modified', { buf = buf })
             if modified then
                 table.insert(unsaved_buffers, buf)
             else
@@ -233,12 +233,12 @@ vim.api.nvim_create_user_command('CustomCloseOtherBuffers', close_other_buffers,
 -- -- Command to close all buffers
 -- vim.api.nvim_create_user_command('CustomCloseAllBuffers', close_all_buffers, { desc = 'Close all buffers' })
 
--- Close all buffers with a warning for unsaved changes
+-- Function to close all buffers with a warning for unsaved changes
 local function close_all_buffers()
     local unsaved_buffers = {}
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_loaded(buf) then
-            local modified = vim.api.nvim_get_option_value('modified', { buf = buf})
+            local modified = vim.api.nvim_get_option_value('modified', { buf = buf })
             if modified then
                 table.insert(unsaved_buffers, buf)
             else
@@ -258,6 +258,24 @@ end
 -- Command to close all buffers
 vim.api.nvim_create_user_command('CustomCloseAllBuffers', close_all_buffers,
     { desc = 'Close all buffers, warn about unsaved changes' })
+
+-- Function to change the colorscheme
+local function change_colorscheme(themes)
+    vim.api.nvim_command('colorscheme ' .. themes.args)
+    require('lualine').setup { options = { theme = themes.args } }
+    require('lualine').refresh()
+end
+-- Function to get available colorschemes for completion
+local function colorscheme_completion()
+    local themes = {}
+    for _, name in ipairs(vim.fn.getcompletion('', 'color')) do
+        table.insert(themes, name)
+    end
+    return themes
+end
+-- Command to change the colorscheme
+vim.api.nvim_create_user_command('CustomChangeColorscheme', change_colorscheme,
+    { nargs = 1, complete = colorscheme_completion, desc = 'Change the colorscheme' })
 
 -- ╭───────────────────────────────────╮
 -- │ Install packer                    │
@@ -603,13 +621,13 @@ require('catppuccin').setup({
 --     },
 -- }
 -- require('onedark').load()
-vim.api.nvim_command('colorscheme github_dark')
+-- vim.api.nvim_command('colorscheme github_light')
+vim.api.nvim_command('colorscheme catppuccin-frappe')
 -- Configure lualine
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        -- theme = 'catppuccin',
-        theme = 'github_dark',
+        theme = 'catppuccin',
         component_separators = '|',
         section_separators = '',
         disabled_filetypes = {
@@ -765,7 +783,6 @@ if telescope then
             width = 0.8,
         },
     }
-
     -- Can also be done with <cmd>Telescope frecency workspace=CWD<cr>
     local show_frecency_workspace_cwd = function()
         telescope.extensions.frecency.frecency(frecency_options)
