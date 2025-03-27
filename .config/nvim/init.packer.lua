@@ -308,10 +308,6 @@ require('packer').startup({
         }
         use { 'lukas-reineke/indent-blankline.nvim' } -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }  -- primary colorscheme
-        use { 'arzg/vim-colors-xcode' }               -- secondary colorscheme
-        use { 'projekt0n/github-nvim-theme' }         -- alternative colorscheme
-        -- use { 'Mofiqul/dracula.nvim' }                                                                 -- alternative colorscheme
-        -- use { 'navarasu/onedark.nvim' }                                                                -- alternative colorscheme
         use { 'nvim-lualine/lualine.nvim' }                                                            -- statusline written in lua
         use { 'nvim-telescope/telescope.nvim', tag = '0.1.6', requires = { 'nvim-lua/plenary.nvim' } } -- fuzzy finder for files
         use { 'nvim-telescope/telescope-symbols.nvim' }                                                -- find emojis with telescope :Telescope symbols
@@ -338,7 +334,6 @@ require('packer').startup({
             }
         }
         use { 'nvimdev/lspsaga.nvim' }
-        -- use { 'ray-x/lsp_signature.nvim' }                                              -- show function signature while typing
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
@@ -353,12 +348,8 @@ require('packer').startup({
         use { 'kevinhwang91/nvim-bqf' }                                                 -- make neovim's quickfix window better
         use { 'petertriho/nvim-scrollbar', requires = { 'kevinhwang91/nvim-hlslens' } } -- extensible neovim scrollbar
         use { 'kevinhwang91/nvim-ufo', requires = { 'kevinhwang91/promise-async' } }    -- makes nvim's fold look modern and keep high performance
-        -- use { 'xiyaowong/transparent.nvim' }                                            -- if terminal is transparent, toggle neovim transparency by :TransparencyToggle
-        use { 'mfussenegger/nvim-dap' }                                                 -- debug adapter protocol client implementation for neovim
-        use { 'mxsdev/nvim-dap-vscode-js' }
         use { 'github/copilot.vim' }                                                    -- neovim plugin for GitHub copilot
         use { 'CopilotC-Nvim/CopilotChat.nvim' }                                        -- neovim plugin for GitHub copilot chat
-
         use({
             'MeanderingProgrammer/render-markdown.nvim',
             after = { 'nvim-treesitter' },
@@ -369,8 +360,6 @@ require('packer').startup({
                 require('render-markdown').setup({})
             end,
         })
-
-        use { 'folke/snacks.nvim' } -- snacks.nvim is a collection of small, focused, and useful Neovim plugins
 
         if is_bootstrap then
             require('packer').sync()
@@ -839,102 +828,6 @@ require('catppuccin').setup({
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
     },
 })
--- vim.api.nvim_command('colorscheme catppuccin-frappe') -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
--- Configure dracula colorscheme
--- require('dracula').setup({
---     -- customize dracula color palette
---     colors = {
---         bg = "#282A36",
---         fg = "#F8F8F2",
---         selection = "#44475A",
---         comment = "#6272A4",
---         red = "#FF5555",
---         orange = "#FFB86C",
---         yellow = "#F1FA8C",
---         green = "#50fa7b",
---         purple = "#BD93F9",
---         cyan = "#8BE9FD",
---         pink = "#FF79C6",
---         bright_red = "#FF6E6E",
---         bright_green = "#69FF94",
---         bright_yellow = "#FFFFA5",
---         bright_blue = "#D6ACFF",
---         bright_magenta = "#FF92DF",
---         bright_cyan = "#A4FFFF",
---         bright_white = "#FFFFFF",
---         menu = "#21222C",
---         visual = "#3E4452",
---         gutter_fg = "#4B5263",
---         nontext = "#3B4048",
---         white = "#ABB2BF",
---         black = "#191A21",
---     },
---     -- show the '~' characters after the end of buffers
---     show_end_of_buffer = true,  -- default false
---     -- use transparent background
---     transparent_bg = true,      -- default false
---     -- set custom lualine background color
---     lualine_bg_color = "#44475a", -- default nil
---     -- set italic comment
---     italic_comment = true,      -- default false
---     -- overrides the default highlights with table see `:h synIDattr`
---     overrides = {},
---     -- You can use overrides as table like this
---     -- overrides = {
---     --   NonText = { fg = "white" }, -- set NonText fg to white
---     --   NvimTreeIndentMarker = { link = "NonText" }, -- link to NonText highlight
---     --   Nothing = {} -- clear highlight of Nothing
---     -- },
---     -- Or you can also use it like a function to get color from theme
---     -- overrides = function (colors)
---     --   return {
---     --     NonText = { fg = colors.white }, -- set NonText fg to white of theme
---     --   }
---     -- end,
--- })
--- vim.api.nvim_command('colorscheme xcode') -- dracula-soft
--- Configure onedark colorscheme
--- require('onedark').setup {
---     -- Main options --
---     style = 'dark',               -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
---     transparent = false,          -- Show/hide background
---     term_colors = true,           -- Change terminal color as per the selected theme style
---     ending_tildes = false,        -- Show the end-of-buffer tildes. By default they are hidden
---     cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
---
---     -- toggle theme style ---
---     toggle_style_key = nil,                                                              -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
---     toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
---
---     -- Change code style ---
---     -- Options are italic, bold, underline, none
---     -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
---     code_style = {
---         comments = 'italic',
---         keywords = 'none',
---         functions = 'none',
---         strings = 'none',
---         variables = 'none'
---     },
---
---     -- Lualine options --
---     lualine = {
---         transparent = false, -- lualine center bar transparency
---     },
---
---     -- Custom Highlights --
---     colors = {},     -- Override default colors
---     highlights = {}, -- Override highlight groups
---
---     -- Plugins Config --
---     diagnostics = {
---         darker = true,     -- darker colors for diagnostic
---         undercurl = true,  -- use undercurl instead of underline for diagnostics
---         background = true, -- use background color for virtual text
---     },
--- }
--- require('onedark').load()
--- vim.api.nvim_command('colorscheme github_light')
 vim.api.nvim_command('colorscheme catppuccin-frappe')
 -- Configure lualine
 require('lualine').setup {
@@ -1727,62 +1620,4 @@ require('CopilotChat').setup {
             normal = 'gh',
         },
     },
-}
-
--- Configure snacks
--- require('snacks').setup({
---     bigfile = { enabled = true },
---     dashboard = { enabled = true },
---     explorer = { enabled = true },
---     indent = { enabled = true },
---     input = { enabled = true },
---     notifier = {
---         enabled = true,
---         timeout = 3000,
---     },
---     picker = { enabled = true },
---     quickfile = { enabled = true },
---     scope = { enabled = true },
---     scroll = { enabled = true },
---     statuscolumn = { enabled = true },
---     words = { enabled = true },
---     styles = {
---         notification = {
---             -- wo = { wrap = true } -- Wrap notifications
---         }
---     }
--- })
-
-local dap = require('dap')
-dap.adapters.chrome = {
-    type = "executable",
-    command = "node",
-    -- args = { os.getenv("HOME") .. "/path/to/vscode-chrome-debug/out/src/chromeDebug.js" } -- TODO adjust
-    args = { os.getenv("HOME") .. "/.config/nvim/vscode-chrome-debug/out/src/chromeDebug.js" } -- TODO adjust
-}
-
-dap.configurations.javascriptreact = { -- change this to javascript if needed
-    {
-        type = "chrome",
-        request = "attach",
-        program = "${file}",
-        cwd = vim.fn.getcwd(),
-        sourceMaps = true,
-        protocol = "inspector",
-        port = 9222,
-        webRoot = "${workspaceFolder}"
-    }
-}
-
-dap.configurations.typescriptreact = { -- change to typescript if needed
-    {
-        type = "chrome",
-        request = "attach",
-        program = "${file}",
-        cwd = vim.fn.getcwd(),
-        sourceMaps = true,
-        protocol = "inspector",
-        port = 9222,
-        webRoot = "${workspaceFolder}"
-    }
 }
