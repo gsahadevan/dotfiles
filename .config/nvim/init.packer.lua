@@ -154,7 +154,8 @@ end, { desc = 'Run tests in terminal' })
 keymap('c', 'Q', 'q')   -- replace Q with q on the command mode
 keymap('c', 'Qa', 'qa') -- replace Qa with qa on the command mode
 -- Misc
-keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listing' })
+-- keymap('n', '<leader>pv', vim.cmd.Explore, { desc = 'Open Netrw directory listing' })
+keymap('n', '<leader>pv', '<cmd>:Oil<cr>', { desc = 'Open oil directory listing' })
 keymap('n', 'cp', '<cmd>let @+ = expand("%p")<cr>', { desc = 'Copy absolute file path' })
 keymap('n', ',f', '<cmd>%s/"/\'/g<cr>', { desc = 'Format replace " with \'' })
 -- Position of the cursor relative to the screen
@@ -301,7 +302,10 @@ require('packer').startup({
         use { 'folke/ts-comments.nvim' }                      -- tiny plugin to enhance neovim 0.10.0 native comments
         use { 'nvim-tree/nvim-tree.lua',
             requires = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font }
-        }                                             -- a file explorer for nvim written in lua
+        } -- a file explorer for nvim written in lua
+        use { 'stevearc/oil.nvim',
+            requires = { 'echasnovski/mini.icons' },
+        }
         use { 'lukas-reineke/indent-blankline.nvim' } -- adds indentation guides to all lines (including empty lines), using nvim's virtual text feature
         use { 'catppuccin/nvim', as = 'catppuccin' }  -- primary colorscheme
         use { 'arzg/vim-colors-xcode' }               -- secondary colorscheme
@@ -338,6 +342,7 @@ require('packer').startup({
         use { 'dinhhuy258/git.nvim' }                                                   -- git browse and blame
         use { 'lewis6991/gitsigns.nvim' }                                               -- show git file modification signs on gutter
         use { 'sindrets/diffview.nvim' }                                                -- single tabpage interface for easily cycling through git diffs
+        use { 'akinsho/git-conflict.nvim', tag = '*' }                                  -- visualize and resolve git conflicts
         use { 'christoomey/vim-tmux-navigator' }                                        -- seamlessly move btw nvim panes and tmux
         use { 'nvim-treesitter/nvim-treesitter' }                                       -- also required for nvim-ufo, nvim-ts-autotag
         use { 'windwp/nvim-autopairs' }                                                 -- powerful autopair plugin that supports multiple characters
@@ -352,6 +357,20 @@ require('packer').startup({
         use { 'mfussenegger/nvim-dap' }                                                 -- debug adapter protocol client implementation for neovim
         use { 'mxsdev/nvim-dap-vscode-js' }
         use { 'github/copilot.vim' }                                                    -- neovim plugin for GitHub copilot
+        use { 'CopilotC-Nvim/CopilotChat.nvim' }                                        -- neovim plugin for GitHub copilot chat
+
+        use({
+            'MeanderingProgrammer/render-markdown.nvim',
+            after = { 'nvim-treesitter' },
+            requires = { 'echasnovski/mini.nvim', opt = true }, -- if you use the mini.nvim suite
+            -- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
+            -- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+            config = function()
+                require('render-markdown').setup({})
+            end,
+        })
+
+        use { 'folke/snacks.nvim' } -- snacks.nvim is a collection of small, focused, and useful Neovim plugins
 
         if is_bootstrap then
             require('packer').sync()
@@ -460,6 +479,300 @@ require('nvim-tree').setup({
     },
 })
 keymap('n', '<leader>b', '<cmd>NvimTreeToggle<cr>', { desc = 'NvimTree toggle' })
+-- helper function to parse output
+local function parse_output(proc)
+    local result = proc:wait()
+    local ret = {}
+    if result.code == 0 then
+        for line in vim.gsplit(result.stdout, '\n', { plain = true, trimempty = true }) do
+            -- Remove trailing slash
+            line = line:gsub('/$', '')
+            ret[line] = true
+        end
+    end
+    return ret
+end
+
+-- build git status cache
+local function new_git_status()
+    return setmetatable({}, {
+        __index = function(self, key)
+            local ignore_proc = vim.system(
+                { 'git', 'ls-files', '--ignored', '--exclude-standard', '--others', '--directory' },
+                {
+                    cwd = key,
+                    text = true,
+                }
+            )
+            local tracked_proc = vim.system({ 'git', 'ls-tree', 'HEAD', '--name-only' }, {
+                cwd = key,
+                text = true,
+            })
+            local ret = {
+                ignored = parse_output(ignore_proc),
+                tracked = parse_output(tracked_proc),
+            }
+
+            rawset(self, key, ret)
+            return ret
+        end,
+    })
+end
+local git_status = new_git_status()
+
+-- Clear git status cache on refresh
+local refresh = require('oil.actions').refresh
+local orig_refresh = refresh.callback
+refresh.callback = function(...)
+    git_status = new_git_status()
+    orig_refresh(...)
+end
+
+-- Declare a global function to retrieve the current directory
+function _G.get_oil_winbar()
+    local bufnr = vim.api.nvim_win_get_buf(vim.g.statusline_winid)
+    local dir = require('oil').get_current_dir(bufnr)
+    if dir then
+        return vim.fn.fnamemodify(dir, ':~')
+    else
+        -- If there is no current directory (e.g. over ssh), just show the buffer name
+        return vim.api.nvim_buf_get_name(0)
+    end
+end
+
+-- Configure oil
+local detail = false
+require('oil').setup({
+    -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+    -- Set to false if you want some other plugin (e.g. netrw) to open when you edit directories.
+    default_file_explorer = true,
+    -- Id is automatically added at the beginning, and name at the end
+    -- See :help oil-columns
+    columns = {
+        'icon',
+        -- 'permissions',
+        -- 'size',
+        -- 'mtime',
+    },
+    -- Buffer-local options to use for oil buffers
+    buf_options = {
+        buflisted = false,
+        bufhidden = 'hide',
+    },
+    -- Window-local options to use for oil buffers
+    win_options = {
+        wrap = false,
+        signcolumn = 'no',
+        cursorcolumn = false,
+        foldcolumn = '0',
+        spell = false,
+        list = false,
+        conceallevel = 3,
+        concealcursor = 'nvic',
+        winbar = '%!v:lua.get_oil_winbar()',
+    },
+    -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
+    delete_to_trash = false,
+    -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
+    skip_confirm_for_simple_edits = false,
+    -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+    -- (:help prompt_save_on_select_new_entry)
+    prompt_save_on_select_new_entry = true,
+    -- Oil will automatically delete hidden buffers after this delay
+    -- You can set the delay to false to disable cleanup entirely
+    -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
+    cleanup_delay_ms = 2000,
+    lsp_file_methods = {
+        -- Enable or disable LSP file operations
+        enabled = true,
+        -- Time to wait for LSP file operations to complete before skipping
+        timeout_ms = 1000,
+        -- Set to true to autosave buffers that are updated with LSP willRenameFiles
+        -- Set to 'unmodified' to only save unmodified buffers
+        autosave_changes = false,
+    },
+    -- Constrain the cursor to the editable parts of the oil buffer
+    -- Set to `false` to disable, or 'name' to keep it on the file names
+    constrain_cursor = 'editable',
+    -- Set to true to watch the filesystem for changes and reload oil
+    watch_for_changes = false,
+    -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+    -- options with a `callback` (e.g. { callback = function() ... end, desc = '', mode = 'n' })
+    -- Additionally, if it is a string that matches 'actions.<name>',
+    -- it will use the mapping at require('oil.actions').<name>
+    -- Set to `false` to remove a keymap
+    -- See :help oil-actions for a list of all available actions
+    keymaps = {
+        ['g?'] = { 'actions.show_help', mode = 'n' },
+        ['<CR>'] = 'actions.select',
+        ['<C-s>'] = { 'actions.select', opts = { vertical = true } },
+        ['<C-h>'] = { 'actions.select', opts = { horizontal = true } },
+        ['<C-t>'] = { 'actions.select', opts = { tab = true } },
+        ['<C-p>'] = 'actions.preview',
+        ['<C-c>'] = { 'actions.close', mode = 'n' },
+        ['<C-l>'] = 'actions.refresh',
+        ['-'] = { 'actions.parent', mode = 'n' },
+        ['_'] = { 'actions.open_cwd', mode = 'n' },
+        ['`'] = { 'actions.cd', mode = 'n' },
+        ['~'] = { 'actions.cd', opts = { scope = 'tab' }, mode = 'n' },
+        ['gs'] = { 'actions.change_sort', mode = 'n' },
+        ['gx'] = 'actions.open_external',
+        ['g.'] = { 'actions.toggle_hidden', mode = 'n' },
+        ['g\\'] = { 'actions.toggle_trash', mode = 'n' },
+        ['gd'] = {
+            desc = 'Toggle file detail view',
+            callback = function()
+                detail = not detail
+                if detail then
+                    require('oil').set_columns({ 'icon', 'permissions', 'size', 'mtime' })
+                else
+                    require('oil').set_columns({ 'icon' })
+                end
+            end,
+        },
+    },
+    -- Set to false to disable all of the above keymaps
+    use_default_keymaps = true,
+    -- view_options = {
+    --     -- Show files and directories that start with '.'
+    --     show_hidden = false,
+    --     -- This function defines what is considered a 'hidden' file
+    --     is_hidden_file = function(name, bufnr)
+    --         local m = name:match('^%.')
+    --         return m ~= nil
+    --     end,
+    --     -- This function defines what will never be shown, even when `show_hidden` is set
+    --     is_always_hidden = function(name, bufnr)
+    --         return false
+    --     end,
+    --     -- Sort file names with numbers in a more intuitive order for humans.
+    --     -- Can be 'fast', true, or false. 'fast' will turn it off for large directories.
+    --     natural_order = 'fast',
+    --     -- Sort file and directory names case insensitive
+    --     case_insensitive = false,
+    --     sort = {
+    --         -- sort order can be 'asc' or 'desc'
+    --         -- see :help oil-columns to see which columns are sortable
+    --         { 'type', 'asc' },
+    --         { 'name', 'asc' },
+    --     },
+    --     -- Customize the highlight group for the file name
+    --     highlight_filename = function(entry, is_hidden, is_link_target, is_link_orphan)
+    --         return nil
+    --     end,
+    -- },
+    view_options = {
+        is_hidden_file = function(name, bufnr)
+            local dir = require('oil').get_current_dir(bufnr)
+            local is_dotfile = vim.startswith(name, '.') and name ~= '..'
+            -- if no local directory (e.g. for ssh connections), just hide dotfiles
+            if not dir then
+                return is_dotfile
+            end
+            -- dotfiles are considered hidden unless tracked
+            if is_dotfile then
+                return not git_status[dir].tracked[name]
+            else
+                -- Check if file is gitignored
+                return git_status[dir].ignored[name]
+            end
+        end,
+    },
+    -- Extra arguments to pass to SCP when moving/copying files over SSH
+    extra_scp_args = {},
+    -- EXPERIMENTAL support for performing file operations with git
+    git = {
+        -- Return true to automatically git add/mv/rm files
+        add = function(path)
+            return false
+        end,
+        mv = function(src_path, dest_path)
+            return false
+        end,
+        rm = function(path)
+            return false
+        end,
+    },
+    -- Configuration for the floating window in oil.open_float
+    float = {
+        -- Padding around the floating window
+        padding = 2,
+        -- max_width and max_height can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+        max_width = 0,
+        max_height = 0,
+        border = 'rounded',
+        win_options = {
+            winblend = 0,
+        },
+        -- optionally override the oil buffers window title with custom function: fun(winid: integer): string
+        get_win_title = nil,
+        -- preview_split: Split direction: 'auto', 'left', 'right', 'above', 'below'.
+        preview_split = 'auto',
+        -- This is the config that will be passed to nvim_open_win.
+        -- Change values here to customize the layout
+        override = function(conf)
+            return conf
+        end,
+    },
+    -- Configuration for the file preview window
+    preview_win = {
+        -- Whether the preview window is automatically updated when the cursor is moved
+        update_on_cursor_moved = true,
+        -- How to open the preview window 'load'|'scratch'|'fast_scratch'
+        preview_method = 'fast_scratch',
+        -- A function that returns true to disable preview on a file e.g. to avoid lag
+        disable_preview = function(filename)
+            return false
+        end,
+        -- Window-local options to use for preview window buffers
+        win_options = {},
+    },
+    -- Configuration for the floating action confirmation window
+    confirmation = {
+        -- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+        -- min_width and max_width can be a single value or a list of mixed integer/float types.
+        -- max_width = {100, 0.8} means 'the lesser of 100 columns or 80% of total'
+        max_width = 0.9,
+        -- min_width = {40, 0.4} means 'the greater of 40 columns or 40% of total'
+        min_width = { 40, 0.4 },
+        -- optionally define an integer/float for the exact width of the preview window
+        width = nil,
+        -- Height dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+        -- min_height and max_height can be a single value or a list of mixed integer/float types.
+        -- max_height = {80, 0.9} means 'the lesser of 80 columns or 90% of total'
+        max_height = 0.9,
+        -- min_height = {5, 0.1} means 'the greater of 5 columns or 10% of total'
+        min_height = { 5, 0.1 },
+        -- optionally define an integer/float for the exact height of the preview window
+        height = nil,
+        border = 'rounded',
+        win_options = {
+            winblend = 0,
+        },
+    },
+    -- Configuration for the floating progress window
+    progress = {
+        max_width = 0.9,
+        min_width = { 40, 0.4 },
+        width = nil,
+        max_height = { 10, 0.9 },
+        min_height = { 5, 0.1 },
+        height = nil,
+        border = 'rounded',
+        minimized_border = 'none',
+        win_options = {
+            winblend = 0,
+        },
+    },
+    -- Configuration for the floating SSH window
+    ssh = {
+        border = 'rounded',
+    },
+    -- Configuration for the floating keymaps help window
+    keymaps_help = {
+        border = 'rounded',
+    },
+})
 -- Configure indent-blankline
 require('ibl').setup {
     indent = { char = '┊' },
@@ -1082,11 +1395,11 @@ if git then
 end
 require('gitsigns').setup({
     signs = {
-        add          = { text = '│' },
-        change       = { text = '│' },
-        delete       = { text = '_' },
-        topdelete    = { text = '‾' },
-        changedelete = { text = '~' },
+        add          = { text = '┃' },
+        change       = { text = '┃' }, -- │, ▎
+        delete       = { text = '' }, -- , _
+        topdelete    = { text = '' }, -- , ‾,
+        changedelete = { text = '' }, -- ~, ≈
         untracked    = { text = '┆' },
     },
     signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
@@ -1153,6 +1466,25 @@ require('diffview').setup({
         },
     },
 })
+-- Configure git-conflict
+require('git-conflict').setup({
+    -- default_mappings = {
+    --     ours = 'o', -- co choose ours
+    --     theirs = 't', -- ct choose theirs
+    --     none = '0', -- c0 choose none
+    --     both = 'b', -- cb choose both
+    --     next = 'n', -- [x move to next conflict
+    --     prev = 'n', -- ]x move to prev conflict
+    -- },
+    default_mappings = true,     -- disable buffer local mapping created by this plugin
+    default_commands = true,     -- disable commands created by this plugin
+    disable_diagnostics = false, -- This will disable the diagnostics in a buffer whilst it is conflicted
+    list_opener = 'copen',       -- command or function to open the conflicts list
+    highlights = {               -- They must have background color, otherwise the default color will be used
+        incoming = 'DiffAdd',
+        current = 'DiffText',
+    }
+})
 require('bqf').setup({
     auto_enable = true,
     auto_resize_height = true,
@@ -1213,6 +1545,213 @@ require('nvim-treesitter.configs').setup {
 
 local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
+
+require('CopilotChat').setup {
+    -- See Configuration section for options
+    -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
+
+    system_prompt = 'COPILOT_INSTRUCTIONS', -- System prompt to use (can be specified manually in prompt via /).
+
+    model = 'gpt-4o',                       -- Default model to use, see ':CopilotChatModels' for available models (can be specified manually in prompt via $).
+    agent = 'copilot',                      -- Default agent to use, see ':CopilotChatAgents' for available agents (can be specified manually in prompt via @).
+    context = nil,                          -- Default context or array of contexts to use (can be specified manually in prompt via #).
+    sticky = nil,                           -- Default sticky prompt or array of sticky prompts to use at start of every new chat.
+
+    temperature = 0.1,                      -- GPT result temperature
+    headless = false,                       -- Do not write to chat buffer and use history(useful for using callback for custom processing)
+    callback = nil,                         -- Callback to use when ask response is received
+    remember_as_sticky = true,              -- Remember model/agent/context as sticky prompts when asking questions
+
+    -- default selection
+    -- see select.lua for implementation
+    selection = function(source)
+        return select.visual(source) or select.buffer(source)
+    end,
+
+    -- default window options
+    window = {
+        layout = 'vertical',    -- 'vertical', 'horizontal', 'float', 'replace'
+        width = 0.4,            -- fractional width of parent, or absolute width in columns when > 1
+        height = 0.5,           -- fractional height of parent, or absolute height in rows when > 1
+        -- Options below only apply to floating windows
+        relative = 'editor',    -- 'editor', 'win', 'cursor', 'mouse'
+        border = 'single',      -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+        row = nil,              -- row position of the window, default is centered
+        col = nil,              -- column position of the window, default is centered
+        title = 'Copilot Chat', -- title of chat window
+        footer = nil,           -- footer of chat window
+        zindex = 1,             -- determines if window is on top or below other floating windows
+    },
+
+    show_help = true,                 -- Shows help message as virtual lines when waiting for user input
+    highlight_selection = true,       -- Highlight selection
+    highlight_headers = true,         -- Highlight headers in chat, disable if using markdown renderers (like render-markdown.nvim)
+    references_display = 'virtual',   -- 'virtual', 'write', Display references in chat as virtual text or write to buffer
+    auto_follow_cursor = true,        -- Auto-follow cursor in chat
+    auto_insert_mode = false,         -- Automatically enter insert mode when opening window and on new prompt
+    insert_at_end = false,            -- Move cursor to end of buffer when inserting text
+    clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
+
+    -- Static config starts here (can be configured only via setup function)
+
+    debug = false,                                                   -- Enable debug logging (same as 'log_level = 'debug')
+    log_level = 'info',                                              -- Log level to use, 'trace', 'debug', 'info', 'warn', 'error', 'fatal'
+    proxy = nil,                                                     -- [protocol://]host[:port] Use this proxy
+    allow_insecure = false,                                          -- Allow insecure server connections
+
+    chat_autocomplete = true,                                        -- Enable chat autocompletion (when disabled, requires manual `mappings.complete` trigger)
+
+    log_path = vim.fn.stdpath('state') .. '/CopilotChat.log',        -- Default path to log file
+    history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
+
+    question_header = '# User ',                                     -- Header to use for user questions
+    answer_header = '# Copilot ',                                    -- Header to use for AI answers
+    error_header = '# Error ',                                       -- Header to use for errors
+    separator = '???',                                               -- Separator to use in chat
+
+    -- default providers
+    -- see config/providers.lua for implementation
+    providers = {
+        copilot = {
+        },
+        github_models = {
+        },
+        copilot_embeddings = {
+        },
+    },
+
+    -- default contexts
+    -- see config/contexts.lua for implementation
+    contexts = {
+        buffer = {
+        },
+        buffers = {
+        },
+        file = {
+        },
+        files = {
+        },
+        git = {
+        },
+        url = {
+        },
+        register = {
+        },
+        quickfix = {
+        },
+        system = {
+        }
+    },
+
+    -- default prompts
+    -- see config/prompts.lua for implementation
+    prompts = {
+        Explain = {
+            prompt = 'Write an explanation for the selected code as paragraphs of text.',
+            system_prompt = 'COPILOT_EXPLAIN',
+        },
+        Review = {
+            prompt = 'Review the selected code.',
+            system_prompt = 'COPILOT_REVIEW',
+        },
+        Fix = {
+            prompt = 'There is a problem in this code. Identify the issues and rewrite the code with fixes. Explain what was wrong and how your changes address the problems.',
+        },
+        Optimize = {
+            prompt = 'Optimize the selected code to improve performance and readability. Explain your optimization strategy and the benefits of your changes.',
+        },
+        Docs = {
+            prompt = 'Please add documentation comments to the selected code.',
+        },
+        Tests = {
+            prompt = 'Please generate tests for my code.',
+        },
+        Commit = {
+            prompt = 'Write commit message for the change with commitizen convention. Keep the title under 50 characters and wrap message at 72 characters. Format as a gitcommit code block.',
+            context = 'git:staged',
+        },
+    },
+
+    -- default mappings
+    -- see config/mappings.lua for implementation
+    mappings = {
+        complete = {
+            insert = '<Tab>',
+        },
+        close = {
+            normal = 'q',
+            insert = '<C-c>',
+        },
+        reset = {
+            normal = '<C-l>',
+            insert = '<C-l>',
+        },
+        submit_prompt = {
+            normal = '<CR>',
+            insert = '<C-s>',
+        },
+        toggle_sticky = {
+            normal = 'grr',
+        },
+        clear_stickies = {
+            normal = 'grx',
+        },
+        accept_diff = {
+            normal = '<C-y>',
+            insert = '<C-y>',
+        },
+        jump_to_diff = {
+            normal = 'gj',
+        },
+        quickfix_answers = {
+            normal = 'gqa',
+        },
+        quickfix_diffs = {
+            normal = 'gqd',
+        },
+        yank_diff = {
+            normal = 'gy',
+            register = '"', -- Default register to use for yanking
+        },
+        show_diff = {
+            normal = 'gd',
+            full_diff = false, -- Show full diff instead of unified diff when showing diff window
+        },
+        show_info = {
+            normal = 'gi',
+        },
+        show_context = {
+            normal = 'gc',
+        },
+        show_help = {
+            normal = 'gh',
+        },
+    },
+}
+
+-- Configure snacks
+-- require('snacks').setup({
+--     bigfile = { enabled = true },
+--     dashboard = { enabled = true },
+--     explorer = { enabled = true },
+--     indent = { enabled = true },
+--     input = { enabled = true },
+--     notifier = {
+--         enabled = true,
+--         timeout = 3000,
+--     },
+--     picker = { enabled = true },
+--     quickfile = { enabled = true },
+--     scope = { enabled = true },
+--     scroll = { enabled = true },
+--     statuscolumn = { enabled = true },
+--     words = { enabled = true },
+--     styles = {
+--         notification = {
+--             -- wo = { wrap = true } -- Wrap notifications
+--         }
+--     }
+-- })
 
 local dap = require('dap')
 dap.adapters.chrome = {
