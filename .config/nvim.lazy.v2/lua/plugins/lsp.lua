@@ -3,7 +3,14 @@ return {
         'williamboman/mason.nvim',
         lazy = false,
         config = function()
-            require("mason").setup()
+            -- require("mason").setup()
+            require('mason').setup({
+                ui = {
+                    border = 'rounded',
+                    height = 0.95,
+                    width = 0.95,
+                }
+            })
         end,
     },
     {
@@ -17,12 +24,12 @@ return {
     },
     {
         'neovim/nvim-lspconfig',
-        dependencies = { 'saghen/blink.cmp' },
+        -- dependencies = { 'saghen/blink.cmp' },
         lazy = false,
         config = function()
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            -- local capabilities = require("blink.cmp").get_lsp_capabilities()
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
-            -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
             lspconfig.lua_ls.setup({
                 capabilities = capabilities,
