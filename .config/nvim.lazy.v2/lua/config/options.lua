@@ -8,7 +8,7 @@ vim.cmd('language en_US') -- set language to en_US
 
 -- Line numbers, relative numbers
 vim.wo.number          = true -- show line numbers
-vim.wo.relativenumber  = true -- show relative line numbers
+vim.wo.relativenumber  = false -- show relative line numbers
 vim.opt.title          = true -- show the title of the file in the window title
 vim.opt.showmode       = false -- do not show mode, since it is already shown on status line
 vim.opt.showcmd        = true -- show command in bottom right
@@ -50,7 +50,7 @@ vim.opt.smartcase      = true -- case sensitive searching if any capital letters
 
 -- I don't know what this does
 vim.opt.inccommand     = 'split' -- preview substitutions live, as you type
-vim.opt.signcolumn     = 'yes:3' -- always shows the sign column, otherwise it would shift the text each time
+vim.opt.signcolumn     = 'yes:2' -- always shows the sign column, otherwise it would shift the text each time
 vim.opt.backspace      = { 'start', 'eol', 'indent' } -- backspace behavior
 vim.opt.completeopt    = 'menuone,noselect' -- set completeopt to have a better completion experience
 vim.opt.clipboard      = 'unnamed' -- copy/paste to system clipboard
