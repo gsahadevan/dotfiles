@@ -8,11 +8,13 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     group = vim.api.nvim_create_augroup('Packer', { clear = true }),
     pattern = vim.fn.expand '$MYVIMRC',
 })
+
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd('InsertLeave', {
     pattern = '*',
     command = 'set nopaste'
 })
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
@@ -21,6 +23,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
         vim.highlight.on_yank()
     end,
 })
+
 -- Set local settings for terminal buffers
 vim.api.nvim_create_autocmd('TermOpen', {
     group = vim.api.nvim_create_augroup('CustomTermOpen', {}),
