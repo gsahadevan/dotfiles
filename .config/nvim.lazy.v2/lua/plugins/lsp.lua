@@ -1,71 +1,52 @@
 return {
-	{
-		'neovim/nvim-lspconfig',
-		dependencies = {
-			{
-				"folke/lazydev.nvim",
-				ft = "lua", -- only load on lua files
-				opts = {
-					library = {
-						-- See the configuration section for more details
-						-- Load luvit types when the `vim.uv` word is found
-						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-					},
-				},
-			},
-			{ -- optional cmp completion source for require statements and module annotations
-				"hrsh7th/nvim-cmp",
-				opts = function(_, opts)
-					opts.sources = opts.sources or {}
-					table.insert(opts.sources, {
-						name = "lazydev",
-						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-					})
-				end,
-			},
-			{ -- optional blink completion source for require statements and module annotations
-				"saghen/blink.cmp",
-				opts = {
-					sources = {
-						-- add lazydev to your completion providers
-						default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-						providers = {
-							lazydev = {
-								name = "LazyDev",
-								module = "lazydev.integrations.blink",
-								-- make lazydev completions top priority (see `:h blink.cmp`)
-								score_offset = 100,
-							},
-						},
-					},
-				},
-			},
-		},
-		opts = {
-            -- Add your LSP server configurations here
-            -- Example:
-            -- servers = {
-            --   pyright = {},
-            --   tsserver = {},
-            -- },
-            -- You can also use the `lspconfig` module to configure your LSP servers
-            -- Example:
-            require('lspconfig').ts_ls.setup{}
-		}
-	},
-	{
+    {
         'williamboman/mason.nvim',
         lazy = false,
         config = function()
             require("mason").setup()
         end,
     },
-	{
+    {
         'williamboman/mason-lspconfig.nvim',
         lazy = false,
         config = function()
             require("mason-lspconfig").setup({
                 ensure_installed = { "lua_ls", "ts_ls", "eslint" },
+            })
+        end,
+    },
+    {
+        'neovim/nvim-lspconfig',
+        dependencies = { 'saghen/blink.cmp' },
+        lazy = false,
+        config = function()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            local lspconfig = require("lspconfig")
+            -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+            lspconfig.lua_ls.setup({
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                    },
+                },
+            })
+
+            lspconfig.ts_ls.setup({
+                capabilities = capabilities,
+                on_attach = function(client, bufnr)
+                    client.server_capabilities.document_formatting = false
+                end,
+            })
+
+            lspconfig.eslint.setup({
+                capabilities = capabilities,
+                on_attach = function(client, bufnr)
+                    client.server_capabilities.document_formatting = false
+                end,
             })
         end,
     },

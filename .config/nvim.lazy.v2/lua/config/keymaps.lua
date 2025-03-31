@@ -10,8 +10,8 @@ local keymap = vim.keymap.set -- Shorten function name
 
 -- Remap space as leader key
 keymap('', '<Space>', '<Nop>', opts)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- vim.g.mapleader = ' '
+-- vim.g.maplocalleader = ' '
 
 -- Buffers
 keymap('n', '<tab>', '<cmd>bnext<cr>', { desc = 'Buffer next' })
