@@ -2,7 +2,8 @@
 -- │ Add basic options and settings    │
 -- ╰───────────────────────────────────╯
 
-vim.cmd('autocmd!') -- clear all autocmds
+-- lazy Cannot make changes, 'modifiable' is off
+-- vim.cmd('autocmd!') -- clear all autocmds
 vim.cmd('language en_US') -- set language to en_US
 
 -- Line numbers, relative numbers
@@ -15,9 +16,9 @@ vim.opt.cmdheight      = 1 -- height of the command bar
 vim.opt.laststatus     = 2 -- always show status line
 
 -- Encoding
-vim.scriptencoding     = 'utf-8' -- the encoding used for the script
-vim.opt.encoding       = 'utf-8' -- the encoding displayed
-vim.opt.fileencoding   = 'utf-8' -- the encoding written to file
+-- vim.scriptencoding     = 'utf-8' -- the encoding used for the script
+-- vim.opt.encoding       = 'utf-8' -- the encoding displayed
+-- vim.opt.fileencoding   = 'utf-8' -- the encoding written to file
 
 -- Tabs and spaces
 vim.opt.tabstop        = 4 -- number of spaces that a <Tab> in the file counts for

@@ -42,9 +42,31 @@ return {
 			},
 		},
 		opts = {
-			require('lspconfig').lua_ls.setup{}
+            -- Add your LSP server configurations here
+            -- Example:
+            -- servers = {
+            --   pyright = {},
+            --   tsserver = {},
+            -- },
+            -- You can also use the `lspconfig` module to configure your LSP servers
+            -- Example:
+            require('lspconfig').ts_ls.setup{}
 		}
 	},
-	{ 'williamboman/mason.nvim' },
-	{ 'williamboman/mason-lspconfig.nvim' },
+	{
+        'williamboman/mason.nvim',
+        lazy = false,
+        config = function()
+            require("mason").setup()
+        end,
+    },
+	{
+        'williamboman/mason-lspconfig.nvim',
+        lazy = false,
+        config = function()
+            require("mason-lspconfig").setup({
+                ensure_installed = { "lua_ls", "ts_ls", "eslint" },
+            })
+        end,
+    },
 }
