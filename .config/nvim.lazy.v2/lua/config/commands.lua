@@ -2,19 +2,6 @@
 -- │ Custom commands                   │
 -- ╰───────────────────────────────────╯
 
--- Function to close all other buffers except the current one
--- local function close_other_buffers()
---     local current_buf = vim.api.nvim_get_current_buf()
---     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
---         if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
---             vim.api.nvim_buf_delete(buf, { force = false })
---         end
---     end
--- end
--- -- Command to close all other buffers except the current one
--- vim.api.nvim_create_user_command('CustomCloseOtherBuffers', close_other_buffers,
---     { desc = 'Close all other buffers except the current one' })
-
 -- Function to close all other buffers except the current one, with a warning for unsaved changes
 local function close_other_buffers()
     local unsaved_buffers = {}
@@ -42,17 +29,6 @@ end
 -- Command to close all other buffers except the current one
 vim.api.nvim_create_user_command('CustomCloseOtherBuffers', close_other_buffers,
     { desc = 'Close all other buffers except the current one, warn about unsaved changes' })
-
--- -- Function to close all buffers
--- local function close_all_buffers()
---     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
---         if vim.api.nvim_buf_is_loaded(buf) then
---             vim.api.nvim_buf_delete(buf, { force = false })
---         end
---     end
--- end
--- -- Command to close all buffers
--- vim.api.nvim_create_user_command('CustomCloseAllBuffers', close_all_buffers, { desc = 'Close all buffers' })
 
 -- Function to close all buffers with a warning for unsaved changes
 local function close_all_buffers()
