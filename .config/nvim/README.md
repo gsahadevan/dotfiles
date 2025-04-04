@@ -9,6 +9,7 @@
 - https://github.com/jose-elias-alvarez/typescript.nvim
 - https://github.com/phaazon/hop.nvim
 - https://github.com/sidebar-nvim/sidebar.nvim/ -> did try, didn't like the current state.
+- https://github.com/b0o/incline.nvim -> Incline is a plugin for creating lightweight floating statuslines
 - TimUntersberger/neogit
 - rhysd/vim-grammarous
 - sheerun/vim-polyglot
@@ -115,3 +116,57 @@ Further, in addition to the normal |copy-diffs| mappings you can use
     • `dx`: Choose none of the versions of the conflict (delete the
             conflict region).
 ```
+
+### Few awesome colorschemes
+```
+    { 'catppuccin/nvim',              name = 'catppuccin',  priority = 1000 },
+    { 'arzg/vim-colors-xcode',        name = 'xcode' },
+    { 'Mofiqul/dracula.nvim',         name = 'dracula' },
+    { 'projekt0n/github-nvim-theme',  name = 'github-theme' },
+    { 'Yazeed1s/minimal.nvim' },
+    { 'lunarvim/horizon.nvim' },
+    { 'rebelot/kanagawa.nvim' },
+    { 'Shatur/neovim-ayu' },
+    { 'frenzyexists/aquarium-vim' },
+    { 'folke/tokyonight.nvim',        lazy = false,         priority = 1000, opts = {} },
+    { 'bluz71/vim-nightfly-colors',   name = 'nightfly',    lazy = false,    priority = 1000 },
+    { 'bluz71/vim-moonfly-colors',    name = 'moonfly',     lazy = false,    priority = 1000 },
+    { 'rose-pine/neovim',             name = 'rose-pine' },
+    { 'AlexvZyl/nordic.nvim',         lazy = false,         priority = 1000, },
+    { 'dgox16/oldworld.nvim',         lazy = false,         priority = 1000 },
+    { 'comfysage/evergarden',         lazy = false,         priority = 1000 },
+    { 'EdenEast/nightfox.nvim' },
+    { 'scottmckendry/cyberdream.nvim' },
+    { 'savq/melange-nvim' },
+    { 'rmehri01/onenord.nvim' },
+    { 'vague2k/vague.nvim' },
+    { 'sainnhe/everforest' },
+    { 'sainnhe/sonokai' },
+    { 'sainnhe/gruvbox-material' },
+    { 'sainnhe/edge' },
+    { 'sainnhe/everforest' },
+    { 'sainnhe/gruvbox-material' },
+    { 'sainnhe/sonokai' },
+    { 'sainnhe/edge' },
+    { 'sainnhe/everforest' },
+    { 'sainnhe/gruvbox-material' },
+    { 'sainnhe/sonokai' },
+    {
+         'ribru17/bamboo.nvim',
+         lazy = false,
+         priority = 1000,
+         config = function()
+             require('bamboo').setup {
+                 -- optional configuration here
+             }
+             require('bamboo').load()
+         end,
+    },
+    {
+         'craftzdog/solarized-osaka.nvim',
+         lazy = false,
+         priority = 1000,
+         opts = {},
+    }
+```
+
