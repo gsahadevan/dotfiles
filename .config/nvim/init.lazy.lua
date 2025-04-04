@@ -76,7 +76,7 @@ vim.opt.rtp:append('/opt/homebrew/opt/fzf')      -- for macos
 vim.opt.rtp:append('/usr/bin/fzf')               -- for linux
 
 -- Add diagnostic symbols in the sign column (gutter)
-local signs = { Error = '', Hint = '', Info = '', Warn = '' }
+local signs = { Error = '', Hint = '', Info = '', Warn = '' }
 for type, icon in pairs(signs) do
     local hl = 'DiagnosticSign' .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
@@ -728,10 +728,10 @@ require('nvim-tree').setup({
     diagnostics = {
         enable = true,
         icons = {
-            hint = '',
+            error = '',
+            hint = '',
             info = '',
             warning = '',
-            error = '',
         },
     },
     modified = {
@@ -1073,7 +1073,7 @@ require('catppuccin').setup({
         conditionals = { 'italic' },
         loops = {},
         functions = {},
-        keywords = { 'italic' },
+        keywords = { 'bold' },
         strings = {},
         variables = {},
         numbers = {},
@@ -1130,9 +1130,9 @@ require('lualine').setup {
                 sections = { 'error', 'warn' },
                 symbols = {
                     error = ' ',
-                    warn  = ' ',
+                    hint  = ' ',
                     info  = ' ',
-                    hint  = ' ',
+                    warn  = ' ',
                 },
             },
         },
