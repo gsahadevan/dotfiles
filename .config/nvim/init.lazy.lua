@@ -1372,6 +1372,14 @@ require('lspsaga').setup({
         respect_root = false,
         color_mode = true,
     },
+    lightbulb = {
+        enable = false,
+        sign = true,
+        debounce = 10,
+        sign_priority = 40,
+        virtual_text = true,
+        enable_in_insert = true,
+    },
 })
 -- Add keymaps for Lspsaga
 keymap('n', 'K', '<cmd>Lspsaga hover_doc<cr>',
