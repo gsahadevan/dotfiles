@@ -302,55 +302,11 @@ require('lazy').setup({
         -- primary colorscheme catppuccin
         -- priority = 1000 -> to load it before all the other start plugins
         {
-            { 'catppuccin/nvim',              name = 'catppuccin',  priority = 1000 },
-            { 'arzg/vim-colors-xcode',        name = 'xcode' },
-            { 'Mofiqul/dracula.nvim',         name = 'dracula' },
-            { 'projekt0n/github-nvim-theme',  name = 'github-theme' },
-            { 'Yazeed1s/minimal.nvim' },
-            { 'lunarvim/horizon.nvim' },
-            { 'rebelot/kanagawa.nvim' },
-            { 'Shatur/neovim-ayu' },
-            { 'frenzyexists/aquarium-vim' },
-            { 'folke/tokyonight.nvim',        lazy = false,         priority = 1000, opts = {} },
-            { 'bluz71/vim-nightfly-colors',   name = 'nightfly',    lazy = false,    priority = 1000 },
-            { 'bluz71/vim-moonfly-colors',    name = 'moonfly',     lazy = false,    priority = 1000 },
-            { 'rose-pine/neovim',             name = 'rose-pine' },
-            { 'AlexvZyl/nordic.nvim',         lazy = false,         priority = 1000, },
-            { 'dgox16/oldworld.nvim',         lazy = false,         priority = 1000 },
-            { 'comfysage/evergarden',         lazy = false,         priority = 1000 },
-            { 'EdenEast/nightfox.nvim' },
-            { 'scottmckendry/cyberdream.nvim' },
-            { 'savq/melange-nvim' },
-            { 'rmehri01/onenord.nvim' },
-            { 'vague2k/vague.nvim' },
-            { 'sainnhe/everforest' },
-            { 'sainnhe/sonokai' },
-            { 'sainnhe/gruvbox-material' },
-            { 'sainnhe/edge' },
-            { 'sainnhe/everforest' },
-            { 'sainnhe/gruvbox-material' },
-            { 'sainnhe/sonokai' },
-            { 'sainnhe/edge' },
-            { 'sainnhe/everforest' },
-            { 'sainnhe/gruvbox-material' },
-            { 'sainnhe/sonokai' },
-            {
-                'ribru17/bamboo.nvim',
-                lazy = false,
-                priority = 1000,
-                config = function()
-                    require('bamboo').setup {
-                        -- optional configuration here
-                    }
-                    require('bamboo').load()
-                end,
-            },
-            {
-                'craftzdog/solarized-osaka.nvim',
-                lazy = false,
-                priority = 1000,
-                opts = {},
-            }
+            { 'catppuccin/nvim',             name = 'catppuccin',   lazy = false, priority = 1000 },
+            { 'arzg/vim-colors-xcode',       name = 'xcode',        lazy = false, priority = 1000 },
+            { 'projekt0n/github-nvim-theme', name = 'github-theme', lazy = false, priority = 1000 },
+            { 'folke/tokyonight.nvim',       name = 'tokyonight',   lazy = false, priority = 1000, opts = {} },
+            { 'rose-pine/neovim',            name = 'rose-pine',    lazy = false, priority = 1000 },
         },
         -- statusline written in lua
         { 'nvim-lualine/lualine.nvim' },
