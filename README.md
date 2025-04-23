@@ -31,6 +31,23 @@
 | <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>n</kbd>								  | move to next window
 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8592;</kbd>					  | move current window to left
 | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>&#8594;</kbd>					  | move current window to right
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>s</kbd>                      			  | interactively select and attach to session
+| <kbd>Ctrl</kbd> + <kbd>t</kbd> <kbd>:new</kbd>                        	  | create a new session from within a session
+
+```bash
+# cycle (switch) through sessions
+Ctrl + t + ( # previous session
+Ctrl + t + ) # next session
+Ctrl + t + :attach -t <session_name> # attach to a session
+Ctrl + t + d # detach from a session
+
+tmux new -s <session_name> # create a new session
+tmux attach -t <session_name> # attach to a session
+tmux ls # list all sessions
+tmux kill-session -t <session_name> # kill a session
+tmux kill-server # kill all sessions
+tmux rename-session -t <old_session_name> <new_session_name> # rename a session
+```
 
 ## pomodoro timer
 
