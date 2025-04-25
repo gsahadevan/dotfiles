@@ -412,10 +412,11 @@ require('lazy').setup({
             dependencies = { 'kevinhwang91/promise-async' }
         },
         -- neovim plugin for GitHub copilot
-        { 'github/copilot.vim' },
+        { 'github/copilot.vim', lazy = false },
         -- neovim plugin for GitHub copilot chat
         {
             'CopilotC-Nvim/CopilotChat.nvim',
+            lazy = false,
             dependencies = {
                 { 'github/copilot.vim' },
                 { 'nvim-lua/plenary.nvim', branch = 'master' },
@@ -438,7 +439,7 @@ require('lazy').setup({
                 explorer = { enabled = true },
                 indent = { enabled = true, animate = { enabled = false }, },
                 input = { enabled = true },
-                notifier = { enabled = false, timeout = 3000,},
+                notifier = { enabled = false, timeout = 3000, },
                 picker = { enabled = true },
                 quickfile = { enabled = true },
                 scope = { enabled = true },
@@ -584,6 +585,27 @@ require('lazy').setup({
             ---@type render.md.UserConfig
             opts = {},
         },
+        {
+            'MunifTanjim/prettier.nvim',
+            opts = {
+                -- bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
+                bin = 'prettierd', -- or `'prettierd'` (v0.23.3+)
+                filetypes = {
+                    "css",
+                    "graphql",
+                    "html",
+                    "javascript",
+                    "javascriptreact",
+                    "json",
+                    "less",
+                    "markdown",
+                    "scss",
+                    "typescript",
+                    "typescriptreact",
+                    "yaml",
+                },
+            },
+        },
         -- Configure any other settings here. See the documentation for more details.
         -- colorscheme that will be used when installing plugins.
         install = { colorscheme = { 'habamax' } },
@@ -623,6 +645,22 @@ vim.api.nvim_create_autocmd('TermOpen', {
         vim.wo.signcolumn = 'no'
         vim.wo.wrap = false
     end,
+})
+-- Automatically format files on save
+vim.api.nvim_create_augroup('FormatOnSave', {
+    clear = true
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+    pattern = { '*.js', '*.jsx', '*.mjs', '*.ts', '*.tsx' },
+    command = "silent !eslint --fix % | prettier --write --ignore-path .prettierignore %",
+    group = 'FormatOnSave'
+})
+
+vim.api.nvim_create_autocmd('BufWritePost', {
+    pattern = { '*.json', '*.yml', '*.yaml', '*.css', '*.scss', '*.md', '*.mdx' },
+    command = "silent !prettier --write --ignore-path .prettierignore %",
+    group = 'FormatOnSave'
 })
 
 -- ╭───────────────────────────────────╮
@@ -1041,7 +1079,7 @@ require('github-theme').setup({
     }
 })
 -- vim.api.nvim_command('colorscheme github_dark_dimmed')
-vim.api.nvim_command('colorscheme rose-pine')
+vim.api.nvim_command('colorscheme rose-pine-moon')
 -- Configure lualine
 require('lualine').setup {
     options = {
