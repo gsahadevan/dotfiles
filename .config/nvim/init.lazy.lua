@@ -502,6 +502,8 @@ require('lazy').setup({
                 -- { "<leader>sR",      function() Snacks.picker.resume() end,                                  desc = "Resume" },
                 -- { "<leader>su",      function() Snacks.picker.undo() end,                                    desc = "Undo History" },
                 { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+                -- Custom code, i flicked from reddit
+                -- require("snacks").picker.files({ cwd="/Users/gauthamansahadevan/Projects/sixt/com.sixt.web.public", layout = { preset="vscode", preview=false, layout = { height = 0.8, width=160}} })
                 -- LSP
                 -- { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
                 -- { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
